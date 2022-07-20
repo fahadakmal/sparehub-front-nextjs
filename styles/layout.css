@@ -1,0 +1,96 @@
+
+body {
+    
+    font-family: 'DM Sans', sans-serif;
+    font-family: 'Prompt', sans-serif;
+  }
+
+
+@font-face {
+    font-family: 'DMSans-Bold';
+    src: url('../public/fonts/DMSans-Bold.ttf');
+}
+@font-face {
+    font-family: 'DMSans-BoldItalic';
+    src: url('../public/fonts/DMSans-BoldItalic.ttf');
+}
+@font-face {
+    font-family: 'DMSans-Italic';
+    src: url('../public/fonts/DMSans-Italic.ttf');
+}
+@font-face {
+    font-family: 'DMSans-Medium';
+    src: url('../public/fonts/DMSans-Medium.ttf');
+}
+@font-face {
+    font-family: 'DMSans-MediumItalic';
+    src: url('../public/fonts/DMSans-MediumItalic.ttf');
+}
+@font-face {
+    font-family: 'DMSans-Regular';
+    src: url('../public/fonts/DMSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Black';
+    src: url('../public/fonts/Mulish-Black.ttf');
+}
+@font-face {
+    font-family: 'Mulish-BlackItalic';
+    src: url('../public/fonts/Mulish-BlackItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Bold';
+    src: url('../public/fonts/Mulish-Bold.ttf');
+}
+@font-face {
+    font-family: 'Mulish-BoldItalic';
+    src: url('../public/fonts/Mulish-BoldItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-ExtraBold';
+    src: url('../public/fonts/Mulish-ExtraBold.ttf');
+}
+@font-face {
+    font-family: 'Mulish-ExtraBoldItalic';
+    src: url('../public/fonts/Mulish-ExtraBoldItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-ExtraLight';
+    src: url('../public/fonts/Mulish-ExtraLight.ttf');
+}
+@font-face {
+    font-family: 'Mulish-ExtraLightItalic';
+    src: url('../public/fonts/Mulish-ExtraLightItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Italic';
+    src: url('../public/fonts/Mulish-Italic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Light';
+    src: url('../public/fonts/Mulish-Light.ttf');
+}
+@font-face {
+    font-family: 'Mulish-LightItalic';
+    src: url('../public/fonts/Mulish-LightItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Medium';
+    src: url('../public/fonts/Mulish-Medium.ttf');
+}
+@font-face {
+    font-family: 'Mulish-MediumItalic';
+    src: url('../public/fonts/Mulish-MediumItalic.ttf');
+}
+@font-face {
+    font-family: 'Mulish-Regular';
+    src: url('../public/fonts/Mulish-Regular.ttf');
+}
+@font-face {
+    font-family: 'Mulish-SemiBold';
+    src: url('../public/fonts/Mulish-SemiBold.ttf');
+}
+@font-face {
+    font-family: 'Mulish-SemiBoldItalic';
+    src: url('../public/fonts/Mulish-SemiBoldItalic.ttf');
+}
