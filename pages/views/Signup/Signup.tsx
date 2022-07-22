@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-// import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
 // import { useNavigate } from 'react-router-dom';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';

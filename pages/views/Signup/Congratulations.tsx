@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import { translate } from '../../utils';
@@ -21,9 +20,9 @@ const useStyles = {
 
 const Congratulations = () => {
   const { root } = useStyles;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate('/');
+    // navigate('/');
   };
   return (
     <AuthContainer>

@@ -31,7 +31,7 @@ export default function AuthContainer({ children }: any) {
     <Grid container sx={{ minHeight: '100vh' }}>
       <Hidden mdDown>
         <Grid item sx={leftContainer} xs={12} sm={6}>
-          <Image alt="" src={Welcome} style={{height: '100%', width: '120%'}} />
+          <Image alt="" src={Welcome} style={{height: '100%', width: '100%'}} />
         </Grid>
       </Hidden>
       <Grid item xs={12} sm={12} md={6}>

@@ -12,8 +12,8 @@ import { translate } from '../../utils';
 import { useAuth } from '../../auth/Auth';
 // import '../../App.css';
 import Link from 'next/link';
-import { useRouter } from 'next/router'
-import Signup from '../../Signup';
+// import { useRouter } from 'next/router'
+import ProfileDetails from '../../ProfileDetails';
 export default function Login() {
   // const navigate = useNavigate();
   const [loginType, setLoginType] = React.useState('email');
@@ -25,7 +25,7 @@ export default function Login() {
     phoneNumber: '',
   });
   const auth: any = useAuth();
-  const router = useRouter()
+  // const router = useRouter()
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -35,6 +35,7 @@ export default function Login() {
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    console.log(newValue,"aaa")
     setLoginType(newValue);
   };
 
@@ -155,7 +156,7 @@ export default function Login() {
                   <Typography component={'p'} variant="caption" display="block">
                     <Link
                       href="../../Signup"
-                      underline="hover"
+                      // underline="hover"
                       color="black"
                       onClick={() => {
                         // navigate('/signup');
@@ -196,16 +197,15 @@ export default function Login() {
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
         <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
-          {loginType === 'email' ? translate('CONTINUE') : translate('CONTINUE_TO_VERIFY')}
+        {loginType === 'email' ? translate('CONTINUE') : translate('CONTINUE_TO_VERIFY')}
         </PrimaryButton>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
           {translate('DONT_HAVE_ACCOUNT')}{' '}
           <b>
-            <Link href="../../Signup" color="#E2282C" underline="hover">
-              {/* {translate('REGISTER_NOW')} */}
-              <a>REGISTER_NOW</a>
+            <Link href="../../Signup">
+              {translate('REGISTER_NOW')}
             </Link>
           </b>
         </Typography>

@@ -1,7 +1,6 @@
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
@@ -12,8 +11,6 @@ import '../../App.css';
 export default function CreatePassword() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
     password: '',
