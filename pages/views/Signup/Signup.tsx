@@ -205,7 +205,6 @@ const Signup=()=> {
           style={{ cursor: 'pointer' }}
           onClick={() => {
             // navigate('/');
-            console.log("n")
           }}
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
