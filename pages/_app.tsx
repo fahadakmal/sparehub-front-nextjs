@@ -10,9 +10,9 @@ import './config/i18next';
 
 function App({ Component, pageProps }: AppProps) {
   
-  return (<>
+  return (<Provider store={store} >
      <Component {...pageProps} />
-     </>)
+     </Provider>)
 }
 
 export default App

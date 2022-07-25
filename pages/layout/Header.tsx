@@ -35,6 +35,7 @@ const Header = () => {
   const [data,setmydata]=useState<any>('');
   const { englishBtn, arabicBtn, toggleBtn } = useStyles;
   const ISSERVER = typeof window === "undefined";
+  console.log(ISSERVER,'aown')
   useEffect(()=>{
     if (!ISSERVER) {
       const storedLang = localStorage.getItem('i18nextLng');

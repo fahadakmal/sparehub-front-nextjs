@@ -10,6 +10,7 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import { translate } from '../../utils';
 import { useAuth } from '../../auth/Auth';
+// import SellerProfile from '../../SellerProfile';
 // import '../../App.css';
 import Link from 'next/link';
 // import { useRouter } from 'next/router'
@@ -70,9 +71,9 @@ export default function Login() {
       redirectDashboard();
     } catch (err: any) {
       if (err._type === 'UserNotConfirmedException') {
-        window.alert(err.message);
+        // window.alert(err.message);
       } else {
-        window.alert(err.message);
+        // window.alert(err.message);
       }
     }
   };
@@ -157,10 +158,10 @@ export default function Login() {
                     <Link
                       href="../../Signup"
                       // underline="hover"
-                      color="black"
-                      onClick={() => {
-                        // navigate('/signup');
-                      }}
+                      // color="black"
+                      // onClick={() => {
+                      //   navigate('/signup');
+                      // }}
                     >
                       {translate('FORGOT_PASSWORD')}
                     </Link>
@@ -194,11 +195,15 @@ export default function Login() {
           onChange={(value: any) => handleVerifyRecaptcha(value)}
         />
       </Grid>
-
+      
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
+      <Link href="../../SellerProfile">
+        <PrimaryButton
+        //  disabled={!recaptchaStatusVerified} 
+         onClick={handleLogin} variant="contained" fullWidth>
         {loginType === 'email' ? translate('CONTINUE') : translate('CONTINUE_TO_VERIFY')}
         </PrimaryButton>
+        </Link>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
