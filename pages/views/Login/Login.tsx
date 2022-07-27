@@ -197,7 +197,7 @@ export default function Login() {
       </Grid>
       
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-      <Link href="../../SellerProfile">
+      <Link href="../../ProfileDetails">
         <PrimaryButton
         //  disabled={!recaptchaStatusVerified} 
          onClick={handleLogin} variant="contained" fullWidth>

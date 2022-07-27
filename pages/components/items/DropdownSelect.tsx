@@ -17,7 +17,7 @@ const DropdownSelect=(props: any)=>{
         props.setValue(event.target.value)
       };
     return(<FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">mobile</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">{props.required}</InputLabel>
           <OutlinedInput placeholder="Enter mobile"
         //   error
             id="outlined-adornment-password"
@@ -29,8 +29,7 @@ const DropdownSelect=(props: any)=>{
           value={age}
           onChange={handleChange}
           displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
-        >
+          inputProps={{ 'aria-label': 'Without label' }}>
           <MenuItem value="">
           <Image src="/icons/flag.svg" width="25px" height="20px" alt='flags' />
           <span > +996</span>
@@ -45,7 +44,7 @@ const DropdownSelect=(props: any)=>{
       </FormControl>
               </InputAdornment>
             }
-            label="Password"
+            label={props.required}
           />
           </FormControl>
     )

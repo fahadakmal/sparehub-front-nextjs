@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
+import { kMaxLength } from 'buffer';
 import React, {useState } from "react"
 const Textfield=(props: any)=>{
   console.log(props.value,"uuu")
@@ -31,7 +32,9 @@ const Textfield=(props: any)=>{
           label={props.required}
           placeholder={props.placeholder}
           value={myfirstName}
-          onChange={(e: any)=>props.setValue(e.target.value)}
+          onChange={(e: any)=>{props.setValue(e.target.value)}}
+          inputProps={{maxLength: props.maxLength}}
+
         />
     }
         </Box>
