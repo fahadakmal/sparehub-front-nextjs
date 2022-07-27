@@ -6,7 +6,7 @@ import { Hidden } from '@mui/material';
 import { useMediaQuery, useTheme } from '@mui/material';
 import Header from '../../layout/Header';
 import Footer from '../../layout/Footer';
-import { Welcome } from '../../../public/assets/images';
+import { Welcome } from '../../../public/images';
 import Image from 'next/image';
 const useStyles = {
   leftContainer: {
@@ -23,7 +23,7 @@ const useStyles = {
 
 export default function AuthContainer({ children }: any) {
   const { leftContainer, footer } = useStyles;
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -31,20 +31,20 @@ export default function AuthContainer({ children }: any) {
     <Grid container sx={{ minHeight: '100vh' }}>
       <Hidden mdDown>
         <Grid item sx={leftContainer} xs={12} sm={6}>
-          <Image alt="" src={Welcome} style={{height: '100%', width: '100%'}} />
+          <Image height={'100%'} width="100%" src={Welcome} />
         </Grid>
       </Hidden>
       <Grid item xs={12} sm={12} md={6}>
         <Box>
           <Header />
         </Box>
-        <Box sx={{ minHeight: '80vh' }}>
+        <Box component={'div'} dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
           <Grid px={isMobileScreen ? 5 : 15} container rowGap={2}>
             {children}
           </Grid>
         </Box>
         <Box sx={footer}>
-          <Footer />
+          <Footer translate={t} />
         </Box>
       </Grid>
     </Grid>

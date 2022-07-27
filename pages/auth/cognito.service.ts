@@ -3,7 +3,6 @@ import { CognitoUserAttribute, CognitoUserPool, AuthenticationDetails, CognitoUs
 const userPoolId = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 const clientId = process.env.NEXT_PUBLIC_COGNITO_APP_CLIENT_ID;
 
-
 const poolData = {
   UserPoolId: `${userPoolId}`,
   ClientId: `${clientId}`,
@@ -115,6 +114,98 @@ export async function signUpUserWithEmail(username: string, email: string, passw
       } else {
         resolve(res);
       }
+    });
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+export async function signUpUserWithPhone(name: string, email: string, phoneNumber: string, password: string) {
+  return new Promise(function (resolve, reject) {
+    const attributeList = [
+      new CognitoUserAttribute({
+        Name: 'phone_number',
+        Value: phoneNumber,
+      }),
+      new CognitoUserAttribute({
+        Name: 'email',
+        Value: email,
+      }),
+      new CognitoUserAttribute({
+        Name: 'name',
+        Value: name,
+      }),
+    ];
+
+    userPool.signUp(phoneNumber, password, attributeList, [], function (err, res) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res);
+      }
+    });
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+export async function otpConfirmation(phoneNumber: string, otp: string) {
+  return new Promise(function (resolve, reject) {
+    const userData = {
+      Username: phoneNumber,
+      Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.confirmRegistration(otp, true, function (err, res) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log(res);
+        resolve(res);
+      }
+    });
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+export async function resendOtp(phoneNumber: string) {
+  return new Promise(function (resolve, reject) {
+    const userData = {
+      Username: phoneNumber,
+      Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    cognitoUser.resendConfirmationCode(function (err, res) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log(res);
+        resolve(res);
+      }
+    });
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+export async function signInWithPhone(phoneNumber: string, password: string) {
+  return new Promise(function (resolve, reject) {
+    const authenticationData = {
+      Username: phoneNumber,
+      Password: password,
+    };
+    const authenticationDetails = new AuthenticationDetails(authenticationData);
+    currentUser = getCognitoUser(phoneNumber);
+    currentUser.authenticateUser(authenticationDetails, {
+      onSuccess: function (res: any) {
+        resolve(res);
+      },
+      onFailure: function (err: any) {
+        reject(err);
+      },
     });
   }).catch((err) => {
     throw err;

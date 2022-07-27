@@ -1,16 +1,18 @@
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import { useAuth } from '../../auth/Auth';
-import { translate } from '../../utils';
-import '../../App.css';
+// import '../../App.css';
 
-export default function CreatePassword() {
+export default function CreatePassword({ translate }: any) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
     password: '',
@@ -40,6 +42,10 @@ export default function CreatePassword() {
       isValid = true;
     }
     return isValid;
+  };
+
+  const handleNavigate = () => {
+    navigate('/success');
   };
 
   return (
@@ -82,7 +88,7 @@ export default function CreatePassword() {
       </>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton variant="contained" fullWidth>
+        <PrimaryButton onClick={handleNavigate} variant="contained" fullWidth>
           {translate('CREATE_PASSWORD')}
         </PrimaryButton>
       </Grid>

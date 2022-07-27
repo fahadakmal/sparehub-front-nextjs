@@ -1,9 +1,8 @@
 import React from 'react';
 import { Typography } from '@mui/material';
 import Header from '../../layout/Header';
-import { translate } from '../../utils';
 
-const Dashboard = () => {
+const Dashboard = ({ translate }: any) => {
   return (
     <>
       <Header />

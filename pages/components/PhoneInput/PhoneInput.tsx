@@ -4,7 +4,6 @@ import React from 'react';
 export default function PhoneInput({
   label,
   placeholder,
-  type,
   fullWidth,
   startAdornment,
   name,
@@ -20,7 +19,7 @@ export default function PhoneInput({
       }}
       onChange={onChange}
       name={name}
-      type={type}
+      type="number"
       fullWidth={fullWidth}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}

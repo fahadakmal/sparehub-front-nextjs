@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { Box, InputAdornment, TextField } from '@mui/material';
 
 export default function PrimaryInput({
   label,
@@ -11,6 +11,7 @@ export default function PrimaryInput({
   name,
   onClick,
   onChange,
+  value,
   required = false,
 }: any) {
   return (
@@ -21,6 +22,7 @@ export default function PrimaryInput({
       onChange={onChange}
       name={name}
       type={type}
+      value={value}
       fullWidth={fullWidth}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}

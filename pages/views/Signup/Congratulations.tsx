@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
-import { translate } from '../../utils';
 
 const useStyles = {
   root: {
@@ -18,23 +18,23 @@ const useStyles = {
   },
 };
 
-const Congratulations = () => {
+const Congratulations = ({ translate }: any) => {
   const { root } = useStyles;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleNavigate = () => {
-    // navigate('/');
+    navigate('/');
   };
   return (
     <AuthContainer>
       <Grid item sx={root}>
         <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
-          {translate('CONGRATULATIONS')}
+          {translate('REGISTERED_SUCCESSFULLY')}
         </Typography>
         <Typography color={'#292D3260'} fontSize={16} align="center" letterSpacing={0.32}>
-          {translate('SIGN_UP_SUCCESS_MESSAGE')}
+          {translate('REGISTERED_SUCCESSFULLY_MESSAGE')}
         </Typography>
         <PrimaryButton onClick={handleNavigate} fullWidth>
-          {translate('OKAY')}
+          {translate('TAKE_ME_LOGIN')}
         </PrimaryButton>
       </Grid>
     </AuthContainer>

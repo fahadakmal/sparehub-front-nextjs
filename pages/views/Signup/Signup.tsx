@@ -1,49 +1,52 @@
 import * as React from 'react';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useTranslation } from 'react-i18next';
-// import { useNavigate } from 'react-router-dom';
-import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
-import AuthContainer from '../../components/AuthContainer/AuthContainer';
-import { PrimaryButton } from '../../components/Button/PrimaryButton';
-import PrimaryInput from '../../components/Input/PrimaryInput';
-import { translate } from '../../utils';
-import CountryDropdown from '../../components/Select/CountryDropdown';
-import { useAuth } from '../../auth/Auth';
-import PhoneInput from '../../components/PhoneInput/PhoneInput';
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 // import '../../App.css';
+import { useAuth } from '../../auth/Auth';
+import AuthContainer from '../../components/AuthContainer/AuthContainer';
+import Step1 from './Step1';
+import Step2 from './Step2';
+import { countries } from '../../components/Select/Countries';
 
-const Signup=()=> {
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  country: 'SA',
+  phoneNumber: '',
+  dialCode: '+966',
+};
+export default function Signup({ translate }: any) {
+  const auth: any = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  // const navigate = useNavigate();
 
-  const [user, setUser] = React.useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    country: 'SA',
-    phoneNumber: '',
-  });
+  const [user, setUser] = React.useState(initialState);
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
   const [signupType, setSignupType] = React.useState('email');
+  const [step, setStep] = React.useState(1);
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleCountrySelect = (code: string) => {
-    setUser({ ...user, country: code });
+    const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
+    setUser({ ...user, country: code, dialCode });
   };
-  const auth: any = useAuth();
 
   const hideShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
   const hideShowConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
   const handleValidation = () => {
     let isValid = false;
     const { email, password, confirmPassword } = user;
@@ -60,31 +63,56 @@ const Signup=()=> {
     }
   };
   const redirectLogin = () => {
-    // navigate('/success');
+    navigate('/success');
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setSignupType(newValue);
+    setStep(1);
+    clearUserState();
   };
 
   const handleSignUp = async () => {
-    const { email, password, confirmPassword } = user;
-    if (!(email && password && confirmPassword && password === confirmPassword)) {
-      return;
-    }
-    try {
-      const res = await auth.signUpWithEmail(user.email, user.email, user.password);
-      if (res) {
-        redirectLogin();
+    const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
+    if (signupType == 'email') {
+      const { email, password, confirmPassword } = user;
+      if (!(email && password && confirmPassword && password === confirmPassword)) {
+        return;
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        window.alert(err.message);
+      try {
+        const res = await auth.signUpWithEmail(user.email, user.email, user.password);
+        if (res) {
+          redirectLogin();
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          window.alert(err.message);
+        }
       }
+    } else {
+      try {
+        console.log(user.phoneNumber, user.password);
+        const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
+        if (res) {
+          redirectLogin();
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          window.alert(err.message);
+        }
+      }
+      navigate('/otpVerification', { state: { phoneNumber: user.dialCode + user.phoneNumber.trim() } });
     }
   };
 
-  const { i18n } = useTranslation();
+  const handleNextStep = () => {
+    setStep(step + 1);
+  };
+
+  const clearUserState = () => {
+    setUser({ ...initialState });
+  };
+
   return (
     <AuthContainer>
       <Grid xs={12} item textAlign={'center'}>
@@ -125,87 +153,66 @@ const Signup=()=> {
           </Box>
           <TabPanel sx={{ padding: 0 }} value="email">
             <>
-              <Grid item xs={12} pt={3}>
-                <CountryDropdown handleChange={handleCountrySelect} selected={user.country} name="country" />
-              </Grid>
-              <Grid item xs={12} pt={3}>
-                <PrimaryInput
-                  label={translate('EMAIL')}
-                  type={'text'}
-                  name="email"
-                  fullWidth
-                  placeholder={translate('EMAIL_ADDRESS')}
-                  startAdornment={<Email color="disabled" />}
-                  onChange={handleChange}
+              {step === 1 && (
+                <Step1
+                  handleChange={handleChange}
+                  user={user}
+                  translate={translate}
+                  handleCountrySelect={handleCountrySelect}
+                  signupType={signupType}
+                  handleNextStep={handleNextStep}
                 />
-              </Grid>
-              <Grid item xs={12} pt={3}>
-                <PrimaryInput
-                  label={translate('PASSWORD')}
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  fullWidth
-                  placeholder={translate('ENTER_PASSWORD')}
-                  startAdornment={<Lock color="disabled" />}
-                  endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
-                  onClick={hideShowPassword}
-                  onChange={handleChange}
+              )}
+              {step === 2 && (
+                <Step2
+                  handleChange={handleChange}
+                  translate={translate}
+                  signupType={signupType}
+                  showPassword={showPassword}
+                  hideShowPassword={hideShowPassword}
+                  showConfirmPassword={showConfirmPassword}
+                  hideShowConfirmPassword={hideShowConfirmPassword}
+                  user={user}
+                  handleVerifyRecaptcha={handleVerifyRecaptcha}
+                  handleSignUp={handleSignUp}
+                  recaptchaStatusVerified={recaptchaStatusVerified}
                 />
-              </Grid>
-              <Grid item xs={12} pt={3}>
-                <PrimaryInput
-                  label={translate('CONFORM_PASSWORD')}
-                  type={showConfirmPassword ? 'text' : 'password'}
-                  name="confirmPassword"
-                  fullWidth
-                  placeholder={translate('ENTER_PASS_AGAIN')}
-                  startAdornment={<Lock color="disabled" />}
-                  endAdornment={
-                    showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />
-                  }
-                  onClick={hideShowConfirmPassword}
-                  onChange={handleChange}
-                />
-              </Grid>
+              )}
             </>
           </TabPanel>
           <TabPanel sx={{ padding: 0 }} value="phone">
-            <Grid item xs={12} pt={3}>
-              <CountryDropdown handleChange={handleCountrySelect} selected={user.country} name="country" />
-            </Grid>
-            <Grid item pt={3} pb={5} xs={12}>
-              <PhoneInput
-                label={translate('PHONE_NUMBER')}
-                type={'number'}
-                name="phoneNumber"
-                fullWidth
-                placeholder={translate('PHONE_NUMBER')}
-                startAdornment={<Typography>{1234}</Typography>}
-                onChange={handleChange}
+            {step === 1 && (
+              <Step1
+                handleChange={handleChange}
+                user={user}
+                translate={translate}
+                handleCountrySelect={handleCountrySelect}
+                signupType={signupType}
+                handleNextStep={handleNextStep}
               />
-            </Grid>
+            )}
+            {step === 2 && (
+              <Step2
+                handleChange={handleChange}
+                translate={translate}
+                signupType={signupType}
+                showPassword={showPassword}
+                hideShowPassword={hideShowPassword}
+                showConfirmPassword={showConfirmPassword}
+                hideShowConfirmPassword={hideShowConfirmPassword}
+                handleSignUp={handleSignUp}
+                handleVerifyRecaptcha={handleVerifyRecaptcha}
+                recaptchaStatusVerified={recaptchaStatusVerified}
+              />
+            )}
           </TabPanel>
         </TabContext>
       </Box>
-
-      <Grid item pt={2}>
-        <ReCAPTCHA
-          hl={i18n.language}
-          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY + ''}
-          onChange={(value: any) => handleVerifyRecaptcha(value)}
-        />
-      </Grid>
-      <Grid item xs={12} pt={3}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleSignUp} variant="contained" fullWidth>
-          {translate('SIGN_UP')}
-        </PrimaryButton>
-      </Grid>
       <Grid textAlign={'center'} item xs={12} pt={1}>
         <Typography
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            // navigate('/');
-            console.log("n")
+            navigate('/');
           }}
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
@@ -214,4 +221,3 @@ const Signup=()=> {
     </AuthContainer>
   );
 }
-export default Signup

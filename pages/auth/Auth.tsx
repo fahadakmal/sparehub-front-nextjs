@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-// import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import * as cognito from './cognito.service';
 
@@ -15,6 +15,7 @@ export interface IAuth {
   authStatus?: AuthStatus;
   signInWithEmail?: any;
   signUpWithEmail?: any;
+  signUpWithPhone?: any;
   signOut?: any;
   verifyCode?: any;
   getSession?: any;
@@ -23,6 +24,9 @@ export interface IAuth {
   changePassword?: any;
   getAttributes?: any;
   setAttribute?: any;
+  otpConfirmation?: any;
+  resendOtp?: any;
+  signInWithPhone?: any;
 }
 
 const defaultState: IAuth = {
@@ -83,6 +87,37 @@ export const AuthProvider = ({ children }: Props) => {
       }
     }
   };
+
+  const signUpWithPhone = async (name: string, email: string, phoneNumber: string, password: string): Promise<any> => {
+    try {
+      return await cognito.signUpUserWithPhone(name, email, phoneNumber, password);
+    } catch (err) {
+      if (err instanceof Error) {
+        throw err;
+      }
+    }
+  };
+
+  const otpConfirmation = async (phoneNumber: string, otp: string): Promise<any> => {
+    try {
+      return await cognito.otpConfirmation(phoneNumber, otp);
+    } catch (err) {
+      if (err instanceof Error) {
+        throw err;
+      }
+    }
+  };
+
+  const resendOtp = async (phoneNumber: string): Promise<any> => {
+    try {
+      return await cognito.resendOtp(phoneNumber);
+    } catch (err) {
+      if (err instanceof Error) {
+        throw err;
+      }
+    }
+  };
+
   async function signInWithEmail(username: string, password: string) {
     try {
       await cognito.signInWithEmail(username, password);
@@ -94,6 +129,19 @@ export const AuthProvider = ({ children }: Props) => {
       }
     }
   }
+
+  async function signInWithPhone(phoneNumber: string, password: string) {
+    try {
+      await cognito.signInWithPhone(phoneNumber, password);
+      setAuthStatus(AuthStatus.SignedIn);
+    } catch (err) {
+      if (err instanceof Error) {
+        setAuthStatus(AuthStatus.SignedOut);
+        throw err;
+      }
+    }
+  }
+
   async function getSession() {
     try {
       const session = await cognito.getSession();
@@ -132,10 +180,14 @@ export const AuthProvider = ({ children }: Props) => {
     sessionInfo,
     attrInfo,
     signUpWithEmail,
+    signUpWithPhone,
     signInWithEmail,
     getSession,
     getAttributes,
     setAttribute,
+    otpConfirmation,
+    resendOtp,
+    signInWithPhone,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Grid, Hidden, useMediaQuery, useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import i18next from 'i18next';
-// import { Logo } from '../../public/assets/icons';
+import { Logo } from '../../public/icons';
 import LANGUAGES from '../enums';
+import Image from 'next/image';
 
 const useStyles = {
   toggleBtn: {
@@ -32,26 +34,13 @@ const useStyles = {
 };
 
 const Header = () => {
-  const [data,setmydata]=useState<any>('');
   const { englishBtn, arabicBtn, toggleBtn } = useStyles;
-  const ISSERVER = typeof window === "undefined";
-  console.log(ISSERVER,'aown')
-  useEffect(()=>{
-    if (!ISSERVER) {
-      const storedLang = localStorage.getItem('i18nextLng');
-      setmydata(storedLang)
-    }
-    else{
-      
-    }
-  },[])
-  
-  // const storedLang = localStorage.getItem('i18nextLng');
-  
-  const [language, setLanguage] = useState(data || 'en');
-  const handleChangeLanguage = (lng: string) => {
-    setLanguage(lng);
-    i18next.changeLanguage(lng);
+  const storedLang = localStorage.getItem('i18nextLng');
+  const [language, setLanguage] = useState(storedLang || 'en');
+  const handleChangeLanguage = (e: any, newVal: string) => {
+    setLanguage(newVal);
+    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleChangeLanguage ~ e.target.value', newVal);
+    i18next.changeLanguage(newVal);
   };
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -59,28 +48,38 @@ const Header = () => {
     <Grid container alignItems={'center'} justifyContent={isMobileScreen ? 'center' : 'space-between'} padding={3}>
       <Hidden smDown>
         <Grid item>
-          {/* <Logo /> */}
+          <Image src={Logo} />
         </Grid>
       </Hidden>
       <Grid item>
-        <ButtonGroup variant="outlined">
-          <Button
-            onClick={() => {
-              handleChangeLanguage('en');
+        <Box width={'100%'}>
+          <Tabs
+            sx={{
+              '& .MuiButtonBase-root.MuiTab-root': {
+                color: '#000',
+              },
+              '& .MuiTabs-indicator': { display: 'none' },
+              border: 1,
+              borderColor: '#D9D9D9',
+              borderRadius: '7px',
             }}
-            sx={[englishBtn, toggleBtn, { backgroundColor: language === 'en' ? '#F0F3FD' : 'default' }]}
+            value={language}
+            onChange={handleChangeLanguage}
           >
-            {LANGUAGES.eng}
-          </Button>
-          <Button
-            onClick={() => {
-              handleChangeLanguage('ar');
-            }}
-            sx={[arabicBtn, toggleBtn, { backgroundColor: language === 'ar' ? '#F0F3FD' : 'default' }]}
-          >
-            {LANGUAGES.ar}
-          </Button>
-        </ButtonGroup>
+            <Tab
+              sx={{ color: '#000000', backgroundColor: language === 'en' ? '#F0F3FD' : 'default', borderRadius: '8px' }}
+              value="en"
+              label={LANGUAGES.eng}
+            />
+            <Tab
+              sx={[
+                { color: '#000000', backgroundColor: language === 'ar' ? '#F0F3FD' : 'default', borderRadius: '8px' },
+              ]}
+              value="ar"
+              label={LANGUAGES.ar}
+            />
+          </Tabs>
+        </Box>
       </Grid>
     </Grid>
   );
