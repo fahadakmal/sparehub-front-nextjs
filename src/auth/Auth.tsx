@@ -1,5 +1,6 @@
+import { Login } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
 import * as cognito from './cognito.service';
 
@@ -42,7 +43,13 @@ const AuthContext: any = createContext(defaultState);
 
 export const AuthIsSignedIn = ({ children }: Props) => {
   const auth: any = useAuth();
-  return <>{auth.authStatus === AuthStatus.SignedIn ? children : <Navigate to="/login" replace />}</>;
+  const router = useRouter();
+
+  if(auth.authStatus === AuthStatus.SignedIn){
+    return <>{children}</>
+  }else{
+     router.push('/login')
+  }
 };
 
 export const AuthIsNotSignedIn = ({ children }: Props) => {
