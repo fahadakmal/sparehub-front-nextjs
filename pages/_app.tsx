@@ -1,5 +1,5 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 import 'bootstrap/dist/css/bootstrap.css';
 import "@fontsource/mulish";
 import store from '../src/redux/store';
@@ -21,4 +21,4 @@ function App({ Component, pageProps }: AppProps) {
        </Provider>)
 }
 
-export default App
+export default App;
