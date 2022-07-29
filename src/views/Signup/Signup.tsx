@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-// import '../../App.css';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
+import { useRouter } from 'next/router';
 
 const initialState = {
   firstName: '',
@@ -21,7 +20,7 @@ const initialState = {
 };
 export default function Signup({ translate }: any) {
   const auth: any = useAuth();
-  const navigate = useNavigate();
+  const router=useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
@@ -63,7 +62,7 @@ export default function Signup({ translate }: any) {
     }
   };
   const redirectLogin = () => {
-    navigate('/success');
+    router.push('/success');
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -101,7 +100,7 @@ export default function Signup({ translate }: any) {
           window.alert(err.message);
         }
       }
-      navigate('/otpVerification', { state: { phoneNumber: user.dialCode + user.phoneNumber.trim() } });
+      router.push({pathname:'/otpVerification',query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` } });
     }
   };
 
@@ -212,7 +211,7 @@ export default function Signup({ translate }: any) {
         <Typography
           style={{ cursor: 'pointer' }}
           onClick={() => {
-            navigate('/');
+            router.push('/');
           }}
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>

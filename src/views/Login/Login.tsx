@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link, Tabs } from '@mui/material';
+import Link from 'next/link';
+import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
@@ -15,9 +14,10 @@ import { useAuth } from '../../auth/Auth';
 // import '../../App.css';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
+import { useRouter } from 'next/router';
 
 export default function Login({ translate }: any) {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [loginType, setLoginType] = React.useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -64,7 +64,7 @@ export default function Login({ translate }: any) {
   };
 
   const redirectDashboard = () => {
-    navigate('/');
+    router.push("/");
   };
 
   const handleLogin = async () => {
@@ -180,16 +180,16 @@ export default function Login({ translate }: any) {
                     }
                   />
                   <Typography component={'p'} variant="caption" display="block">
-                    <Link
+                    <MuiLink
                       href="signup"
                       underline="hover"
                       color="black"
                       onClick={() => {
-                        navigate('/signup');
+                        router.push("/signup");
                       }}
                     >
                       {translate('FORGOT_PASSWORD')}
-                    </Link>
+                    </MuiLink>
                   </Typography>
                 </Box>
               </Grid>
@@ -245,16 +245,16 @@ export default function Login({ translate }: any) {
                 }
               />
               <Typography component={'p'} variant="caption" display="block">
-                <Link
+                <MuiLink
                   href="signup"
                   underline="hover"
                   color="black"
                   onClick={() => {
-                    navigate('/signup');
+                    router.push("/signup");
                   }}
                 >
                   {translate('FORGOT_PASSWORD')}
-                </Link>
+                </MuiLink>
               </Typography>
             </Box>
           </TabPanel>
@@ -274,9 +274,12 @@ export default function Login({ translate }: any) {
         <Typography>
           {translate('DONT_HAVE_ACCOUNT')}{' '}
           <b>
-            <Link component={RouterLink} to="/signup" href="#" underline="hover" color="#E2282C">
+            <Link href="signup"  passHref>
+            <MuiLink  underline="hover" color="#E2282C">
               {translate('REGISTER_NOW')}
+            </MuiLink>
             </Link>
+          
           </b>
         </Typography>
       </Grid>
