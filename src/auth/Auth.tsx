@@ -45,10 +45,10 @@ export const AuthIsSignedIn = ({ children }: Props) => {
   const auth: any = useAuth();
   const router = useRouter();
 
-  if(auth.authStatus === AuthStatus.SignedIn){
-    return <>{children}</>
-  }else{
-     router.push('/login')
+  if (auth.authStatus === AuthStatus.SignedIn) {
+    return <>{children}</>;
+  } else {
+    router.push('/login');
   }
 };
 

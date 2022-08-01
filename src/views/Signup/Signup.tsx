@@ -8,6 +8,17 @@ import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
 
+const styles = {
+  tab: {
+    color: '#000',
+    '&.Mui-selected': {
+      color: '#fff',
+      backgroundColor: '#E2282C',
+      borderRadius: '5px 5px 5px 5px',
+    },
+  },
+};
+
 const initialState = {
   firstName: '',
   lastName: '',
@@ -19,8 +30,9 @@ const initialState = {
   dialCode: '+966',
 };
 export default function Signup({ translate }: any) {
+  const { tab } = styles;
   const auth: any = useAuth();
-  const router=useRouter();
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
@@ -100,7 +112,10 @@ export default function Signup({ translate }: any) {
           window.alert(err.message);
         }
       }
-      router.push({pathname:'/otpVerification',query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` } });
+      router.push({
+        pathname: '/otpVerification',
+        query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
+      });
     }
   };
 
@@ -124,30 +139,16 @@ export default function Signup({ translate }: any) {
       <Box pt={3} sx={{ width: '100%' }}>
         <TabContext value={signupType}>
           <Box sx={{ border: 1, borderColor: '#D9D9D9', borderRadius: '7px' }}>
-            <Tabs sx={{ '& .MuiTabs-indicator': { display: 'none' } }} onChange={handleChangeTab}>
-              <Tab
-                sx={[
-                  {
-                    width: '50%',
-                    color: signupType === 'phone' ? '#fff' : 'black',
-                    backgroundColor: signupType === 'phone' ? '#E2282C' : 'default',
-                    borderRadius: signupType === 'phone' ? '5px 5px 5px 5px' : 0,
-                  },
-                  { '& 	.MuiTab-root': { textTransform: 'none' } },
-                ]}
-                label={translate('PHONE_NUMBER')}
-                value="phone"
-              />
-              <Tab
-                sx={{
-                  width: '50%',
-                  color: signupType === 'email' ? '#fff' : 'black',
-                  backgroundColor: signupType === 'email' ? '#E2282C' : 'default',
-                  borderRadius: signupType === 'email' ? '5px 5px 5px 5px' : 0,
-                }}
-                label={translate('EMAIL')}
-                value="email"
-              />
+            <Tabs
+              value={signupType}
+              sx={{
+                '& .MuiTabs-indicator': { display: 'none' },
+              }}
+              variant="fullWidth"
+              onChange={handleChangeTab}
+            >
+              <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
+              <Tab sx={tab} label={translate('EMAIL')} value="email" />
             </Tabs>
           </Box>
           <TabPanel sx={{ padding: 0 }} value="email">
