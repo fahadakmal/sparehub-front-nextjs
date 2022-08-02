@@ -62,14 +62,21 @@ export default function Login({ translate }: any) {
   const handleValidation = () => {
     let isValid = false;
     const { email, password, phoneNumber } = user;
-    if ((email && password) || (phoneNumber && password)) {
-      isValid = true;
+    if (loginType === 'email') {
+      if (email && password) {
+        isValid = true;
+      }
+    } else {
+      if (phoneNumber.length > 6 && password) {
+        isValid = true;
+      }
     }
     return isValid;
   };
 
   const handleVerifyRecaptcha = (token: any) => {
     const isValid = handleValidation();
+
     if (token && isValid) {
       setRecaptchaStatusVerified(true);
     }

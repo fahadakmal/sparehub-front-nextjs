@@ -23,19 +23,15 @@ const useStyles = {
 
 const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
   const [receivedCode, setReceivedCode] = React.useState(true);
-  const [otpFilled, setOtpFilled] = React.useState(true);
+  const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
   const [counter, setCounter] = useState(30);
   const { otpContainer, otpInput } = useStyles;
-  const router=useRouter()
-;
-  const handleNavigate = () => {
-    router.push('/createPassword');
-  };
+  const router = useRouter();
 
   const handleChangeInput = (val: any) => {
     setOtp(val);
-    if (val.length > 3) {
+    if (val.length > 5) {
       setOtpFilled(true);
       handleChange(val);
     } else {
@@ -74,7 +70,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
         <OtpInput
           placeholder="******"
           inputStyle={otpInput}
-          className="testing"
+          className="otp"
           value={otp}
           onChange={handleChangeInput}
           numInputs={6}

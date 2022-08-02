@@ -93,7 +93,10 @@ export default function Signup({ translate }: any) {
       try {
         const res = await auth.signUpWithEmail(user.email, user.email, user.password);
         if (res) {
-          redirectLogin();
+          router.push({
+            pathname: '/otpVerification',
+            query: { phoneNumber: `${user.email}` },
+          });
         }
       } catch (err) {
         if (err instanceof Error) {
@@ -105,17 +108,16 @@ export default function Signup({ translate }: any) {
         console.log(user.phoneNumber, user.password);
         const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
         if (res) {
-          redirectLogin();
+          router.push({
+            pathname: '/otpVerification',
+            query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
+          });
         }
       } catch (err) {
         if (err instanceof Error) {
           window.alert(err.message);
         }
       }
-      router.push({
-        pathname: '/otpVerification',
-        query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
-      });
     }
   };
 
@@ -202,7 +204,7 @@ export default function Signup({ translate }: any) {
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
                 handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={true}
+                recaptchaStatusVerified={recaptchaStatusVerified}
               />
             )}
           </TabPanel>

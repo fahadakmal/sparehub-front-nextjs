@@ -8,7 +8,7 @@ import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep }: any) => {
   const btnDisable =
-    signupType === 'email' && !user.email ? true : signupType === 'phone' && !user.phoneNumber ? true : false;
+    signupType === 'email' && !user.email ? true : signupType === 'phone' && user.phoneNumber.length < 7 ? true : false;
   return (
     <>
       <Grid item xs={12} pt={3}>
