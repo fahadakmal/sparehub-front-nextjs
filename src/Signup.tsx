@@ -3,7 +3,6 @@ import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
-// import { useNavigate } from 'react-router-dom';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import AuthContainer from './components/AuthContainer/AuthContainer';
 import { PrimaryButton } from './components/Button/PrimaryButton';
@@ -12,11 +11,13 @@ import { translate } from './utils';
 import CountryDropdown from './components/Select/CountryDropdown';
 import { useAuth } from './auth/Auth';
 import PhoneInput from './components/PhoneInput/PhoneInput';
+import { useRouter } from 'next/router';
 // import '../../App.css';
 
 const Signup=()=> {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const router=useRouter();
   // const navigate = useNavigate();
 
   const [user, setUser] = React.useState({
@@ -60,7 +61,7 @@ const Signup=()=> {
     }
   };
   const redirectLogin = () => {
-    // navigate('/success');
+    router.push('/congratulations');
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {

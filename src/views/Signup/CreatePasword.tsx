@@ -1,18 +1,18 @@
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import { useAuth } from '../../auth/Auth';
+import { useRouter } from 'next/router';
 // import '../../App.css';
 
 export default function CreatePassword({ translate }: any) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const [user, setUser] = React.useState({
     password: '',
@@ -45,7 +45,7 @@ export default function CreatePassword({ translate }: any) {
   };
 
   const handleNavigate = () => {
-    navigate('/success');
+    router.push('/congratulations');
   };
 
   return (

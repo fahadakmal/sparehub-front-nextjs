@@ -1,13 +1,12 @@
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import Otp from '../../components/Otp';
 import { useAuth } from '../../auth/Auth';
+import { useRouter } from 'next/router';
 
 const OTPVerification = (props: any) => {
-  const navigate = useNavigate();
-  const { state }: any = useLocation();
-  const { phoneNumber } = state;
+  const router = useRouter();
+  const { phoneNumber }: any = router.query;
 
   const auth: any = useAuth();
   const [otp, setOtp] = React.useState('');
@@ -20,7 +19,7 @@ const OTPVerification = (props: any) => {
     try {
       const res = await auth.otpConfirmation(phoneNumber, otp);
       if (res) {
-        navigate('/success');
+        router.push('/congratulations');
       }
     } catch (err) {
       if (err instanceof Error) {

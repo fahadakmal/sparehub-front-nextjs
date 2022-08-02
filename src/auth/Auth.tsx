@@ -39,9 +39,11 @@ type Props = {
 
 const AuthContext: any = createContext(defaultState);
 
+
 export const AuthIsSignedIn = ({ children }: Props) => {
   const auth: any = useAuth();
   const router = useRouter();
+
 
   if(auth.authStatus === AuthStatus.SignedIn){
     return <>{children}</>
@@ -54,7 +56,6 @@ export const AuthIsNotSignedIn = ({ children }: Props) => {
   const auth: any = useAuth();
   const router = useRouter();
 
-  const { authStatus } = auth;
 
   if(auth.authStatus === AuthStatus.SignedOut){
     return <>{children}</>

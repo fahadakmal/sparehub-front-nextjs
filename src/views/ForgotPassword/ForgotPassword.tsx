@@ -6,8 +6,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
+import Link from 'next/link';
 
 const theme = createTheme();
 
@@ -56,7 +56,7 @@ export default function ForgotPassword() {
             </PrimaryButton>
             <Grid container>
               <Grid item xs>
-                <Link to={'/'}>Remember your password?</Link>
+                <Link  href={'/'}>Remember your password?</Link>
               </Grid>
             </Grid>
           </Box>

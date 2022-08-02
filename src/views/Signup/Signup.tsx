@@ -62,7 +62,7 @@ export default function Signup({ translate }: any) {
     }
   };
   const redirectLogin = () => {
-    router.push('/success');
+    router.push('/congratulations');
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -201,7 +201,7 @@ export default function Signup({ translate }: any) {
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
                 handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={recaptchaStatusVerified}
+                recaptchaStatusVerified={true}
               />
             )}
           </TabPanel>

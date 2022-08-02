@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
+import { useRouter } from 'next/router';
 
 const useStyles = {
   root: {
@@ -20,9 +20,9 @@ const useStyles = {
 
 const Congratulations = ({ translate }: any) => {
   const { root } = useStyles;
-  const navigate = useNavigate();
+  const router = useRouter();
   const handleNavigate = () => {
-    navigate('/');
+    router.push('/');
   };
   return (
     <AuthContainer>

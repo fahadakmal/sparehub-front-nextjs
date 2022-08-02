@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { PrimaryButton } from '../Button/PrimaryButton';
+import { useRouter } from 'next/router';
 // import '../../App.css';
 
 const useStyles = {
@@ -27,10 +27,10 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
   const [otp, setOtp] = React.useState('');
   const [counter, setCounter] = useState(30);
   const { otpContainer, otpInput } = useStyles;
-  const navigate = useNavigate();
-
+  const router=useRouter()
+;
   const handleNavigate = () => {
-    navigate('/createPassword');
+    router.push('/createPassword');
   };
 
   const handleChangeInput = (val: any) => {
