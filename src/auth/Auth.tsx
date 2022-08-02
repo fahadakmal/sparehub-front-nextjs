@@ -47,6 +47,7 @@ export const AuthIsSignedIn = ({ children }: Props) => {
     return <>{children}</>;
   } else {
     router.push('/login');
+    return null;
   }
 };
 
@@ -58,6 +59,7 @@ export const AuthIsNotSignedIn = ({ children }: Props) => {
     return <>{children}</>;
   } else {
     router.push('/');
+    return null;
   }
 };
 
