@@ -10,28 +10,12 @@
  export default class MyDocument extends Document {
    render() {
      return (
-         <Html lang="en">
+         <Html>
            <Head>
-             <meta charSet="utf-8"/>
-             <link rel="shortcut icon" href="/assets/favicon.ico"/>
-             <meta name="theme-color" content="#ffffff"/>
              <meta
                  name="description"
                  content="Sparehub."
              />
-             <meta
-                 name="robots"
-                 content="max-snippet:-1, max-image-preview:large, max-video-preview:-1"
-             />
-             <link
-                 href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&display=swap"
-                 rel="stylesheet"
-             />
-             <script
-                 src="https://kit.fontawesome.com/4c273e6d43.js"
-                 crossOrigin="anonymous"
-             ></script>
-             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
            </Head>
            <body>
            <Main/>

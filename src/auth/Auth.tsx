@@ -23,8 +23,6 @@ export interface IAuth {
   sendCode?: any;
   forgotPassword?: any;
   changePassword?: any;
-  getAttributes?: any;
-  setAttribute?: any;
   otpConfirmation?: any;
   resendOtp?: any;
   signInWithPhone?: any;
@@ -54,14 +52,20 @@ export const AuthIsSignedIn = ({ children }: Props) => {
 
 export const AuthIsNotSignedIn = ({ children }: Props) => {
   const auth: any = useAuth();
+  const router = useRouter();
+
   const { authStatus } = auth;
-  return <>{authStatus === AuthStatus.SignedOut ? children : null}</>;
+
+  if(auth.authStatus === AuthStatus.SignedOut){
+    return <>{children}</>
+  }else{
+     router.push('/')
+  }
 };
 
 export const AuthProvider = ({ children }: Props) => {
   const [authStatus, setAuthStatus] = useState(AuthStatus.Loading);
   const [sessionInfo, setSessionInfo] = useState({});
-  const [attrInfo, setAttrInfo] = useState([]);
 
   useEffect(() => {
     async function getSessionInfo() {
@@ -71,8 +75,6 @@ export const AuthProvider = ({ children }: Props) => {
           accessToken: session.accessToken.jwtToken,
           refreshToken: session.refreshToken.token,
         });
-        const attr: any = await getAttributes();
-        setAttrInfo(attr);
         setAuthStatus(AuthStatus.SignedIn);
       } catch (err) {
         setAuthStatus(AuthStatus.SignedOut);
@@ -160,38 +162,16 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  async function getAttributes() {
-    try {
-      const attr = await cognito.getAttributes();
-      return attr;
-    } catch (err) {
-      if (err instanceof Error) {
-        throw err;
-      }
-    }
-  }
 
-  async function setAttribute(attr: any) {
-    try {
-      const res = await cognito.setAttribute(attr);
-      return res;
-    } catch (err) {
-      if (err instanceof Error) {
-        throw err;
-      }
-    }
-  }
+
 
   const state: IAuth = {
     authStatus,
     sessionInfo,
-    attrInfo,
     signUpWithEmail,
     signUpWithPhone,
     signInWithEmail,
     getSession,
-    getAttributes,
-    setAttribute,
     otpConfirmation,
     resendOtp,
     signInWithPhone,
