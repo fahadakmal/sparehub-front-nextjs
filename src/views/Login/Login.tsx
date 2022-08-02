@@ -64,7 +64,7 @@ export default function Login({ translate }: any) {
   };
 
   const redirectDashboard = () => {
-    router.push("/");
+    router.push('/');
   };
 
   const handleLogin = async () => {
@@ -185,7 +185,7 @@ export default function Login({ translate }: any) {
                       underline="hover"
                       color="black"
                       onClick={() => {
-                        router.push("/signup");
+                        router.push('/signup');
                       }}
                     >
                       {translate('FORGOT_PASSWORD')}
@@ -250,7 +250,7 @@ export default function Login({ translate }: any) {
                   underline="hover"
                   color="black"
                   onClick={() => {
-                    router.push("/signup");
+                    router.push('/signup');
                   }}
                 >
                   {translate('FORGOT_PASSWORD')}
@@ -266,7 +266,7 @@ export default function Login({ translate }: any) {
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={false} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>
@@ -274,12 +274,11 @@ export default function Login({ translate }: any) {
         <Typography>
           {translate('DONT_HAVE_ACCOUNT')}{' '}
           <b>
-            <Link href="signup"  passHref>
-            <MuiLink  underline="hover" color="#E2282C">
-              {translate('REGISTER_NOW')}
-            </MuiLink>
+            <Link href="signup" passHref>
+              <MuiLink underline="hover" color="#E2282C">
+                {translate('REGISTER_NOW')}
+              </MuiLink>
             </Link>
-          
           </b>
         </Typography>
       </Grid>
