@@ -274,7 +274,7 @@ export default function Login({ translate }: any) {
         <Typography>
           {translate('DONT_HAVE_ACCOUNT')}{' '}
           <b>
-            <Link href="signup"  passHref>
+            <Link href="signUp"  passHref>
             <MuiLink  underline="hover" color="#E2282C">
               {translate('REGISTER_NOW')}
             </MuiLink>

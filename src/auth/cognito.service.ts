@@ -1,4 +1,9 @@
-import { CognitoUserAttribute, CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
+import {
+  CognitoUserAttribute,
+  CognitoUserPool,
+  AuthenticationDetails,
+  CognitoUser,
+} from 'amazon-cognito-identity-js';
 
 const userPoolId = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 const clientId = process.env.NEXT_PUBLIC_COGNITO_APP_CLIENT_ID;
@@ -99,7 +104,11 @@ export async function signInWithEmail(username: string, password: string) {
   });
 }
 
-export async function signUpUserWithEmail(username: string, email: string, password: string) {
+export async function signUpUserWithEmail(
+  username: string,
+  email: string,
+  password: string
+) {
   return new Promise(function (resolve, reject) {
     const attributeList = [
       new CognitoUserAttribute({
@@ -120,7 +129,12 @@ export async function signUpUserWithEmail(username: string, email: string, passw
   });
 }
 
-export async function signUpUserWithPhone(name: string, email: string, phoneNumber: string, password: string) {
+export async function signUpUserWithPhone(
+  name: string,
+  email: string,
+  phoneNumber: string,
+  password: string
+) {
   return new Promise(function (resolve, reject) {
     const attributeList = [
       new CognitoUserAttribute({
@@ -137,13 +151,19 @@ export async function signUpUserWithPhone(name: string, email: string, phoneNumb
       }),
     ];
 
-    userPool.signUp(phoneNumber, password, attributeList, [], function (err, res) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(res);
+    userPool.signUp(
+      phoneNumber,
+      password,
+      attributeList,
+      [],
+      function (err, res) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
       }
-    });
+    );
   }).catch((err) => {
     throw err;
   });
