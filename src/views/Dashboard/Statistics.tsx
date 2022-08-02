@@ -1,10 +1,12 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-import '../../App.css';
+// import '../../../styles/App.css';
+import Image from 'next/image';
+
 const statistics = [
   {
     statisticId: '01',
-    image: require('../../assets/images/product.png'),
+    image: require('../../../public/images/product.png'),
     statisticHeading: 'Total Products',
     count: 223,
     status1type: 'Active',
@@ -14,7 +16,7 @@ const statistics = [
   },
   {
     statisticId: '02',
-    image: require('../../assets/images/order.png'),
+    image: require('../../../public/images/order.png'),
     statisticHeading: 'Total Order',
     count: 224,
     status1type: 'Pending',
@@ -24,7 +26,7 @@ const statistics = [
   },
   {
     statisticId: '03',
-    image: require('../../assets/images/sales.png'),
+    image: require('../../../public/images/sales.png'),
     statisticHeading: 'Total Sales',
     count: 225,
     status1type: 'Monthly',
@@ -34,7 +36,7 @@ const statistics = [
   },
   {
     statisticId: '04',
-    image: require('../../assets/images/cart.png'),
+    image: require('../../../public/images/cart.png'),
     statisticHeading: 'Total Left Carts',
     count: 226,
     status1type: 'Without',
@@ -44,7 +46,7 @@ const statistics = [
   },
   {
     statisticId: '05',
-    image: require('../../assets/images/refund.png'),
+    image: require('../../../public/images/refund.png'),
     statisticHeading: 'Total Refund Claims',
     count: 227,
     status1type: 'Request',
@@ -54,7 +56,7 @@ const statistics = [
   },
   {
     statisticId: '06',
-    image: require('../../assets/images/promotion.png'),
+    image: require('../../../public/images/promotion.png'),
     statisticHeading: 'Promotions',
     count: 228,
     status1type: 'Active',
@@ -78,7 +80,8 @@ export default function Statistics({ translate }: any) {
               >
                 <Grid item sx={{ display: 'flex' }}>
                   <Grid item height={50} width={50}>
-                    <img height={'100%'} src={item.image} alt="recaptcha" />
+                    {/* <img height={'100%'} src={item.image} alt="recaptcha" /> */}
+                    <Image src={item.image} />
                   </Grid>
                   <Grid container sx={{ display: 'grid', alignItems: 'end', marginLeft: '10px' }}>
                     <Box

@@ -1,8 +1,8 @@
 import { withTranslation } from 'react-i18next';
 import { AuthProvider, AuthIsNotSignedIn, AuthIsSignedIn } from '../auth/Auth';
 import DashboardContainer from '../components/DashboardContainer/DashboardContainer';
-const WithAuthentication = (props:any)  => {
-  const {component:Component,requiredAuth} =props;
+const WithAuthentication = (props: any) => {
+  const { component: Component, requiredAuth } = props;
   return (
     <AuthProvider>
       {requiredAuth ? (
@@ -13,13 +13,11 @@ const WithAuthentication = (props:any)  => {
         </AuthIsSignedIn>
       ) : (
         <AuthIsNotSignedIn>
-            <Component translate={props.t} {...props} />
+          <Component translate={props.t} {...props} />
         </AuthIsNotSignedIn>
       )}
     </AuthProvider>
   );
 };
-
-
 
 export default withTranslation()(WithAuthentication);
