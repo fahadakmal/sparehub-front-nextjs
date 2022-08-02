@@ -15,6 +15,7 @@ import {
   Grid,
   Tabs,
   Tab,
+  Button,
 } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
@@ -30,9 +31,12 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { WhiteLogo } from '../../../public/icons';
 import SeachInput from '../SearchInput/SearchInput';
 import { Search } from '@mui/icons-material';
+import Image from 'next/image';
+// import { Search } from '@mui/icons-material';
 
 import i18next from 'i18next';
 import LANGUAGES from '../../enums';
+import PrimaryInput from '../Input/PrimaryInput';
 
 const useStyles = {
   toggleBtn: {
@@ -55,6 +59,20 @@ const useStyles = {
     borderLeft: 'none',
     '&:hover': {
       borderLeft: 'none',
+    },
+  },
+  searchButtonRoot: {
+    border: '1px solid',
+    borderRadius: '8px',
+    height: '40px',
+    textAlign: 'center',
+    background: '#10113A',
+    color: '#fff',
+    letterSpacing: 0.28,
+    fontFamily: 'Mulish',
+    fontWeight: 'bold',
+    '&:hover': {
+      background: '#10113A',
     },
   },
 };
@@ -113,11 +131,11 @@ const listitems = [
 ];
 
 export default function DashboardContainer(props: any) {
+  const { searchButtonRoot } = useStyles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
   const handleChangeLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
-    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleChangeLanguage ~ e.target.value', newVal);
     i18next.changeLanguage(newVal);
   };
   const { window, children, translate } = props;
@@ -141,7 +159,7 @@ export default function DashboardContainer(props: any) {
       }}
     >
       <div style={{ margin: '12px 0px 0px 15px', paddingTop: '10px' }}>
-        <WhiteLogo />
+        <Image src={WhiteLogo} />
       </div>
       <List>
         {listitems.map((item, index) => (
@@ -207,7 +225,15 @@ export default function DashboardContainer(props: any) {
                 alignItems: 'center',
               }}
             >
-              <SeachInput />
+              {/* <SeachInput /> */}
+              <PrimaryInput
+                type={'text'}
+                name="search"
+                // placeholder={translate('ENTER_PASSWORD')}
+                placeholder="e.g products, reports, staff ..."
+                startAdornment={<Search />}
+                endAdornment={<Button sx={searchButtonRoot}>Search</Button>}
+              />
             </Grid>
             <Grid
               sx={{

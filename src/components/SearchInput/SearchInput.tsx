@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Grid, FormControl, InputAdornment, TextField, Button } from '@mui/material';
+import { Grid, FormControl, InputAdornment, TextField, Button, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
 const styles = {
@@ -7,6 +7,7 @@ const styles = {
     margin: '0',
   },
   searchButtonRoot: {
+    border: '1px solid',
     borderRadius: '8px',
     height: '40px',
     textAlign: 'center',
@@ -26,6 +27,7 @@ const SeachInput: FunctionComponent = () => {
 
   return (
     <TextField
+      label="dasda"
       sx={{
         '& .MuiOutlinedInput-root': {
           borderRadius: '8px',
