@@ -19,7 +19,7 @@ const Recaptcha = ({ handleVerifyRecaptcha, translate }: any) => {
     <div>
       <ReCAPTCHA
         size="invisible"
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY + ''}
+        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY + ''}
         ref={captchaRef}
         style={{ display: 'none' }}
       />
@@ -38,7 +38,7 @@ const Recaptcha = ({ handleVerifyRecaptcha, translate }: any) => {
           />
         </FormGroup>
         <Box height={62} width={62}>
-          <Image height={'100%'} src={RecaptchaLogo} />
+          <Image src={RecaptchaLogo} />
         </Box>
       </Box>
     </div>
