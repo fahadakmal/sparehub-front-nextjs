@@ -16,7 +16,19 @@ import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
 
+const styles = {
+  tab: {
+    color: '#000',
+    '&.Mui-selected': {
+      color: '#fff',
+      backgroundColor: '#E2282C',
+      borderRadius: '5px 5px 5px 5px',
+    },
+  },
+};
+
 export default function Login({ translate }: any) {
+  const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = React.useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
@@ -115,27 +127,14 @@ export default function Login({ translate }: any) {
       <Box pt={3} sx={{ width: '100%' }}>
         <TabContext value={loginType}>
           <Box sx={{ border: 1, borderColor: '#D9D9D9', borderRadius: '7px' }}>
-            <Tabs sx={{ '& .MuiTabs-indicator': { display: 'none' } }} onChange={handleChangeTab}>
-              <Tab
-                sx={{
-                  width: '50%',
-                  color: loginType === 'phone' ? '#fff' : 'black',
-                  backgroundColor: loginType === 'phone' ? '#E2282C' : 'default',
-                  borderRadius: loginType === 'phone' ? '5px 5px 5px 5px' : 0,
-                }}
-                label={translate('PHONE_NUMBER')}
-                value="phone"
-              />
-              <Tab
-                sx={{
-                  width: '50%',
-                  color: loginType === 'email' ? '#fff' : 'black',
-                  backgroundColor: loginType === 'email' ? '#E2282C' : 'default',
-                  borderRadius: loginType === 'email' ? '5px 5px 5px 5px' : 0,
-                }}
-                label={translate('EMAIL')}
-                value="email"
-              />
+            <Tabs
+              value={loginType}
+              variant="fullWidth"
+              sx={{ '& .MuiTabs-indicator': { display: 'none' } }}
+              onChange={handleChangeTab}
+            >
+              <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
+              <Tab sx={tab} label={translate('EMAIL')} value="email" />
             </Tabs>
           </Box>
           <TabPanel sx={{ padding: 0 }} value="email">
