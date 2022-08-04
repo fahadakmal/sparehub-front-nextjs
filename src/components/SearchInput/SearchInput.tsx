@@ -27,7 +27,7 @@ const SeachInput: FunctionComponent = () => {
 
   return (
     <TextField
-      label="dasda"
+      label="Search"
       sx={{
         '& .MuiOutlinedInput-root': {
           borderRadius: '8px',

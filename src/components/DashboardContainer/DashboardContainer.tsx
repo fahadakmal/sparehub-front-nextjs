@@ -1,42 +1,28 @@
 import React, { useState } from 'react';
-import {
-  AppBar,
-  Box,
-  CssBaseline,
-  Drawer,
-  IconButton,
-  List,
-  ListItemButton,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-  Grid,
-  Tabs,
-  Tab,
-  Button,
-} from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InventoryIcon from '@mui/icons-material/Inventory';
-import MenuIcon from '@mui/icons-material/Menu';
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
-// import { NotificationsNoneOutlined, SettingsOutlined } from '@mui/icons-material';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { WhiteLogo } from '../../../public/icons';
-import SeachInput from '../SearchInput/SearchInput';
-import { Search } from '@mui/icons-material';
-import Image from 'next/image';
-// import { Search } from '@mui/icons-material';
-
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+} from '@mui/material';
 import i18next from 'i18next';
-import LANGUAGES from '../../enums';
-import PrimaryInput from '../Input/PrimaryInput';
+import Image from 'next/image';
+import { WhiteLogo } from '../../../public/icons';
+import Navbar from './NavBar';
 
 const useStyles = {
   toggleBtn: {
@@ -199,131 +185,7 @@ export default function DashboardContainer(props: any) {
         }}
         elevation={0}
       >
-        <Toolbar>
-          <Grid
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Grid
-              sx={{
-                // backgroundColor: 'green',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              {/* <SeachInput /> */}
-              <PrimaryInput
-                type={'text'}
-                name="search"
-                // placeholder={translate('ENTER_PASSWORD')}
-                placeholder="e.g products, reports, staff ..."
-                startAdornment={<Search />}
-                endAdornment={<Button sx={searchButtonRoot}>Search</Button>}
-              />
-            </Grid>
-            <Grid
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-                width: '50%',
-              }}
-            >
-              <Tabs
-                sx={{
-                  '& .MuiTabs-indicator': { display: 'none' },
-                  border: 1,
-                  borderColor: '#D9D9D9',
-                  borderRadius: '8px',
-                  height: '0px !important',
-                }}
-                value={language}
-                onChange={handleChangeLanguage}
-              >
-                <Tab
-                  sx={{
-                    color: '#000',
-                    backgroundColor: language === 'en' ? '#10113A' : 'default',
-                    borderRadius: '8px',
-                    fontFamily: 'Mulish',
-                    fontWeight: 'bold',
-                    fontSize: '12px',
-                    '&.Mui-selected': {
-                      color: '#fff',
-                    },
-                  }}
-                  value="en"
-                  label={LANGUAGES.eng}
-                />
-                <Tab
-                  sx={[
-                    {
-                      backgroundColor: language === 'ar' ? '#10113A' : 'default',
-                      borderRadius: '8px',
-                      fontWeight: 'bold',
-                      fontSize: '12px',
-                      fontFamily: 'Mulish',
-                      '&.Mui-selected': {
-                        color: '#fff',
-                      },
-                    },
-                  ]}
-                  value="ar"
-                  label={LANGUAGES.ar}
-                />
-              </Tabs>
-              <Tabs
-                sx={{
-                  '& .MuiButtonBase-root.MuiTab-root': {
-                    color: '#000',
-                  },
-                  '& .MuiTabs-indicator': { display: 'none' },
-                  border: 1,
-                  borderColor: '#D9D9D9',
-                  borderRadius: '70px',
-                }}
-                value={language}
-                onChange={handleChangeLanguage}
-              >
-                <Tab
-                  sx={{
-                    color: '#000000',
-                    backgroundColor: language === 'en' ? '#F0F3FD' : 'default',
-                    borderRadius: '8px',
-                  }}
-                  value="en"
-                  label={LANGUAGES.eng}
-                />
-                <Tab
-                  sx={[
-                    {
-                      color: '#000000',
-                      backgroundColor: language === 'ar' ? '#F0F3FD' : 'default',
-                      borderRadius: '8px',
-                    },
-                  ]}
-                  value="ar"
-                  label={LANGUAGES.ar}
-                />
-              </Tabs>
-            </Grid>
-          </Grid>
-        </Toolbar>
+        <Navbar />
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
