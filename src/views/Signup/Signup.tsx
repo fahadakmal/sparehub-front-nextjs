@@ -189,6 +189,68 @@ export default function Signup({ translate }: any) {
     setUser({ ...initialState });
     setEmailValid(false);
   };
+  // validation
+  const passwordLength = user.password.length;
+  const [isNumber, setIsNumber] = React.useState(false);
+  const [isUppercase, setIsUppercase] = React.useState(false);
+  const [isSpecialChar, setIsSpecialChar] = React.useState(false);
+  const [isLowercase, setIsLowercase] = React.useState(false);
+
+  const changeHandler =
+   (e: any) => {
+      e.preventDefault();
+    //  setUser({ ...user, [prop]: event.target.value });
+      setUser({ ...user, [e.target.name]: e.target.value })
+     checkSpecialCharacterHandler(e);
+   };
+   const checkSpecialCharacterHandler = (event: any) => {
+    const mypass = event.target.value;
+    const numbers = /[0-9]/g;
+    const uppercaseLetters = /[A-Z]/g;
+    const specialCharacter = /[!@#$%^&*?~`>/<']/g;
+    const lowercase = /[a-z]/g;
+
+    if (numbers.test(mypass)) {
+      setIsNumber(true);
+      console.log("abc")
+    } else {
+      setIsNumber(false);
+    }
+    if (uppercaseLetters.test(mypass)) {
+      setIsUppercase(true);
+    } else {
+      setIsUppercase(false);
+    }
+    if (specialCharacter.test(mypass)) {
+      setIsSpecialChar(true);
+    } else {
+      setIsSpecialChar(false);
+    }
+    if (lowercase.test(mypass)) {
+      setIsLowercase(true);
+    } else {
+      setIsLowercase(false);
+    }
+  };
+  // confirm password 
+
+const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+  
+const handleCPassword = (event: any) => {
+  setUser({...user,[event.target.name]: event.target.value})
+  setIsCPasswordDirty(true);
+}
+React.useEffect(()=> {
+  if (isCPasswordDirty) {
+    if(user.password === user.confirmPassword) {
+      setShowErrorMessage(false);
+    } else {
+      setShowErrorMessage(true);
+    }
+  }
+}, [user.confirmPassword])
+
 
   const handleBack = () => {
     setUser({ ...initialState });
@@ -266,6 +328,15 @@ export default function Signup({ translate }: any) {
                   handleSignUp={handleSignUp}
                   emailValid={emailValid}
                   isValid={isValid}
+                  passwordLength={passwordLength}
+                  isNumber={isNumber}
+                  isUppercase={isUppercase}
+                  isSpecialChar={isSpecialChar}
+                  isLowercase={isLowercase}
+                  changeHandler={changeHandler}
+                  checkSpecialCharacterHandler={checkSpecialCharacterHandler}
+                  showErrorMessage={showErrorMessage}
+                  handleCPassword={handleCPassword}
                 />
               )}
             </>
@@ -295,6 +366,16 @@ export default function Signup({ translate }: any) {
                 getRecaptchaToken={getRecaptchaToken}
                 emailValid={emailValid}
                 isValid={isValid}
+                passwordLength={passwordLength}
+                isNumber={isNumber}
+                isUppercase={isUppercase}
+                isSpecialChar={isSpecialChar}
+                isLowercase={isLowercase}
+                changeHandler={changeHandler}
+                checkSpecialCharacterHandler={checkSpecialCharacterHandler}
+                showErrorMessage={showErrorMessage}
+                handleCPassword={handleCPassword}
+                user={user}
               />
             )}
           </TabPanel>

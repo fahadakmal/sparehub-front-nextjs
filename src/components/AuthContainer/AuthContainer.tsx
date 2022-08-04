@@ -8,6 +8,7 @@ import Header from '../../layout/Header';
 import Footer from '../../layout/Footer';
 import { Welcome } from '../../../public/images';
 import Image from 'next/image';
+
 const useStyles = {
   leftContainer: {
     display: 'flex',
@@ -39,7 +40,8 @@ export default function AuthContainer({ children }: any) {
           <Header />
         </Box>
         <Box component={'div'} dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
-          <Grid px={isMobileScreen ? 5 : 15} container rowGap={2}>
+          {/* <Grid px={isMobileScreen ? 5 : 15} container rowGap={2}> */}
+          <Grid px={isMobileScreen ? 5 : 15} rowGap={2}>
             {children}
           </Grid>
         </Box>

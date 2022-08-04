@@ -211,16 +211,16 @@ export default function Login({ translate }: any) {
                     }
                   />
                   <Typography component={'p'} variant="caption" display="block">
-                    <MuiLink
-                      href="signup"
-                      underline="hover"
-                      color="black"
+                    <Box
                       onClick={() => {
-                        router.push('/signup');
+                        router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                       }}
+                      sx={{ cursor: 'pointer' }}
                     >
-                      {translate('FORGOT_PASSWORD')}
-                    </MuiLink>
+                      <MuiLink underline="hover" color="black">
+                        {translate('FORGOT_PASSWORD')}
+                      </MuiLink>
+                    </Box>
                   </Typography>
                 </Box>
               </Grid>
@@ -276,16 +276,16 @@ export default function Login({ translate }: any) {
                 }
               />
               <Typography component={'p'} variant="caption" display="block">
-                <MuiLink
-                  href="signup"
-                  underline="hover"
-                  color="black"
+                <Box
                   onClick={() => {
-                    router.push('/signup');
+                    router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                   }}
+                  sx={{ cursor: 'pointer' }}
                 >
-                  {translate('FORGOT_PASSWORD')}
-                </MuiLink>
+                  <MuiLink underline="hover" color="black">
+                    {translate('FORGOT_PASSWORD')}
+                  </MuiLink>
+                </Box>
               </Typography>
             </Box>
           </TabPanel>
@@ -305,7 +305,7 @@ export default function Login({ translate }: any) {
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!isValid} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={isValid} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>
