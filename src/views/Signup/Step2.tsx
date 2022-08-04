@@ -1,11 +1,35 @@
 import * as React from 'react';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
-import { Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 // import '../../App.css';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import Recaptcha from '../../components/Recaptcha';
+import Image from 'next/image';
+import { dotPass, tickpass } from '../../../public/images';
+
+
+const styling = {
+  successMessage: {
+    color: "green",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  errorMessage: {
+    color: "#E2282C",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  strengthMsgs: {
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '28px',
+    letterSpacing: '0.24px',
+    color: '#000000',
+  }
+};
 
 const Step2 = ({
   translate,
@@ -19,7 +43,23 @@ const Step2 = ({
   handleSignUp,
   user,
   recaptchaStatusVerified,
+  passwordLength,
+  isNumber,
+  isUppercase,
+  isSpecialChar,
+  isLowercase,
+  changeHandler,
+  checkSpecialCharacterHandler,
+  showErrorMessage,
+  handleCPassword,
 }: any) => {
+  const { successMessage } = styling;
+  const { errorMessage } = styling;
+  const { strengthMsgs } = styling;
+
+  
+
+
   return (
     <Grid columnSpacing={2} container>
       <Grid item sm={6} xs={12} pt={3}>
@@ -78,7 +118,9 @@ const Step2 = ({
           startAdornment={<Lock color="disabled" />}
           endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowPassword}
-          onChange={handleChange}
+          value={user?.password}
+          // onChange={handleChange}
+          onChange={changeHandler}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -91,8 +133,57 @@ const Step2 = ({
           startAdornment={<Lock color="disabled" />}
           endAdornment={showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowConfirmPassword}
-          onChange={handleChange}
+          // onChange={handleChange}
+          onChange={handleCPassword}
+          value={user?.confirmPassword}
         />
+        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography>  : " "}
+      </Grid>
+      <Grid item xs={12} pt={3}>
+      <Box mb={2} mt={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={3} md={1}>
+              {passwordLength > 7 ? (
+                <Image src={tickpass} height={15} width={15} />
+              ) : (
+                <Image src={dotPass} height={10} width={10} />
+              )}
+            </Grid>
+            <Grid item xs={9} md={11}>
+              <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
+            </Grid>
+            <Grid item xs={3} md={1}>
+              {isNumber ? (
+                <Image src={tickpass} height={15} width={15} />
+              ) : (
+                <Image src={dotPass} height={10} width={10} />
+              )}
+            </Grid>
+            <Grid item xs={9} md={11}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
+            </Grid>
+            <Grid item xs={3} md={1}>
+              {isSpecialChar ? (
+                <Image src={tickpass} height={15} width={15} />
+              ) : (
+                <Image src={dotPass} height={10} width={10} />
+              )}
+            </Grid>
+            <Grid item xs={9} md={11}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
+            </Grid>
+            <Grid item xs={3} md={1}>
+              {isLowercase ? (
+                <Image src={tickpass} height={15} width={15} />
+              ) : (
+                <Image src={dotPass} height={10} width={10} />
+              )}
+            </Grid>
+            <Grid item xs={9} md={11}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
       </Grid>
       <Grid item pt={2} width="100%">
         <Recaptcha translate={translate} handleVerifyRecaptcha={handleVerifyRecaptcha} />

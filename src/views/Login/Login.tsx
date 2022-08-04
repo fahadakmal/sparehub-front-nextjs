@@ -187,11 +187,11 @@ export default function Login({ translate }: any) {
                   />
                   <Typography component={'p'} variant="caption" display="block">
                     <MuiLink
-                      href="signup"
+                      href="emailForgotPassword"
                       underline="hover"
                       color="black"
                       onClick={() => {
-                        router.push('/signup');
+                        router.push('./emailForgotPassword');
                       }}
                     >
                       {translate('FORGOT_PASSWORD')}
@@ -252,11 +252,11 @@ export default function Login({ translate }: any) {
               />
               <Typography component={'p'} variant="caption" display="block">
                 <MuiLink
-                  href="signup"
+                  href="phoneForgotPassword"
                   underline="hover"
                   color="black"
                   onClick={() => {
-                    router.push('/signup');
+                    router.push('/phoneForgotPassword');
                   }}
                 >
                   {translate('FORGOT_PASSWORD')}
@@ -272,7 +272,7 @@ export default function Login({ translate }: any) {
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>

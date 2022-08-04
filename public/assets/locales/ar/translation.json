@@ -26,6 +26,8 @@
   "REGISTER_NOW": "سجل الان",
   "PHONE_NUMBER": "رقم الهاتف",
   "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+  "FORGOT_PASSWORD_PHONE_ENTER": "أدخل رقم هاتفك لإعادة تعيين كلمة المرور الخاصة بك",
+  "FORGOT_PASSWORD_EMAIL_ENTER": "أدخل عنوان بريدك الإلكتروني المسجل لإعادة تعيين كلمة المرور الخاصة بك",
   "CONGRATULATIONS": "تهانينا",
   "SIGN_UP_SUCCESS_MESSAGE": "لقد أرسلنا طلب الاشتراك الخاص بك إلى المسؤول للموافقة على الحساب ، ابق معنا ويمكنك البدء في بيع منتجاتك بمجرد الموافقة على حسابك",
   "OKAY": "تمام",
@@ -55,5 +57,9 @@
   "REVIEW_RATING": "التعليقات / التقييم",
   "MESSAGING": "المراسلة",
   "PAYMENT_MANAGEMENT": "إدارة الدفع",
-  "SETTINGS": "إعدادات"
+  "SETTINGS": "إعدادات",
+  "EIGHT_CHARS": "الحد الأدنى للطول 8 أحرف",
+  "CONTAIN_NUMBER": "يحتوي على رقم واحد على الأقل",
+  "CONTAIN_SPECIAL_CHARACTER": "يحتوي على حرف خاص واحد على الأقل",
+  "CONTAIN_LOWERCASE_LETTER": "تحتوي على حرف واحد صغير على الأقل"
 }
