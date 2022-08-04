@@ -55,5 +55,7 @@
   "REVIEW_RATING": "Reviews / Rating",
   "MESSAGING": "Messaging",
   "PAYMENT_MANAGEMENT": "Payment Management",
-  "SETTINGS": "Settings"
+  "SETTINGS": "Settings",
+  "SEARCH": "Search",
+  "SEARCH_PLACEHOLDER": "e.g products, reports, staff ..."
 }

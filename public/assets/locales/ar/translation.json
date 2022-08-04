@@ -55,5 +55,7 @@
   "REVIEW_RATING": "التعليقات / التقييم",
   "MESSAGING": "المراسلة",
   "PAYMENT_MANAGEMENT": "إدارة الدفع",
-  "SETTINGS": "إعدادات"
+  "SETTINGS": "إعدادات",
+  "SEARCH": "يبحث",
+  "SEARCH_PLACEHOLDER": "...مثل المنتجات والتقارير والموظفين"
 }

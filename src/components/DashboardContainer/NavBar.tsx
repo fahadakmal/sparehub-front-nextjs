@@ -6,152 +6,108 @@ import i18next from 'i18next';
 import LANGUAGES from '../../enums';
 import SeachInput from '../SearchInput/SearchInput';
 
+const styles = {
+  navbarContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  tabs: {
+    '&.MuiTabs-root': {
+      minHeight: '40px',
+      height: '40px',
+    },
+    '& .MuiTabs-indicator': { display: 'none' },
+    border: 1,
+    borderColor: '#D9D9D9',
+    borderRadius: '8px',
+  },
+  tab: {
+    color: '#000',
+    borderRadius: '8px',
+    fontFamily: 'Mulish',
+    fontWeight: 'bold',
+    fontSize: '12px',
+    '&.Mui-selected': {
+      color: '#fff',
+      backgroundColor: '#10113A',
+    },
+    '&.MuiTab-root': {
+      minHeight: '40px',
+      height: '40px',
+    },
+  },
+  userProfileBox: {
+    display: 'flex',
+    border: '1px solid',
+    borderRadius: '70px',
+    borderColor: '#e5e5e5',
+    height: '48px',
+    width: '138px',
+    padding: '3px',
+    alignItems: 'center',
+  },
+};
+
 export default function NavBar(props: any) {
+  const { handleDrawerToggle, translate } = props;
+
+  const { navbarContainer, tabs, tab, userProfileBox } = styles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
   const handleChangeLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
     i18next.changeLanguage(newVal);
   };
-  const { window, children, translate } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+  onchange = () => {
+    console.log('onchange');
   };
 
   return (
     <Toolbar>
-      <Grid
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      <Grid sx={navbarContainer}>
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ display: { sm: 'none' }, color: 'red' }}
         >
           <MenuIcon />
         </IconButton>
-        <Grid
-          sx={{
-            display: 'flex',
-            width: '65%',
-
-            // justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <SeachInput />
-        </Grid>
-        <Grid
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '35%',
-            paddingLeft: '10px',
-          }}
-        >
-          <NotificationsOutlinedIcon sx={{ color: 'black' }} />
-          <Tabs
-            sx={{
-              '&.MuiTabs-root': {
-                minHeight: '40px',
-                height: '40px',
-              },
-              '& .MuiTabs-indicator': { display: 'none' },
-              border: 1,
-              borderColor: '#D9D9D9',
-              borderRadius: '8px',
-            }}
-            value={language}
-            onChange={handleChangeLanguage}
-          >
-            <Tab
-              sx={{
-                color: '#000',
-                borderRadius: '8px',
-                fontFamily: 'Mulish',
-                fontWeight: 'bold',
-                fontSize: '12px',
-                '&.Mui-selected': {
-                  color: '#fff',
-                  backgroundColor: '#10113A',
-                },
-                '&.MuiTab-root': {
-                  minHeight: '40px',
-                  height: '40px',
-                },
-              }}
-              value="en"
-              label={LANGUAGES.eng}
+        <Grid container sx={{ justifyContent: { xs: 'end', md: 'space-between' } }} alignItems="center">
+          <Grid item sx={{ display: { xs: 'none', md: 'block' } }}>
+            <SeachInput
+              label={translate('SEARCH')}
+              buttonText={translate('SEARCH')}
+              onchange={onchange}
+              placeholder={translate('SEARCH_PLACEHOLDER')}
             />
-            <Tab
-              sx={[
-                {
-                  color: '#000',
-                  borderRadius: '8px',
-                  fontWeight: 'bold',
-                  fontSize: '12px',
-                  fontFamily: 'Mulish',
-                  '&.Mui-selected': {
-                    color: '#fff',
-                    backgroundColor: '#10113A',
-                  },
-                  '&.MuiTab-root': {
-                    minHeight: '40px',
-                    height: '40px',
-                  },
-                },
-              ]}
-              value="ar"
-              label={LANGUAGES.ar}
-            />
-          </Tabs>
-          <Box
-            sx={{
-              display: 'flex',
-              border: '1px solid',
-              borderRadius: '70px',
-              borderColor: '#e5e5e5',
-              height: '48px',
-              width: '138px',
-              padding: '3px',
-              alignItems: 'center',
-            }}
-          >
-            <Avatar
-              alt="Ted talk"
-              src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
-            />
-            <Grid
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                color: 'black',
-                paddingLeft: '5px',
-              }}
-            >
-              <Typography
-                sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px' }}
-                align="left"
-                variant="body1"
-              >
-                John Alex
-              </Typography>
-              <Typography sx={{ fontFamily: 'Mulish', fontWeight: '400', fontSize: '12px' }}>Admin</Typography>
+          </Grid>
+          <Grid item>
+            <Grid container alignItems="center" gap={1}>
+              <NotificationsOutlinedIcon sx={{ color: 'black' }} />
+              <Tabs sx={tabs} value={language} onChange={handleChangeLanguage}>
+                <Tab sx={tab} value="en" label={LANGUAGES.eng} />
+                <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
+              </Tabs>
+              <Box sx={userProfileBox}>
+                <Avatar
+                  alt="Ted talk"
+                  src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
+                />
+                <Grid container alignItems="center" direction="column">
+                  <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
+                    John Alex
+                  </Typography>
+                  <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography>
+                </Grid>
+              </Box>
             </Grid>
-          </Box>
+          </Grid>
         </Grid>
       </Grid>
     </Toolbar>

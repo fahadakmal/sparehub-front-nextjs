@@ -117,13 +117,6 @@ const listitems = [
 ];
 
 export default function DashboardContainer(props: any) {
-  const { searchButtonRoot } = useStyles;
-  const storedLang = localStorage.getItem('i18nextLng');
-  const [language, setLanguage] = useState(storedLang || 'en');
-  const handleChangeLanguage = (e: any, newVal: string) => {
-    setLanguage(newVal);
-    i18next.changeLanguage(newVal);
-  };
   const { window, children, translate } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -185,7 +178,7 @@ export default function DashboardContainer(props: any) {
         }}
         elevation={0}
       >
-        <Navbar />
+        <Navbar translate={translate} handleDrawerToggle={handleDrawerToggle} />
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
