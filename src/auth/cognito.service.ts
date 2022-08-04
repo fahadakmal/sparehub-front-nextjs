@@ -231,3 +231,41 @@ export async function signInWithPhone(phoneNumber: string, password: string) {
     throw err;
   });
 }
+
+export function forgotPassword(username: string) {
+  const cognitoUser = new CognitoUser({
+      Username: username,
+      Pool: userPool
+  });
+  // call forgotPassword on cognitoUser
+  cognitoUser.forgotPassword({
+      onSuccess: function(result) {
+        console.log('forgotPassword.RESULT: ' + result);
+      },
+      onFailure: function(err) {
+        console.log('forgotPassword.ERROR: ' + err);
+      }
+      // inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
+      //     var verificationCode = prompt('Please input verification code ', '');
+      //     var newPassword = prompt('Enter new password ', '');
+      //     cognitoUser.confirmPassword(verificationCode, newPassword, this);
+      // }
+  });
+}
+// confirmPassword can be separately built out as follows...
+export function confirmPassword(username: string, verificationCode: string, newPassword: string) {
+  const cognitoUser = new CognitoUser({
+      Username: username,
+      Pool: userPool
+  });
+  return new Promise<void>((resolve, reject) => {
+      cognitoUser.confirmPassword(verificationCode, newPassword, {
+          onFailure(err) {
+              reject(err);
+          },
+          onSuccess() {
+              resolve();
+          },
+      });
+  });
+}
