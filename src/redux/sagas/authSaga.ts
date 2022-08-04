@@ -12,20 +12,17 @@ type response = {
 function* registerUser(action: any) {
   try {
     const response: response = yield apiPost('/auth/onSignUp', action.payload, '');
-    console.log(response, 'response');
     if (response.error) {
-      yield put(registrationFailure({ message: response.message }));
+      yield put(registrationFailure(response.message));
     } else {
       yield put(registrationSuccess());
     }
   } catch (error: any) {
-    console.log(error, 'error');
     yield put(registrationFailure(error.message));
   }
 }
 
 function* callRegistrationRequest() {
-  console.log('callRegistrationRequest');
   yield takeEvery(registrationRequest.type, registerUser);
 }
 

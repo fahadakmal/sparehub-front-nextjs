@@ -1,12 +1,14 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, Tab, Tabs, Typography, CircularProgress, LinearProgress } from '@mui/material';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
+import { registrationRequest } from '../../redux/slices/authSlice';
 
 const styles = {
   tab: {
@@ -31,14 +33,17 @@ const initialState = {
 };
 export default function Signup({ translate }: any) {
   const { tab } = styles;
+  const dispatch = useDispatch();
   const auth: any = useAuth();
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
 
   const [user, setUser] = React.useState(initialState);
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
   const [signupType, setSignupType] = React.useState('email');
+  const [signUpRequest, setSignUpRequest] = React.useState(false);
   const [step, setStep] = React.useState(1);
 
   const handleChange = (e: any) => {
@@ -73,9 +78,6 @@ export default function Signup({ translate }: any) {
       setRecaptchaStatusVerified(true);
     }
   };
-  const redirectLogin = () => {
-    router.push('/congratulations');
-  };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     setSignupType(newValue);
@@ -84,6 +86,7 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
+    setSignUpRequest(true);
     const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
     if (signupType == 'email') {
       const { email, password, confirmPassword } = user;
@@ -107,6 +110,8 @@ export default function Signup({ translate }: any) {
       try {
         console.log(user.phoneNumber, user.password);
         const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
+        const data = { email: user.email, phoneNumber: phoneWithDialCode, awsUserName: res.userSub };
+        dispatch(registrationRequest(data));
         if (res) {
           router.push({
             pathname: '/otpVerification',
@@ -119,6 +124,7 @@ export default function Signup({ translate }: any) {
         }
       }
     }
+    setSignUpRequest(false);
   };
 
   const handleNextStep = () => {
@@ -204,12 +210,18 @@ export default function Signup({ translate }: any) {
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
                 handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={recaptchaStatusVerified}
+                recaptchaStatusVerified={true}
               />
             )}
           </TabPanel>
         </TabContext>
       </Box>
+      {(isPending || signUpRequest) && (
+        <Grid justifyContent="center" alignItems="center" item xs={12}>
+          <LinearProgress />
+        </Grid>
+      )}
+      <br />
       <Grid textAlign={'center'} item xs={12} pt={1}>
         <Typography
           style={{ cursor: 'pointer' }}

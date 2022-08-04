@@ -7,6 +7,7 @@ const AuthSlice = createSlice({
     email: '',
     phoneNumber: '',
     isFetching: false,
+    isPending: false,
     isSuccess: false,
     isError: false,
     errorMessage: '',
@@ -14,17 +15,14 @@ const AuthSlice = createSlice({
   },
   reducers: {
     registrationRequest(state, action) {
-      console.log('🚀 ~ file: authSlice.ts ~ line 17 ~ registrationRequest ~ action', action);
-
       const signupData = action.payload;
-      return { ...state, registrationData: signupData };
+      return { ...state, registrationData: signupData, isPending: true };
     },
     registrationSuccess(state) {
-      return { ...state, isSuccess: true };
+      return { ...state, isSuccess: true, isPending: false };
     },
     registrationFailure(state, action) {
-      console.log('🚀 ~ file: authSlice.ts ~ line 26 ~ registrationFailure ~ action', action);
-      return { ...state, isError: true, errorMessage: action.payload };
+      return { ...state, isError: true, errorMessage: action.payload, isPending: false };
     },
   },
 });

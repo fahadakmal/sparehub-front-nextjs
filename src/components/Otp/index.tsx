@@ -21,7 +21,7 @@ const useStyles = {
   },
 };
 
-const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
+const Otp = ({ handleChange, handleSubmit, resendOtp, phoneNumber, translate }: any) => {
   const [receivedCode, setReceivedCode] = React.useState(true);
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
@@ -98,7 +98,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
               </b>{' '}
               <b
                 onClick={() => {
-                  console.log('RESEND_CODE');
+                  resendOtp();
                 }}
                 style={{ fontSize: '12px' }}
               >
@@ -106,7 +106,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
               </b>{' '}
               <b
                 onClick={() => {
-                  console.log('RESEND_CODE');
+                  resendOtp();
                 }}
                 style={{ color: '#E2282C', fontSize: '14px' }}
               >
