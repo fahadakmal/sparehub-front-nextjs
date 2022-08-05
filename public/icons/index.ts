@@ -6,3 +6,4 @@ export { default as Logo } from './ic_logo.svg';
 export { default as EyeOff } from './ic_eye_off.svg';
 export { default as RecaptchaLogo } from './recaptcha.png';
 export { default as WhiteLogo } from './ic_white_logo.svg';
+export { default as BackArrow } from './ic_arrow_back.svg';

@@ -5,3 +5,10 @@ const translate = (key: string) => {
 };
 
 export { translate };
+
+export function validateEmail(email: any) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    return true;
+  }
+  return false;
+}
