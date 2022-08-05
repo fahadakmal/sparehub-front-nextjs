@@ -9,11 +9,13 @@ export default function PhoneInput({
   name,
   onChange,
   required = false,
+  value,
 }: any) {
   return (
     <TextField
       label={label}
       required={required}
+      value={value}
       sx={{
         borderRadius: 2,
         '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {

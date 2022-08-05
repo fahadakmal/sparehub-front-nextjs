@@ -40,7 +40,7 @@
   "OTP_VERIFICATION_MESSAGE": "We just sent a 6 digit verification code to {{phoneNumber}} Enter the code in the box below to continue.",
   "DID_NOT_RECEIVE_A_CODE": "Didn't receive a code",
   "SECONDS": " Seconds",
-  "VERIFY_MOBILE_NUMBER": "Verify your provided mobile number",
+  "VERIFY_MOBILE_NUMBER": "Verify your provided {{identity}}",
   "OR": "or",
   "RESEND_CODE": "Resend Code",
   "VERIFY": "Verify",

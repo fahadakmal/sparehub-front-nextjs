@@ -1,1 +1,1 @@
-export { default as Welcome } from './img_welcome.svg';
+export { default as Welcome } from './img_welcome.png';
