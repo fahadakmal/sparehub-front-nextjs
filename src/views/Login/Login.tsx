@@ -15,7 +15,6 @@ import { useAuth } from '../../auth/Auth';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
-
 const styles = {
   tab: {
     color: '#000',
@@ -277,8 +276,16 @@ export default function Login({ translate }: any) {
         </PrimaryButton>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
+      
         <Typography>
+        {/* <Link href="/sellerDetail">
           {translate('DONT_HAVE_ACCOUNT')}{' '}
+          </Link> */}
+          <Link style={{textDecoration:"none !important"}} href="/sellerDetail" passHref>
+              <span>
+                {translate('DONT_HAVE_ACCOUNT')}{' '}
+              </span>
+            </Link>
           <b>
             <Link href="signup" passHref>
               <MuiLink underline="hover" color="#E2282C">
