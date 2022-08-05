@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useTranslation } from 'react-i18next';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
@@ -11,10 +11,10 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 import { useAuth } from '../../auth/Auth';
-// import '../../App.css';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
-import { useRouter } from 'next/router';
+import { loginRequest } from '../../redux/slices/authSlice';
+
 const styles = {
   tab: {
     color: '#000',
@@ -31,6 +31,7 @@ export default function Login({ translate }: any) {
   const router = useRouter();
   const [loginType, setLoginType] = React.useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState({
     email: '',
@@ -107,12 +108,16 @@ export default function Login({ translate }: any) {
       if (!isValid) {
         return;
       }
-      const { password } = user;
-      const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
+      const { password, dialCode, phoneNumber } = user;
+      const phoneWithDialCode = dialCode + phoneNumber.trim();
       try {
-        await auth.signInWithPhone(phoneWithDialCode, password);
-        redirectDashboard();
+        const res = await auth.signInWithPhone(phoneWithDialCode, password);
+        console.log('cognito res', res);
+
+        // redirectDashboard();
       } catch (err: any) {
+        console.log('aws response rror', err);
+
         if (err._type === 'UserNotConfirmedException') {
           window.alert(err.message);
         } else {
@@ -276,16 +281,13 @@ export default function Login({ translate }: any) {
         </PrimaryButton>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
-      
         <Typography>
-        {/* <Link href="/sellerDetail">
+          {/* <Link href="/sellerDetail">
           {translate('DONT_HAVE_ACCOUNT')}{' '}
           </Link> */}
-          <Link style={{textDecoration:"none !important"}} href="/sellerDetail" passHref>
-              <span>
-                {translate('DONT_HAVE_ACCOUNT')}{' '}
-              </span>
-            </Link>
+          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
+            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          </Link>
           <b>
             <Link href="signup" passHref>
               <MuiLink underline="hover" color="#E2282C">
