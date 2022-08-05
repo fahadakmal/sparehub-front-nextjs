@@ -15,7 +15,7 @@ const SelectField=(props: any)=>{
   };
     return(<FormControl sx={{ m: 1, minWidth: "100%" }}>
       <InputLabel id="demo-simple-select-helper-label">{props.mylabel}</InputLabel>
-      {props.value==="error" ?
+      {/* {props.value==="error" ?
       <>
       <Select
       error
@@ -34,8 +34,9 @@ const SelectField=(props: any)=>{
       </Select>
       <FormHelperText sx={{color:"red"}}>incorrect entry</FormHelperText>
       </>
-      :
+      : */}
       <Select
+      error={props.value == "true"? props.value: false}
         labelId="demo-simple-select-helper-label"
         id="demo-simple-select-helper"
         value={age}
@@ -45,11 +46,15 @@ const SelectField=(props: any)=>{
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        <MenuItem value={10}>pakistan</MenuItem>
+        <MenuItem value={20}>Saudi Arabia</MenuItem>
+        <MenuItem value={10}>Dubai</MenuItem>
+        {/* {props.mydata?.map((item: any)=>(
+          <MenuItem value={10}>{item}</MenuItem>
+        ))
+} */}
       </Select>
-}
+{/* } */}
     </FormControl>)
 }
 export default SelectField

@@ -14,7 +14,8 @@ const Textfield=(props: any)=>{
       }}
       noValidate
       autoComplete="off"
-    >{
+    >
+      {/* {
         props.value == "error" ?
         <TextField
           error
@@ -25,18 +26,17 @@ const Textfield=(props: any)=>{
           onChange={(e: any)=>props.setValue(e.target.value)}
           helperText="incorrect entity"
         />
-        :
+        : */}
         <TextField
-          required
+          error={props.value == "true"? props.value: false}
           id="outlined-required"
           label={props.required}
           placeholder={props.placeholder}
           value={myfirstName}
           onChange={(e: any)=>{props.setValue(e.target.value)}}
           inputProps={{maxLength: props.maxLength}}
-
-        />
-    }
+/>
+    {/* } */}
         </Box>
     )
 }
