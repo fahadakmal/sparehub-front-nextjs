@@ -15,6 +15,7 @@ import { useAuth } from '../../auth/Auth';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
+import { validateEmail } from '../../utils';
 
 const styles = {
   tab: {
@@ -33,6 +34,7 @@ export default function Login({ translate }: any) {
   const [loginType, setLoginType] = React.useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailValid, setEmailValid] = React.useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -43,6 +45,9 @@ export default function Login({ translate }: any) {
   const auth: any = useAuth();
 
   const handleChange = (e: any) => {
+    if (e.target.name === 'email') {
+      setEmailValid(validateEmail(e.target.value));
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -63,7 +68,7 @@ export default function Login({ translate }: any) {
     let isValid = false;
     const { email, password, phoneNumber } = user;
     if (loginType === 'email') {
-      if (email && password) {
+      if (email && emailValid && password) {
         isValid = true;
       }
     } else {
@@ -155,6 +160,7 @@ export default function Login({ translate }: any) {
                   placeholder={translate('EMAIL_ADDRESS')}
                   startAdornment={<Email color="disabled" />}
                   onChange={handleChange}
+                  error={!emailValid}
                 />
               </Grid>
               <Grid item pt={3} xs={12}>

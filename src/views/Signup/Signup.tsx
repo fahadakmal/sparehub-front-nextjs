@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import Image from 'next/image';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
+import { BackArrow } from '../../../public/icons';
+import { validateEmail } from '../../utils';
 
 const styles = {
   tab: {
@@ -35,6 +38,7 @@ export default function Signup({ translate }: any) {
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [emailValid, setEmailValid] = React.useState(false);
 
   const [user, setUser] = React.useState(initialState);
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
@@ -42,6 +46,9 @@ export default function Signup({ translate }: any) {
   const [step, setStep] = React.useState(1);
 
   const handleChange = (e: any) => {
+    if (e.target.name === 'email') {
+      setEmailValid(validateEmail(e.target.value));
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -69,8 +76,11 @@ export default function Signup({ translate }: any) {
 
   const handleVerifyRecaptcha = (token: any) => {
     const isValid = handleValidation();
-    if (token && isValid) {
+    //TODO:Need to handle recaptcha token
+    if (isValid) {
       setRecaptchaStatusVerified(true);
+    } else {
+      setRecaptchaStatusVerified(false);
     }
   };
   const redirectLogin = () => {
@@ -95,7 +105,7 @@ export default function Signup({ translate }: any) {
         if (res) {
           router.push({
             pathname: '/otpVerification',
-            query: { phoneNumber: `${user.email}` },
+            query: { email: `${user.email}` },
           });
         }
       } catch (err) {
@@ -129,9 +139,27 @@ export default function Signup({ translate }: any) {
     setUser({ ...initialState });
   };
 
+  const handleBack = () => {
+    setStep(step - 1);
+    // clearUserState();
+  };
+
   return (
     <AuthContainer>
-      <Grid xs={12} item textAlign={'center'}>
+      <Grid position={'relative'} xs={12} item textAlign={'center'}>
+        {step === 2 && (
+          <Box
+            padding={2}
+            borderRadius={2}
+            border="1px solid rgba(0, 0, 0, 0.1)"
+            position={'absolute'}
+            onClick={handleBack}
+            left={0}
+            top={0}
+          >
+            <Image src={BackArrow} />
+          </Box>
+        )}
         <Typography component="h1" variant="h5">
           {translate('SIGN_UP')}
         </Typography>
@@ -163,6 +191,7 @@ export default function Signup({ translate }: any) {
                   handleCountrySelect={handleCountrySelect}
                   signupType={signupType}
                   handleNextStep={handleNextStep}
+                  emailValid={emailValid}
                 />
               )}
               {step === 2 && (
@@ -178,6 +207,7 @@ export default function Signup({ translate }: any) {
                   handleVerifyRecaptcha={handleVerifyRecaptcha}
                   handleSignUp={handleSignUp}
                   recaptchaStatusVerified={recaptchaStatusVerified}
+                  emailValid={emailValid}
                 />
               )}
             </>
@@ -191,6 +221,7 @@ export default function Signup({ translate }: any) {
                 handleCountrySelect={handleCountrySelect}
                 signupType={signupType}
                 handleNextStep={handleNextStep}
+                emailValid={emailValid}
               />
             )}
             {step === 2 && (
@@ -205,6 +236,7 @@ export default function Signup({ translate }: any) {
                 handleSignUp={handleSignUp}
                 handleVerifyRecaptcha={handleVerifyRecaptcha}
                 recaptchaStatusVerified={recaptchaStatusVerified}
+                emailValid={emailValid}
               />
             )}
           </TabPanel>

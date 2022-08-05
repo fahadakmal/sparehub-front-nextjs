@@ -6,7 +6,10 @@ import { useRouter } from 'next/router';
 
 const OTPVerification = (props: any) => {
   const router = useRouter();
-  const { phoneNumber }: any = router.query;
+  const { phoneNumber, email }: any = router.query;
+
+  const phone = phoneNumber ? phoneNumber : email;
+  const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
 
   const auth: any = useAuth();
   const [otp, setOtp] = React.useState('');
@@ -17,7 +20,7 @@ const OTPVerification = (props: any) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await auth.otpConfirmation(phoneNumber, otp);
+      const res = await auth.otpConfirmation(phone, otp);
       if (res) {
         router.push('/congratulations');
       }
@@ -30,7 +33,7 @@ const OTPVerification = (props: any) => {
 
   return (
     <AuthContainer>
-      <Otp handleChange={handleChange} handleSubmit={handleSubmit} phoneNumber={phoneNumber} {...props} />
+      <Otp handleChange={handleChange} handleSubmit={handleSubmit} phoneNumber={phone} {...props} identity={identity} />
     </AuthContainer>
   );
 };
