@@ -39,7 +39,6 @@ export default function Signup({ translate }: any) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
-
   const [user, setUser] = React.useState(initialState);
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
   const [signupType, setSignupType] = React.useState('email');
@@ -86,19 +85,19 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
+    const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
+    const phoneWithDialCode = dialCode + phoneNumber.trim();
     setSignUpRequest(true);
-    const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
     if (signupType == 'email') {
-      const { email, password, confirmPassword } = user;
       if (!(email && password && confirmPassword && password === confirmPassword)) {
         return;
       }
       try {
-        const res = await auth.signUpWithEmail(user.email, user.email, user.password);
+        const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
           router.push({
             pathname: '/otpVerification',
-            query: { phoneNumber: `${user.email}` },
+            query: { phoneNumber: `${email}` },
           });
         }
       } catch (err) {
@@ -108,14 +107,13 @@ export default function Signup({ translate }: any) {
       }
     } else {
       try {
-        console.log(user.phoneNumber, user.password);
-        const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
-        const data = { email: user.email, phoneNumber: phoneWithDialCode, awsUserName: res.userSub };
+        const res = await auth.signUpWithPhone(firstName, email, phoneWithDialCode, password);
+        const data = { email: email, phoneNumber: phoneWithDialCode, password, awsUserName: res.userSub };
         dispatch(registrationRequest(data));
         if (res) {
           router.push({
             pathname: '/otpVerification',
-            query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
+            query: { phoneNumber: `${phoneWithDialCode}` },
           });
         }
       } catch (err) {
@@ -210,7 +208,7 @@ export default function Signup({ translate }: any) {
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
                 handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={true}
+                recaptchaStatusVerified={recaptchaStatusVerified}
               />
             )}
           </TabPanel>

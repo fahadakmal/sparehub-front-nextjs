@@ -12,6 +12,7 @@ const AuthSlice = createSlice({
     isError: false,
     errorMessage: '',
     registrationData: {},
+    loginData: {},
   },
   reducers: {
     registrationRequest(state, action) {
@@ -24,8 +25,25 @@ const AuthSlice = createSlice({
     registrationFailure(state, action) {
       return { ...state, isError: true, errorMessage: action.payload, isPending: false };
     },
+    loginRequest(state, action) {
+      const loginData = action.payload;
+      return { ...state, loginData: loginData, isPending: true };
+    },
+    loginSuccess(state) {
+      return { ...state, isSuccess: true, isPending: false };
+    },
+    loginFailure(state, action) {
+      return { ...state, isError: true, errorMessage: action.payload, isPending: false };
+    },
   },
 });
 
-export const { registrationRequest, registrationSuccess, registrationFailure } = AuthSlice.actions;
+export const {
+  registrationRequest,
+  registrationSuccess,
+  registrationFailure,
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+} = AuthSlice.actions;
 export default AuthSlice.reducer;
