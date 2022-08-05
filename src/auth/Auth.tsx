@@ -144,8 +144,7 @@ export const AuthProvider = ({ children }: Props) => {
     try {
       const res = await cognito.signInWithPhone(phoneNumber, password);
       dispatch(loginRequest({ attribute: phoneNumber, loginType: 'Phone', loginSuccess: true }));
-      return res;
-      // setAuthStatus(AuthStatus.SignedIn);
+      setAuthStatus(AuthStatus.SignedIn);
     } catch (err) {
       if (err instanceof Error) {
         setAuthStatus(AuthStatus.SignedOut);

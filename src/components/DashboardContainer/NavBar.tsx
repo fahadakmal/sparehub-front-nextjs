@@ -97,13 +97,14 @@ export default function NavBar(props: any) {
               <Box sx={userProfileBox}>
                 <Avatar
                   alt="Ted talk"
-                  src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
+                  // src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
+                  src="https://picsum.photos/200/300"
                 />
                 <Grid container alignItems="center" direction="column">
                   <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
-                    John Alex
+                    Admin
                   </Typography>
-                  <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography>
+                  {/* <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography> */}
                 </Grid>
               </Box>
             </Grid>
