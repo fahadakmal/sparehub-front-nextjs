@@ -17,7 +17,13 @@ export default function PhoneInput({
       required={required}
       value={value}
       sx={{
-        borderRadius: 1,
+        borderRadius: 2,
+        '& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button': {
+          display: 'none',
+        },
+        '& input[type=number]': {
+          MozAppearance: 'textfield',
+        },
       }}
       onChange={onChange}
       name={name}
