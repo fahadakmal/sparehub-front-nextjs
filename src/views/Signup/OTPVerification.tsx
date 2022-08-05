@@ -31,9 +31,29 @@ const OTPVerification = (props: any) => {
     }
   };
 
+  const resendOtp = async () => {
+    try {
+      const res = await auth.resendOtp(phoneNumber);
+      if (res) {
+        return;
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        window.alert(err.message);
+      }
+    }
+  };
+
   return (
     <AuthContainer>
-      <Otp handleChange={handleChange} handleSubmit={handleSubmit} phoneNumber={phone} {...props} identity={identity} />
+      <Otp
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        phoneNumber={phone}
+        {...props}
+        identity={identity}
+        resendOtp={resendOtp}
+      />
     </AuthContainer>
   );
 };
