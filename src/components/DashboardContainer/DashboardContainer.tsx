@@ -23,7 +23,7 @@ import i18next from 'i18next';
 import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
-
+import { useRouter } from 'next/router';
 const useStyles = {
   toggleBtn: {
     borderRadius: 2,
@@ -129,6 +129,7 @@ export default function DashboardContainer(props: any) {
     setMobileOpen(!mobileOpen);
   };
 
+  const router=useRouter();
   const drawer = (
     <Box
       style={{
@@ -144,7 +145,15 @@ export default function DashboardContainer(props: any) {
         {listitems.map((item, index) => (
           <ListItem
             button
-            onClick={(event) => handleListItemClick(event, index)}
+            onClick={(event) => {
+              setSelectedIndex(index);
+              if(item.key === 'setting'){
+              router.push("/sellerDetail")
+              }
+              else{
+              }
+              // handleListItemClick(event, index)
+            }}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding

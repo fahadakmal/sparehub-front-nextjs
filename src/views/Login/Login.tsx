@@ -282,7 +282,12 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
+          {/* <Link href="/sellerDetail">
           {translate('DONT_HAVE_ACCOUNT')}{' '}
+          </Link> */}
+          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
+            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          </Link>
           <b>
             <Link href="signup" passHref>
               <MuiLink underline="hover" color="#E2282C">
