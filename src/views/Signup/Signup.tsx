@@ -9,6 +9,7 @@ import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
 import { registrationRequest } from '../../redux/slices/authSlice';
+import { apiPost } from '../../services';
 
 const styles = {
   tab: {
@@ -86,7 +87,25 @@ export default function Signup({ translate }: any) {
 
   const handleSignUp = async () => {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
+    if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
+      window.alert('Please enter complete information')
+      return;
+    }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
+
+    try {
+      const userFoundInLocalDb= await apiPost('/auth/preSignUp',{email,phoneNo:phoneWithDialCode},'')
+      if(userFoundInLocalDb){
+        window.alert('User with given email or phone no already exist');
+        return;
+      }
+    } catch (error) {
+      if(error.statusCode==400){
+        window.alert('Please enter correct data');
+        return;
+      }
+    }
+    
     setSignUpRequest(true);
     if (signupType == 'email') {
       if (!(email && password && confirmPassword && password === confirmPassword)) {
@@ -95,6 +114,8 @@ export default function Signup({ translate }: any) {
       try {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
+          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+          dispatch(registrationRequest(data));          
           router.push({
             pathname: '/otpVerification',
             query: { phoneNumber: `${email}` },
@@ -108,7 +129,7 @@ export default function Signup({ translate }: any) {
     } else {
       try {
         const res = await auth.signUpWithPhone(firstName, email, phoneWithDialCode, password);
-        const data = { email: email, phoneNumber: phoneWithDialCode, password, awsUserName: res.userSub };
+        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
         dispatch(registrationRequest(data));
         if (res) {
           router.push({
