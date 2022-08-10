@@ -8,7 +8,7 @@ const OTPVerification = (props: any) => {
   const router = useRouter();
   const { phoneNumber, email }: any = router.query;
 
-  const phone = phoneNumber ? phoneNumber : email;
+  const verificationType = phoneNumber ? phoneNumber : email;
   const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
 
   const auth: any = useAuth();
@@ -20,7 +20,7 @@ const OTPVerification = (props: any) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await auth.otpConfirmation(phone, otp);
+      const res = await auth.otpConfirmation(verificationType, otp);
       if (res) {
         router.push('/congratulations');
       }
@@ -49,7 +49,7 @@ const OTPVerification = (props: any) => {
       <Otp
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        phoneNumber={phone}
+        phoneNumber={verificationType}
         {...props}
         identity={identity}
         resendOtp={resendOtp}
