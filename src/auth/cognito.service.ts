@@ -220,26 +220,46 @@ export async function signInWithPhone(phoneNumber: string, password: string) {
   });
 }
 
-export function forgotPassword(username: string) {
-  const cognitoUser = new CognitoUser({
-      Username: username,
-      Pool: userPool
-  });
-  // call forgotPassword on cognitoUser
-  cognitoUser.forgotPassword({
+export function forgotPassword(email: any) {
+  return new Promise (function (resolve, reject) {
+    const userData = {
+        Username: email,
+        Pool: userPool,
+    };
+    const cognitoUser = new CognitoUser(userData);
+    // call forgotPassword on cognitoUser
+    cognitoUser.forgotPassword({
       onSuccess: function(result) {
-        console.log('forgotPassword.RESULT: ' + result);
+        console.log('forgotPassword.RESULT: ' + JSON.stringify(result));
+        resolve(result)
       },
       onFailure: function(err) {
         console.log('forgotPassword.ERROR: ' + err);
+        reject(err);
       }
-      // inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
+    });
+    // inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
       //     var verificationCode = prompt('Please input verification code ', '');
       //     var newPassword = prompt('Enter new password ', '');
       //     cognitoUser.confirmPassword(verificationCode, newPassword, this);
       // }
+      try {
+        if (cognitoUser) {
+            // The user already exists
+        }
+      } catch (adminGetUserError: any) {
+        if (adminGetUserError.name && adminGetUserError.name === "UserNotFoundException") {
+          console.log('user does not exist')  
+          // The user does not exist
+        } else {
+            
+            throw (adminGetUserError);
+        }
+    } 
+         
   });
 }
+
 // confirmPassword can be separately built out as follows...
 export function confirmPassword(username: string, verificationCode: string, newPassword: string) {
   const cognitoUser = new CognitoUser({
