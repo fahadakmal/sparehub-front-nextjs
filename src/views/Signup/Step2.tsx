@@ -9,28 +9,8 @@ import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import i18next from 'i18next';
 import Image from 'next/image';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import styling from '../../components/stylesObjects/stylesObj';
 
-
-const styling = {
-  successMessage: {
-    color: "green",
-    fontSize: "14px",
-    fontWeight: "600",
-  },
-  errorMessage: {
-    color: "#E2282C",
-    fontSize: "14px",
-    fontWeight: "600",
-  },
-  strengthMsgs: {
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: '14px',
-    lineHeight: '28px',
-    letterSpacing: '0.24px',
-    color: '#000000',
-  }
-};
 
 const Step2 = ({
   translate,
@@ -55,16 +35,17 @@ const Step2 = ({
   showErrorMessage,
   handleCPassword,
 }: any) => {
+  const { errorMessage, strengthMsgs } = styling;
+
+  
   let captchaRef: any = React.useRef<ReCAPTCHA>();
   const handleChangeRecaptcha = (token: string | null) => {
     getRecaptchaToken(token);
   };
-
-
-  const { errorMessage, strengthMsgs } = styling;
-
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
+
+  
 
 
   return (
@@ -148,38 +129,38 @@ const Step2 = ({
           value={user?.confirmPassword}
           onChange={handleCPassword}
         />
-        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography>  : " "}
+        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '}
       </Grid>
-        <Grid item xs={12} pt={3}>
-          <Box mb={2} mt={1}>
-            <Grid container spacing={0}>
-              <Grid item xs={0.8} md={0.6}>
-                {passwordLength > 7 ? activeCheck : disabledCheck}
-              </Grid>
-              <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
-              </Grid>
-              <Grid item xs={0.8} md={0.6}>
-                {isNumber ? activeCheck : disabledCheck}
-              </Grid>
-              <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
-              </Grid>
-              <Grid item xs={0.8} md={0.6}>
-                {isSpecialChar ? activeCheck : disabledCheck}
-              </Grid>
-              <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
-              </Grid>
-              <Grid item xs={0.8} md={0.6}>
-                {isLowercase ? activeCheck : disabledCheck}
-              </Grid>
-              <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
-              </Grid>
+      <Grid item xs={12} pt={3}>
+        <Box mb={2} mt={1}>
+          <Grid container spacing={0}>
+            <Grid item xs={0.8} md={0.6}>
+              {passwordLength > 7 ? activeCheck : disabledCheck}
             </Grid>
-          </Box>
-        </Grid>
+            <Grid item xs={11.2} md={11.4}>
+              <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
+            </Grid>
+            <Grid item xs={0.8} md={0.6}>
+              {isNumber ? activeCheck : disabledCheck}
+            </Grid>
+            <Grid item xs={11.2} md={11.4}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
+            </Grid>
+            <Grid item xs={0.8} md={0.6}>
+              {isSpecialChar ? activeCheck : disabledCheck}
+            </Grid>
+            <Grid item xs={11.2} md={11.4}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
+            </Grid>
+            <Grid item xs={0.8} md={0.6}>
+              {isLowercase ? activeCheck : disabledCheck}
+            </Grid>
+            <Grid item xs={11.2} md={11.4}>
+              <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
+            </Grid>
+          </Grid>
+        </Box>
+      </Grid>
       <Grid item pt={2} width="100%">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <ReCAPTCHA
