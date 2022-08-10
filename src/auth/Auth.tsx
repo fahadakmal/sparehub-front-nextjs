@@ -162,6 +162,16 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
+  async function forgotPassword (email: string) {
+    try {
+      return await cognito.forgotPassword(email);
+    } catch (error) {
+      if (error instanceof Error) {
+          throw error;
+        }
+    }
+  }
+
   const state: IAuth = {
     authStatus,
     sessionInfo,
@@ -172,6 +182,7 @@ export const AuthProvider = ({ children }: Props) => {
     otpConfirmation,
     resendOtp,
     signInWithPhone,
+    forgotPassword,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;

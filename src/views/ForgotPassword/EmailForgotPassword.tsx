@@ -10,16 +10,108 @@ import { translate } from "../../utils";
 import { backArrow } from "../../../public/icons";
 import PrimaryInput from "../../components/Input/PrimaryInput";
 import { Email } from "@mui/icons-material";
+import { useAuth } from "../../auth/Auth";
+import EmailStep1 from "./EmailStep1";
+
+const styling = {
+  successMessage: {
+    color: "green",
+    fontFamily: "Mulish-Light",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  errorMessage: {
+    color: "#E2282C",
+    fontFamily: "Mulish-Light",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  strengthMsgs: {
+    fontFamily: "Mulish-Medium",
+    fontStyle: "normal",
+    fontWeight: "400",
+    fontSize: "14px",
+    lineHeight: "28px",
+    letterSpacing: "0.24px",
+    color: "#000000",
+  },
+};
 
 const EmailForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [forgetPassType, setForgetPassType] = useState("email");
+  const [isValid, setIsValid] = useState(false);
+  const [message, setMessage] = useState("");
+  const [step, setStep] = useState(1);
+
   const router = useRouter();
-  const forgotPasswordhandler = () => {
-    router.push({pathname: '/resetPassword', query: { phoneNumber: email }})
+  const auth: any = useAuth();
+
+  const { successMessage } = styling;
+  const { errorMessage } = styling;
+  const { strengthMsgs } = styling;
+
+  const handleNextStep = () => {
+    setStep(step + 1);
   };
-  const phoneChangeHandler = (event: any) => {
-    const value = event.target.value;
+
+  // const forgotPasswordhandler = () => {
+  //   router.push('/resetPassword')
+  // };
+  const emailChangeHandler = (event: any) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    const value = event.target.value.trim();
     setEmail(value);
+
+    if (emailRegex.test(email)) {
+      setIsValid(true);
+      setMessage("Your email looks good!");
+    } else {
+      setIsValid(false);
+      setMessage("Must include `@` and `.com`");
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const userEmail = email;
+    if (forgetPassType == "email") {
+      // const { email, password, confirmPassword } = user;
+      if (!email) {
+        return;
+      }
+      try {
+        const res = await auth.forgotPassword(email);
+        if (res) {
+          router.push({
+            pathname: '/resetPassword',
+            query: { email: `${email}` },
+          });
+          console.log("abc");
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        }
+      }
+    } else {
+      console.log("abc");
+    }
+    // else {
+    //   try {
+    //     console.log(user.phoneNumber, user.password);
+    //     const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
+    //     if (res) {
+    //       router.push({
+    //         pathname: '/otpVerification',
+    //         query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
+    //       });
+    //     }
+    //   } catch (err) {
+    //     if (err instanceof Error) {
+    //       window.alert(err.message);
+    //     }
+    //   }
+    // }
   };
 
   return (
@@ -32,9 +124,9 @@ const EmailForgotPassword = () => {
             height: "56px",
             border: "1px solid rgba(0, 0, 0, 0.1)",
             borderRadius: "8px",
-            display: 'flex', 
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <a>
@@ -44,49 +136,50 @@ const EmailForgotPassword = () => {
       </Link>
       <Box mt={8}>
         <Grid xs={12} item textAlign={"center"}>
-          <Typography mb={2} sx={{
+          <Typography
+            mb={2}
+            sx={{
               fontWeight: 700,
-              fontSize: '24px',
-              lineHeight: '31px',
-          }}>
-              {translate("FORGOT_PASSWORD")}
+              fontSize: "24px",
+              lineHeight: "31px",
+            }}
+          >
+            {translate("FORGOT_PASSWORD")}
           </Typography>
           <Typography>{translate("FORGOT_PASSWORD_EMAIL_ENTER")}</Typography>
         </Grid>
         <Grid item pt={3} pb={5} xs={12}>
           <Grid item pt={3} pb={5} xs={12}>
-            {/* <PhoneInput
-              label={translate("PHONE_NUMBER")}
-              type={"text"}
-              name="phoneNumber"
-              value={phoneNumber}
-              fullWidth
-              placeholder={translate("PHONE_NUMBER")}
-              startAdornment={<Typography>{+92}</Typography>}
-              onChange={phoneChangeHandler}
-            /> */}
             <PrimaryInput
-                label={translate('EMAIL')}
-                type={'text'}
-                name="email"
-                fullWidth
-                value={email}
-                placeholder={translate('EMAIL_ADDRESS')}
-                startAdornment={<Email color="disabled" />}
-                onChange={phoneChangeHandler}
-                required={true}
+              label={translate("EMAIL")}
+              type={"text"}
+              name="email"
+              fullWidth
+              value={email}
+              placeholder={translate("EMAIL_ADDRESS")}
+              startAdornment={<Email color="disabled" />}
+              onChange={(event: any) => emailChangeHandler(event)}
+              required={true}
             />
+            {isValid == true ? (
+              <Typography sx={successMessage}>{message}</Typography>
+            ) : (
+              <Typography sx={errorMessage}>{message}</Typography>
+            )}
           </Grid>
+          {/* {step === 1 && (
+                <EmailStep1 />
+              )} */}
         </Grid>
         <Grid item xs={12} sx={{ marginTop: 2 }}>
-            <PrimaryButton
-              onClick={forgotPasswordhandler}
-              variant="contained"
-              fullWidth
-              sx={{ marginTop: "8rem" }}
-            >
-              {translate("CONTINUE")}
-            </PrimaryButton>
+          <PrimaryButton
+            onClick={handleForgotPassword}
+            variant="contained"
+            fullWidth
+            sx={{ marginTop: "8rem" }}
+          >
+            {translate("CONTINUE")}
+          </PrimaryButton>
         </Grid>
       </Box>
     </AuthContainer>

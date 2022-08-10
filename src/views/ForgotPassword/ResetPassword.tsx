@@ -161,7 +161,11 @@ const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
             </Link>
             <Box mt={6} mb={10}>
                 <Grid xs={12} item textAlign={'center'}>
-                    <Typography mb={2} component="h1" variant="h5">
+                    <Typography mb={2} sx={{
+                          fontWeight: 700,
+                          fontSize: '24px',
+                          lineHeight: '31px',
+                      }}>
                         {translate('RESET_PASSWORD')}
                     </Typography>
                     <Typography component={'p'}>{translate('CREATE_PASSWORD_MESSAGE')}</Typography>

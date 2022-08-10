@@ -189,7 +189,7 @@ const Step2 = ({
         <Recaptcha translate={translate} handleVerifyRecaptcha={handleVerifyRecaptcha} />
       </Grid>
       <Grid item xs={12} pt={3}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleSignUp} variant="contained" fullWidth>
+        <PrimaryButton disabled={recaptchaStatusVerified} onClick={handleSignUp} variant="contained" fullWidth>
           {translate('SIGN_UP')}
         </PrimaryButton>
       </Grid>

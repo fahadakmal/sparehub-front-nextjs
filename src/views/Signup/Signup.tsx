@@ -17,6 +17,27 @@ const styles = {
       borderRadius: '5px 5px 5px 5px',
     },
   },
+  successMessage: {
+    color: "green",
+    fontFamily: "Mulish-Light",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  errorMessage: {
+    color: "#E2282C",
+    fontFamily: "Mulish-Light",
+    fontSize: "14px",
+    fontWeight: "600",
+  },
+  strengthMsgs: {
+    fontFamily: 'Mulish-Medium',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '28px',
+    letterSpacing: '0.24px',
+    color: '#000000',
+  }
 };
 
 const initialState = {
@@ -40,11 +61,30 @@ export default function Signup({ translate }: any) {
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
   const [signupType, setSignupType] = React.useState('email');
   const [step, setStep] = React.useState(1);
+  const [isValid, setIsValid] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+
+  const { successMessage } = styles;
+  const { errorMessage } = styles;
+  const { strengthMsgs } = styles;
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  const emailChangeHandler = (event: any) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    const value = event.target.value.trim();
+    setUser(value);
+
+    if (emailRegex.test(user.email)) {
+      setIsValid(true);
+      setMessage("Your email looks good!");
+    } else {
+      setIsValid(false);
+      setMessage("Must include `@` and `.com`");
+    }
+  };
   const handleCountrySelect = (code: string) => {
     const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
     setUser({ ...user, country: code, dialCode });
@@ -135,8 +175,7 @@ export default function Signup({ translate }: any) {
   const [isSpecialChar, setIsSpecialChar] = React.useState(false);
   const [isLowercase, setIsLowercase] = React.useState(false);
 
-  const changeHandler =
-   (e: any) => {
+  const changeHandler = (e: any) => {
       e.preventDefault();
     //  setUser({ ...user, [prop]: event.target.value });
       setUser({ ...user, [e.target.name]: e.target.value })
@@ -249,6 +288,7 @@ React.useEffect(()=> {
                   checkSpecialCharacterHandler={checkSpecialCharacterHandler}
                   showErrorMessage={showErrorMessage}
                   handleCPassword={handleCPassword}
+                  emailChangeHandler={emailChangeHandler}
                 />
               )}
             </>
@@ -286,6 +326,7 @@ React.useEffect(()=> {
                 showErrorMessage={showErrorMessage}
                 handleCPassword={handleCPassword}
                 user={user}
+                emailChangeHandler={emailChangeHandler}
               />
             )}
           </TabPanel>
