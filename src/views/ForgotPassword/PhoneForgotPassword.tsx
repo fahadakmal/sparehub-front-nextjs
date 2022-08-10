@@ -1,22 +1,22 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { Box, Grid, Typography } from "@mui/material";
-import AuthContainer from "../../components/AuthContainer/AuthContainer";
-import { PrimaryButton } from "../../components/Button/PrimaryButton";
-import PhoneInput from "../../components/PhoneInput/PhoneInput";
-import { translate } from "../../utils";
-import { backArrow } from "../../../public/icons";
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { Box, Grid, Typography } from '@mui/material';
+import AuthContainer from '../../components/AuthContainer/AuthContainer';
+import { PrimaryButton } from '../../components/Button/PrimaryButton';
+import PhoneInput from '../../components/PhoneInput/PhoneInput';
+import { translate } from '../../utils';
+import { backArrow } from '../../../public/icons';
 
 const PhoneForgotPassword = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
   const forgotPasswordhandler = () => {
-    router.push({pathname: '/resetPassword', query: { phoneNumber: phoneNumber }})
+    router.push({ pathname: '/resetPassword', query: { phoneNumber: phoneNumber } });
   };
   const phoneChangeHandler = (event: any) => {
-    const value = event.target.value.replace(/\D/g, "");
+    const value = event.target.value.replace(/\D/g, '');
     setPhoneNumber(value);
   };
 
@@ -26,11 +26,11 @@ const PhoneForgotPassword = () => {
         <Box
           mt={3}
           sx={{
-            width: "56px",
-            height: "56px",
-            border: "1px solid rgba(0, 0, 0, 0.1)",
-            borderRadius: "8px",
-            display: 'flex', 
+            width: '56px',
+            height: '56px',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '8px',
+            display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
@@ -41,25 +41,28 @@ const PhoneForgotPassword = () => {
         </Box>
       </Link>
       <Box mt={8}>
-        <Grid xs={12} item textAlign={"center"}>
-          <Typography mb={2} sx={{
+        <Grid xs={12} item textAlign={'center'}>
+          <Typography
+            mb={2}
+            sx={{
               fontWeight: 700,
               fontSize: '24px',
               lineHeight: '31px',
-          }}>
-              {translate("FORGOT_PASSWORD")}
+            }}
+          >
+            {translate('FORGOT_PASSWORD')}
           </Typography>
-          <Typography>{translate("FORGOT_PASSWORD_PHONE_ENTER")}</Typography>
+          <Typography>{translate('FORGOT_PASSWORD_PHONE_ENTER')}</Typography>
         </Grid>
         <Grid item pt={3} pb={5} xs={12}>
           <Grid item pt={3} pb={5} xs={12}>
             <PhoneInput
-              label={translate("PHONE_NUMBER")}
-              type={"text"}
+              label={translate('PHONE_NUMBER')}
+              type={'text'}
               name="phoneNumber"
               value={phoneNumber}
               fullWidth
-              placeholder={translate("PHONE_NUMBER")}
+              placeholder={translate('PHONE_NUMBER')}
               startAdornment={<Typography>{+92}</Typography>}
               onChange={phoneChangeHandler}
             />
@@ -72,14 +75,9 @@ const PhoneForgotPassword = () => {
               query: { name: "createpassword" },
             }}
           > */}
-            <PrimaryButton
-              onClick={forgotPasswordhandler}
-              variant="contained"
-              fullWidth
-              sx={{ marginTop: "8rem" }}
-            >
-              {translate("CONTINUE")}
-            </PrimaryButton>
+          <PrimaryButton onClick={forgotPasswordhandler} variant="contained" fullWidth sx={{ marginTop: '8rem' }}>
+            {translate('CONTINUE')}
+          </PrimaryButton>
           {/* </Link> */}
         </Grid>
       </Box>

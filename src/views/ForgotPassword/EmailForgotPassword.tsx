@@ -1,47 +1,47 @@
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { Box, Grid, Typography } from "@mui/material";
-import AuthContainer from "../../components/AuthContainer/AuthContainer";
-import { PrimaryButton } from "../../components/Button/PrimaryButton";
-import PhoneInput from "../../components/PhoneInput/PhoneInput";
-import { translate } from "../../utils";
-import { backArrow } from "../../../public/icons";
-import PrimaryInput from "../../components/Input/PrimaryInput";
-import { Email } from "@mui/icons-material";
-import { useAuth } from "../../auth/Auth";
-import EmailStep1 from "./EmailStep1";
+import { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { Box, Grid, Typography } from '@mui/material';
+import AuthContainer from '../../components/AuthContainer/AuthContainer';
+import { PrimaryButton } from '../../components/Button/PrimaryButton';
+import PhoneInput from '../../components/PhoneInput/PhoneInput';
+import { translate } from '../../utils';
+import { backArrow } from '../../../public/icons';
+import PrimaryInput from '../../components/Input/PrimaryInput';
+import { Email } from '@mui/icons-material';
+import { useAuth } from '../../auth/Auth';
+import EmailStep1 from './EmailStep1';
 
 const styling = {
   successMessage: {
-    color: "green",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: 'green',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   errorMessage: {
-    color: "#E2282C",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: '#E2282C',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   strengthMsgs: {
-    fontFamily: "Mulish-Medium",
-    fontStyle: "normal",
-    fontWeight: "400",
-    fontSize: "14px",
-    lineHeight: "28px",
-    letterSpacing: "0.24px",
-    color: "#000000",
+    fontFamily: 'Mulish-Medium',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '28px',
+    letterSpacing: '0.24px',
+    color: '#000000',
   },
 };
 
 const EmailForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [forgetPassType, setForgetPassType] = useState("email");
+  const [email, setEmail] = useState('');
+  const [forgetPassType, setForgetPassType] = useState('email');
   const [isValid, setIsValid] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [step, setStep] = useState(1);
 
   const router = useRouter();
@@ -65,16 +65,16 @@ const EmailForgotPassword = () => {
 
     if (emailRegex.test(email)) {
       setIsValid(true);
-      setMessage("Your email looks good!");
+      setMessage('Your email looks good!');
     } else {
       setIsValid(false);
-      setMessage("Must include `@` and `.com`");
+      setMessage('Must include `@` and `.com`');
     }
   };
 
   const handleForgotPassword = async () => {
     const userEmail = email;
-    if (forgetPassType == "email") {
+    if (forgetPassType == 'email') {
       // const { email, password, confirmPassword } = user;
       if (!email) {
         return;
@@ -86,7 +86,7 @@ const EmailForgotPassword = () => {
             pathname: '/resetPassword',
             query: { email: `${email}` },
           });
-          console.log("abc");
+          console.log('abc');
         }
       } catch (error) {
         if (error instanceof Error) {
@@ -94,7 +94,7 @@ const EmailForgotPassword = () => {
         }
       }
     } else {
-      console.log("abc");
+      console.log('abc');
     }
     // else {
     //   try {
@@ -120,13 +120,13 @@ const EmailForgotPassword = () => {
         <Box
           mt={3}
           sx={{
-            width: "56px",
-            height: "56px",
-            border: "1px solid rgba(0, 0, 0, 0.1)",
-            borderRadius: "8px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            width: '56px',
+            height: '56px',
+            border: '1px solid rgba(0, 0, 0, 0.1)',
+            borderRadius: '8px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <a>
@@ -135,28 +135,28 @@ const EmailForgotPassword = () => {
         </Box>
       </Link>
       <Box mt={8}>
-        <Grid xs={12} item textAlign={"center"}>
+        <Grid xs={12} item textAlign={'center'}>
           <Typography
             mb={2}
             sx={{
               fontWeight: 700,
-              fontSize: "24px",
-              lineHeight: "31px",
+              fontSize: '24px',
+              lineHeight: '31px',
             }}
           >
-            {translate("FORGOT_PASSWORD")}
+            {translate('FORGOT_PASSWORD')}
           </Typography>
-          <Typography>{translate("FORGOT_PASSWORD_EMAIL_ENTER")}</Typography>
+          <Typography>{translate('FORGOT_PASSWORD_EMAIL_ENTER')}</Typography>
         </Grid>
         <Grid item pt={3} pb={5} xs={12}>
           <Grid item pt={3} pb={5} xs={12}>
             <PrimaryInput
-              label={translate("EMAIL")}
-              type={"text"}
+              label={translate('EMAIL')}
+              type={'text'}
               name="email"
               fullWidth
               value={email}
-              placeholder={translate("EMAIL_ADDRESS")}
+              placeholder={translate('EMAIL_ADDRESS')}
               startAdornment={<Email color="disabled" />}
               onChange={(event: any) => emailChangeHandler(event)}
               required={true}
@@ -172,13 +172,8 @@ const EmailForgotPassword = () => {
               )} */}
         </Grid>
         <Grid item xs={12} sx={{ marginTop: 2 }}>
-          <PrimaryButton
-            onClick={handleForgotPassword}
-            variant="contained"
-            fullWidth
-            sx={{ marginTop: "8rem" }}
-          >
-            {translate("CONTINUE")}
+          <PrimaryButton onClick={handleForgotPassword} variant="contained" fullWidth sx={{ marginTop: '8rem' }}>
+            {translate('CONTINUE')}
           </PrimaryButton>
         </Grid>
       </Box>

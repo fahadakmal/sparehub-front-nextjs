@@ -9,17 +9,16 @@ import Recaptcha from '../../components/Recaptcha';
 import Image from 'next/image';
 import { dotPass, tickpass } from '../../../public/images';
 
-
 const styling = {
   successMessage: {
-    color: "green",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: 'green',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   errorMessage: {
-    color: "#E2282C",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: '#E2282C',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   strengthMsgs: {
     fontStyle: 'normal',
@@ -28,7 +27,7 @@ const styling = {
     lineHeight: '28px',
     letterSpacing: '0.24px',
     color: '#000000',
-  }
+  },
 };
 
 const Step2 = ({
@@ -56,9 +55,6 @@ const Step2 = ({
   const { successMessage } = styling;
   const { errorMessage } = styling;
   const { strengthMsgs } = styling;
-
-  
-
 
   return (
     <Grid columnSpacing={2} container>
@@ -137,10 +133,10 @@ const Step2 = ({
           onChange={handleCPassword}
           value={user?.confirmPassword}
         />
-        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography>  : " "}
+        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '}
       </Grid>
       <Grid item xs={12} pt={3}>
-      <Box mb={2} mt={3}>
+        <Box mb={2} mt={3}>
           <Grid container spacing={2}>
             <Grid item xs={3} md={1}>
               {passwordLength > 7 ? (
