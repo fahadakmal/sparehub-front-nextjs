@@ -36,6 +36,7 @@ const initialState = {
   phoneNumber: '',
   dialCode: '+966',
 };
+
 export default function Signup({ translate }: any) {
   const { tab } = styles;
   const dispatch = useDispatch();
@@ -100,24 +101,24 @@ export default function Signup({ translate }: any) {
   const handleSignUp = async () => {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
     if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
-      window.alert('Please enter complete information')
+      window.alert('Please enter complete information');
       return;
     }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
 
     try {
-      const userFoundInLocalDb= await apiPost('/auth/preSignUp',{email,phoneNo:phoneWithDialCode},'')
-      if(userFoundInLocalDb){
+      const userFoundInLocalDb = await apiPost('/auth/preSignUp', { email, phoneNo: phoneWithDialCode }, '');
+      if (userFoundInLocalDb) {
         window.alert('User with given email or phone no already exist');
         return;
       }
-    } catch (error) {
-      if(error.statusCode==400){
+    } catch (error: any) {
+      if (error.statusCode == 400) {
         window.alert('Please enter correct data');
         return;
       }
     }
-    
+
     setSignUpRequest(true);
     if (signupType == 'email') {
       if (!(email && password && confirmPassword && password === confirmPassword)) {
@@ -127,7 +128,7 @@ export default function Signup({ translate }: any) {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
           const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
-          dispatch(registrationRequest(data));          
+          dispatch(registrationRequest(data));
           router.push({
             pathname: '/otpVerification',
             query: { email: `${user.email}` },

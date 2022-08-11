@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
-// import '../../../styles/App.css';
 import Image from 'next/image';
 
 const statistics = [
@@ -80,7 +79,6 @@ export default function Statistics({ translate }: any) {
               >
                 <Grid item sx={{ display: 'flex' }}>
                   <Grid item height={50} width={50}>
-                    {/* <img height={'100%'} src={item.image} alt="recaptcha" /> */}
                     <Image src={item.image} />
                   </Grid>
                   <Grid container sx={{ display: 'grid', alignItems: 'end', marginLeft: '10px' }}>

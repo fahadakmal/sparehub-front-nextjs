@@ -79,12 +79,13 @@ export default function NavBar(props: any) {
           <MenuIcon />
         </IconButton>
         <Grid container sx={{ justifyContent: { xs: 'end', md: 'space-between' } }} alignItems="center">
-          <Grid item sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Grid item sm={4} sx={{ display: { xs: 'none', md: 'block' } }}>
             <SeachInput
               label={translate('SEARCH')}
               buttonText={translate('SEARCH')}
               onchange={onchange}
               placeholder={translate('SEARCH_PLACEHOLDER')}
+              language={language}
             />
           </Grid>
           <Grid item>
@@ -95,11 +96,7 @@ export default function NavBar(props: any) {
                 <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
               </Tabs>
               <Box sx={userProfileBox}>
-                <Avatar
-                  alt="Ted talk"
-                  // src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
-                  src="https://picsum.photos/200/300"
-                />
+                <Avatar alt="Ted talk" src="https://picsum.photos/200/300" />
                 <Grid container alignItems="center" direction="column">
                   <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
                     Admin

@@ -17,26 +17,41 @@ const styles = {
       background: '#10113A',
     },
   },
+  textField: {
+    '& .MuiOutlinedInput-root': {
+      borderRadius: '8px',
+      width: '100%',
+      paddingRight: 0,
+      fontFamily: 'Mulish',
+    },
+    '& input::placeholder': {
+      fontSize: '12px',
+      fontFamily: 'Mulish',
+    },
+  },
+  languageEn: {
+    '& .MuiOutlinedInput-root': {},
+  },
+  languageAr: {
+    '& .MuiOutlinedInput-root': {
+      paddingLeft: 0,
+    },
+  },
+  inputAdornmentRoot: {
+    '&.MuiInputAdornment-root': {
+      marginLeft: 0,
+    },
+  },
 };
 
-export default function SeachInput({ label, buttonText, onChange, placeholder }: any) {
-  const { searchButtonRoot } = styles;
+export default function SeachInput({ label, buttonText, onChange, placeholder, language }: any) {
+  const { searchButtonRoot, textField, inputAdornmentRoot, languageEn, languageAr } = styles;
 
   return (
     <TextField
+      fullWidth
       label={label}
-      sx={{
-        '& .MuiOutlinedInput-root': {
-          borderRadius: '8px',
-          width: '100%',
-          paddingRight: 0,
-          fontFamily: 'Mulish',
-        },
-        '& input::placeholder': {
-          fontSize: '12px',
-          fontFamily: 'Mulish',
-        },
-      }}
+      sx={[textField, language === 'en' ? languageEn : languageAr]}
       placeholder={placeholder}
       size="small"
       variant="outlined"
@@ -48,7 +63,7 @@ export default function SeachInput({ label, buttonText, onChange, placeholder }:
           </InputAdornment>
         ),
         endAdornment: (
-          <InputAdornment position="end">
+          <InputAdornment sx={inputAdornmentRoot} position="end">
             <Grid>
               <Button sx={searchButtonRoot}>{buttonText}</Button>
             </Grid>

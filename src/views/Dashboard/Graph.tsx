@@ -1,12 +1,23 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
-// import '../../App.css';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+import { Box, Grid, OutlinedInput, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-// import Link from 'next/link';
 const MenuProps = {
   PaperProps: {
     style: {
@@ -29,6 +40,46 @@ const names = [
   'Kelly Snyder',
 ];
 
+// const data = {
+//   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+//   datasets: [
+//     {
+//       label: 'First dataset',
+//       data: [33, 53, 85, 41, 44, 65],
+//       fill: true,
+//       backgroundColor: 'rgba(75,192,192,0.2)',
+//       borderColor: 'rgba(75,192,192,1)',
+//     },
+//   ],
+// };
+
+const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+const data = {
+  labels,
+  datasets: [
+    {
+      fill: true,
+      label: 'Dataset 2',
+      data: [33, 53, 85, 41, 44, 65],
+      borderColor: 'rgb(53, 162, 235)',
+      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+  ],
+};
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    },
+    title: {
+      display: true,
+      text: 'Chart.js Line Chart',
+    },
+  },
+};
+
 export default function StateGraph({ translate }: any) {
   const [personName, setPersonName] = React.useState<string[]>([]);
 
@@ -36,11 +87,9 @@ export default function StateGraph({ translate }: any) {
     const {
       target: { value },
     } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    setPersonName(typeof value === 'string' ? value.split(',') : value);
   };
+
   return (
     <Box sx={{ padding: '16px' }}>
       <Grid container spacing={2}>
@@ -97,6 +146,7 @@ export default function StateGraph({ translate }: any) {
                 </Select>
               </Box>
             </Grid>
+            <Line options={options} data={data} />
           </Grid>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -106,7 +156,6 @@ export default function StateGraph({ translate }: any) {
             sx={{ border: '1px', borderRadius: '8px', background: '#ffffff', padding: '7px' }}
           >
             <Grid item sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              {/* <Link href="/sellerDetail"></Link> */}
               <Grid
                 item
                 sx={{
