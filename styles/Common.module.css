@@ -1,0 +1,14 @@
+.countryDropdown button {
+  padding: 14px 14px 14px 8px;
+  border-radius: 8px;
+}
+.countryDropdown button span {
+  gap: 8px;
+}
+.countryDropdown button span .ReactFlagsSelect-module_label {
+  padding: 0 10px;
+}
+.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root {
+  gap: 4px;
+  border-radius: 8px;
+}
