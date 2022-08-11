@@ -1,11 +1,8 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Grid, FormControl, InputAdornment, TextField, Button, OutlinedInput } from '@mui/material';
+import React from 'react';
 import { Search } from '@mui/icons-material';
+import { Button, Grid, InputAdornment, TextField } from '@mui/material';
 
 const styles = {
-  search: {
-    margin: '0',
-  },
   searchButtonRoot: {
     border: '1px solid',
     borderRadius: '8px',
@@ -22,12 +19,12 @@ const styles = {
   },
 };
 
-const SeachInput: FunctionComponent = () => {
-  const { search, searchButtonRoot } = styles;
+export default function SeachInput({ label, buttonText, onChange, placeholder }: any) {
+  const { searchButtonRoot } = styles;
 
   return (
     <TextField
-      label="dasda"
+      label={label}
       sx={{
         '& .MuiOutlinedInput-root': {
           borderRadius: '8px',
@@ -40,9 +37,10 @@ const SeachInput: FunctionComponent = () => {
           fontFamily: 'Mulish',
         },
       }}
-      placeholder="e.g products, reports, staff ..."
+      placeholder={placeholder}
       size="small"
       variant="outlined"
+      onChange={onChange}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -52,13 +50,11 @@ const SeachInput: FunctionComponent = () => {
         endAdornment: (
           <InputAdornment position="end">
             <Grid>
-              <Button sx={searchButtonRoot}>Search</Button>
+              <Button sx={searchButtonRoot}>{buttonText}</Button>
             </Grid>
           </InputAdornment>
         ),
       }}
     />
   );
-};
-
-export default SeachInput;
+}

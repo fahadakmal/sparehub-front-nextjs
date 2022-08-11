@@ -17,6 +17,7 @@ export default function PrimaryInput({
 }: any) {
   return (
     <TextField
+      error={error}
       label={label}
       required={required}
       sx={{ borderRadius: 2 }}

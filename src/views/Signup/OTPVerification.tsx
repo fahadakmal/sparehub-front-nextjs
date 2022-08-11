@@ -10,7 +10,10 @@ import styling from '../../stylesObjects/stylesObj';
 
 const OTPVerification = (props: any) => {
   const router = useRouter();
-  const { phoneNumber }: any = router.query;
+  const { phoneNumber, email }: any = router.query;
+
+  const verificationType = phoneNumber ? phoneNumber : email;
+  const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
 
   const auth: any = useAuth();
   const [otp, setOtp] = React.useState('');
@@ -21,7 +24,7 @@ const OTPVerification = (props: any) => {
 
   const handleSubmit = async () => {
     try {
-      const res = await auth.otpConfirmation(phoneNumber, otp);
+      const res = await auth.otpConfirmation(verificationType, otp);
       if (res) {
         router.push('/congratulations');
       }
@@ -33,16 +36,29 @@ const OTPVerification = (props: any) => {
   };
   const { backButton } = styling;
 
+  const resendOtp = async () => {
+    try {
+      const res = await auth.resendOtp(phoneNumber);
+      if (res) {
+        return;
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        window.alert(err.message);
+      }
+    }
+  };
+
   return (
     <AuthContainer>
-      <Link href="/login" passHref>
-        <Box mt={3} sx={backButton}>
-          <a>
-            <ArrowBackOutlinedIcon fontSize="medium" />
-          </a>
-        </Box>
-      </Link>
-      <Otp handleChange={handleChange} handleSubmit={handleSubmit} phoneNumber={phoneNumber} {...props} />
+      <Otp
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        phoneNumber={verificationType}
+        {...props}
+        identity={identity}
+        resendOtp={resendOtp}
+      />
     </AuthContainer>
   );
 };

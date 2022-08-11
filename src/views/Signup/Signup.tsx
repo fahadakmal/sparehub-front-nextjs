@@ -1,12 +1,19 @@
 import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, Tab, Tabs, Typography, CircularProgress, LinearProgress } from '@mui/material';
+import Image from 'next/image';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
+import { BackArrow } from '../../../public/icons';
+import { validateEmail } from '../../utils';
+import { registrationRequest } from '../../redux/slices/authSlice';
+import { apiPost } from '../../services';
 
 const styles = {
   tab: {
@@ -52,14 +59,18 @@ const initialState = {
 };
 export default function Signup({ translate }: any) {
   const { tab } = styles;
+  const dispatch = useDispatch();
   const auth: any = useAuth();
   const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [emailValid, setEmailValid] = React.useState(false);
 
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [user, setUser] = React.useState(initialState);
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
   const [signupType, setSignupType] = React.useState('email');
+  const [signUpRequest, setSignUpRequest] = React.useState(false);
   const [step, setStep] = React.useState(1);
   const [isValid, setIsValid] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -69,6 +80,9 @@ export default function Signup({ translate }: any) {
   const { strengthMsgs } = styles;
 
   const handleChange = (e: any) => {
+    if (e.target.name === 'email') {
+      setEmailValid(validateEmail(e.target.value));
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -109,12 +123,12 @@ export default function Signup({ translate }: any) {
 
   const handleVerifyRecaptcha = (token: any) => {
     const isValid = handleValidation();
-    if (token && isValid) {
+    //TODO:Need to handle recaptcha token
+    if (isValid) {
       setRecaptchaStatusVerified(true);
+    } else {
+      setRecaptchaStatusVerified(false);
     }
-  };
-  const redirectLogin = () => {
-    router.push('/congratulations');
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -124,18 +138,39 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
+    const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
+    if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
+      window.alert('Please enter complete information')
+      return;
+    }
+    const phoneWithDialCode = dialCode + phoneNumber.trim();
+
+    try {
+      const userFoundInLocalDb= await apiPost('/auth/preSignUp',{email,phoneNo:phoneWithDialCode},'')
+      if(userFoundInLocalDb){
+        window.alert('User with given email or phone no already exist');
+        return;
+      }
+    } catch (error) {
+      if(error.statusCode==400){
+        window.alert('Please enter correct data');
+        return;
+      }
+    }
+    
+    setSignUpRequest(true);
     if (signupType == 'email') {
-      const { email, password, confirmPassword } = user;
       if (!(email && password && confirmPassword && password === confirmPassword)) {
         return;
       }
       try {
-        const res = await auth.signUpWithEmail(user.email, user.email, user.password);
+        const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
+          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+          dispatch(registrationRequest(data));          
           router.push({
             pathname: '/otpVerification',
-            query: { phoneNumber: `${user.email}` },
+            query: { email: `${user.email}` },
           });
         }
       } catch (err) {
@@ -145,12 +180,13 @@ export default function Signup({ translate }: any) {
       }
     } else {
       try {
-        console.log(user.phoneNumber, user.password);
-        const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
+        const res = await auth.signUpWithPhone(firstName, email, phoneWithDialCode, password);
+        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+        dispatch(registrationRequest(data));
         if (res) {
           router.push({
             pathname: '/otpVerification',
-            query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
+            query: { phoneNumber: `${phoneWithDialCode}` },
           });
         }
       } catch (err) {
@@ -159,6 +195,7 @@ export default function Signup({ translate }: any) {
         }
       }
     }
+    setSignUpRequest(false);
   };
 
   const handleNextStep = () => {
@@ -232,7 +269,20 @@ React.useEffect(()=> {
 
   return (
     <AuthContainer>
-      <Grid xs={12} item textAlign={'center'}>
+      <Grid position={'relative'} xs={12} item textAlign={'center'}>
+        {step === 2 && (
+          <Box
+            padding={2}
+            borderRadius={2}
+            border="1px solid rgba(0, 0, 0, 0.1)"
+            position={'absolute'}
+            onClick={handleBack}
+            left={0}
+            top={0}
+          >
+            <ArrowBackIcon />
+          </Box>
+        )}
         <Typography component="h1" variant="h5">
           {translate('SIGN_UP')}
         </Typography>
@@ -264,6 +314,7 @@ React.useEffect(()=> {
                   handleCountrySelect={handleCountrySelect}
                   signupType={signupType}
                   handleNextStep={handleNextStep}
+                  emailValid={emailValid}
                 />
               )}
               {step === 2 && (
@@ -302,6 +353,7 @@ React.useEffect(()=> {
                 handleCountrySelect={handleCountrySelect}
                 signupType={signupType}
                 handleNextStep={handleNextStep}
+                emailValid={emailValid}
               />
             )}
             {step === 2 && (
@@ -332,6 +384,12 @@ React.useEffect(()=> {
           </TabPanel>
         </TabContext>
       </Box>
+      {(isPending || signUpRequest) && (
+        <Grid justifyContent="center" alignItems="center" item xs={12}>
+          <LinearProgress />
+        </Grid>
+      )}
+      <br />
       <Grid textAlign={'center'} item xs={12} pt={1}>
         <Typography
           style={{ cursor: 'pointer' }}

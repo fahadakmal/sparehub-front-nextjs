@@ -40,10 +40,10 @@
   "NEW_PASSWORD": "New Password",
   "REBOOT_MESSAGE": "I’m not a robot",
   "OTP_VERIFICATION": "OTP verification",
-  "OTP_VERIFICATION_MESSAGE": "We just sent a 4 digit verification code to {{phoneNumber}} Enter the code in the box below to continue.",
+  "OTP_VERIFICATION_MESSAGE": "We just sent a 6 digit verification code to {{phoneNumber}} Enter the code in the box below to continue.",
   "DID_NOT_RECEIVE_A_CODE": "Didn't receive a code",
   "SECONDS": " Seconds",
-  "VERIFY_MOBILE_NUMBER": "Verify your mobile number",
+  "VERIFY_MOBILE_NUMBER": "Verify your provided {{identity}}",
   "OR": "or",
   "RESEND_CODE": "Resend Code",
   "VERIFY": "Verify",
@@ -63,5 +63,7 @@
   "CONTAIN_NUMBER": "Contains at least 1 number",
   "CONTAIN_SPECIAL_CHARACTER": "Contains at least 1 special character",
   "CONTAIN_LOWERCASE_LETTER": "Contains at least 1 lowercase letter",
-  "PASSWORD_ERROR_MSG": "Passwords did not match"
+  "PASSWORD_ERROR_MSG": "Passwords did not match",
+  "SEARCH": "Search",
+  "SEARCH_PLACEHOLDER": "e.g products, reports, staff ..."
 }

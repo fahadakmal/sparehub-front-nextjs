@@ -94,6 +94,7 @@ const Step2 = ({
             startAdornment={<Email color="disabled" />}
             onChange={handleChange}
             required={true}
+            error={!emailValid}
           />
         ) : (
           <PhoneInput

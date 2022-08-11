@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useTranslation } from 'react-i18next';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
@@ -13,7 +13,7 @@ import CountryDropdown from '../../components/Select/CountryDropdown';
 import { useAuth } from '../../auth/Auth';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
-import { useRouter } from 'next/router';
+import { validateEmail } from '../../utils';
 
 const styles = {
   tab: {
@@ -31,7 +31,9 @@ export default function Login({ translate }: any) {
   const router = useRouter();
   const [loginType, setLoginType] = React.useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailValid, setEmailValid] = React.useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -42,6 +44,9 @@ export default function Login({ translate }: any) {
   const auth: any = useAuth();
 
   const handleChange = (e: any) => {
+    if (e.target.name === 'email') {
+      setEmailValid(validateEmail(e.target.value));
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -62,7 +67,7 @@ export default function Login({ translate }: any) {
     let isValid = false;
     const { email, password, phoneNumber } = user;
     if (loginType === 'email') {
-      if (email && password) {
+      if (email && emailValid && password) {
         isValid = true;
       }
     } else {
@@ -107,12 +112,16 @@ export default function Login({ translate }: any) {
       if (!isValid) {
         return;
       }
-      const { password } = user;
-      const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
+      const { password, dialCode, phoneNumber } = user;
+      const phoneWithDialCode = dialCode + phoneNumber.trim();
       try {
-        await auth.signInWithPhone(phoneWithDialCode, password);
-        redirectDashboard();
+        const res = await auth.signInWithPhone(phoneWithDialCode, password);
+        console.log('cognito res', res);
+
+        // redirectDashboard();
       } catch (err: any) {
+        console.log('aws response rror', err);
+
         if (err._type === 'UserNotConfirmedException') {
           window.alert(err.message);
         } else {
@@ -154,6 +163,7 @@ export default function Login({ translate }: any) {
                   placeholder={translate('EMAIL_ADDRESS')}
                   startAdornment={<Email color="disabled" />}
                   onChange={handleChange}
+                  error={!emailValid}
                 />
               </Grid>
               <Grid item pt={3} xs={12}>
@@ -268,7 +278,12 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
+          {/* <Link href="/sellerDetail">
           {translate('DONT_HAVE_ACCOUNT')}{' '}
+          </Link> */}
+          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
+            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          </Link>
           <b>
             <Link href="signup" passHref>
               <MuiLink underline="hover" color="#E2282C">

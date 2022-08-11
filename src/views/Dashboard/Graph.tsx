@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
+// import Link from 'next/link';
 const MenuProps = {
   PaperProps: {
     style: {
@@ -105,6 +106,7 @@ export default function StateGraph({ translate }: any) {
             sx={{ border: '1px', borderRadius: '8px', background: '#ffffff', padding: '7px' }}
           >
             <Grid item sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              {/* <Link href="/sellerDetail"></Link> */}
               <Grid
                 item
                 sx={{
