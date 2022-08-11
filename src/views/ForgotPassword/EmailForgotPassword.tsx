@@ -6,58 +6,24 @@ import { Box, Grid, Typography } from '@mui/material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
-import { translate } from '../../utils';
 import { backArrow } from '../../../public/icons';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import { Email } from '@mui/icons-material';
 import { useAuth } from '../../auth/Auth';
-import EmailStep1 from './EmailStep1';
+import styling from '../../stylesObjects/stylesObj';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
-const styling = {
-  successMessage: {
-    color: 'green',
-    fontFamily: 'Mulish-Light',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  errorMessage: {
-    color: '#E2282C',
-    fontFamily: 'Mulish-Light',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  strengthMsgs: {
-    fontFamily: 'Mulish-Medium',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: '14px',
-    lineHeight: '28px',
-    letterSpacing: '0.24px',
-    color: '#000000',
-  },
-};
-
-const EmailForgotPassword = () => {
+const EmailForgotPassword = ({ translate }: any) => {
   const [email, setEmail] = useState('');
   const [forgetPassType, setForgetPassType] = useState('email');
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState('');
-  const [step, setStep] = useState(1);
 
   const router = useRouter();
   const auth: any = useAuth();
 
-  const { successMessage } = styling;
-  const { errorMessage } = styling;
-  const { strengthMsgs } = styling;
+  const { successMessage, errorMessage, strengthMsgs, backButton } = styling;
 
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  // const forgotPasswordhandler = () => {
-  //   router.push('/resetPassword')
-  // };
   const emailChangeHandler = (event: any) => {
     const emailRegex = /\S+@\S+\.\S+/;
     const value = event.target.value.trim();
@@ -117,20 +83,9 @@ const EmailForgotPassword = () => {
   return (
     <AuthContainer>
       <Link href="/login" passHref>
-        <Box
-          mt={3}
-          sx={{
-            width: '56px',
-            height: '56px',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
-            borderRadius: '8px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <Box mt={3} sx={backButton}>
           <a>
-            <Image src={backArrow} height={24} width={24} alt="back" />
+            <ArrowBackOutlinedIcon fontSize="medium" />
           </a>
         </Box>
       </Link>

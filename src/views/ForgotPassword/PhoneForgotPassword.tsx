@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { Box, Grid, Typography } from '@mui/material';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
-import { translate } from '../../utils';
-import { backArrow } from '../../../public/icons';
+import styling from '../../stylesObjects/stylesObj';
 
-const PhoneForgotPassword = () => {
+const PhoneForgotPassword = ({ translate }: any) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const router = useRouter();
   const forgotPasswordhandler = () => {
@@ -19,24 +18,14 @@ const PhoneForgotPassword = () => {
     const value = event.target.value.replace(/\D/g, '');
     setPhoneNumber(value);
   };
+  const { backButton } = styling;
 
   return (
     <AuthContainer>
       <Link href="/login" passHref>
-        <Box
-          mt={3}
-          sx={{
-            width: '56px',
-            height: '56px',
-            border: '1px solid rgba(0, 0, 0, 0.1)',
-            borderRadius: '8px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        <Box mt={3} sx={backButton}>
           <a>
-            <Image src={backArrow} height={24} width={24} alt="back" />
+            <ArrowBackOutlinedIcon fontSize="medium" />
           </a>
         </Box>
       </Link>
