@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
-import * as React from 'react';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
@@ -8,7 +8,7 @@ import { useAuth } from '../../auth/Auth';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
   // import '../../App.css';
-  import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import styling from '../../components/stylesObjects/stylesObj';
 
 
@@ -16,8 +16,6 @@ export default function CreatePassword({ translate }: any) {
 
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const router = useRouter();
 
   const [user, setUser] = React.useState({
     password: '',
@@ -31,6 +29,9 @@ export default function CreatePassword({ translate }: any) {
   const [isLowercase, setIsLowercase] = React.useState(false);
   const [showErrorMessage, setShowErrorMessage] = React.useState(false);
   const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+
+  const router = useRouter();
+
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
