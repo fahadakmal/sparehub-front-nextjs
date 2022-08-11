@@ -8,7 +8,10 @@ import { BackArrow } from '../../../public/icons';
 // import '../../App.css';
 
 const useStyles = {
-  otpContainer: {},
+  resendText: {
+    color: '#E2282C',
+    fontSize: '14px',
+  },
   otpInput: {
     height: 56,
     width: 68,
@@ -22,6 +25,12 @@ const useStyles = {
       outline: 'none',
     },
   },
+  otpContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 };
 
 const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp }: any) => {
@@ -29,7 +38,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
   const [counter, setCounter] = useState(30);
-  const { otpContainer, otpInput } = useStyles;
+  const { resendText, otpInput, otpContainer } = useStyles;
   const router = useRouter();
 
   const handleChangeInput = (val: any) => {
@@ -84,11 +93,11 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           </Typography>
         </Grid>
       </Grid>
-      <Grid style={otpContainer} item xs={12} pt={6}>
+      <Grid item xs={12} pt={6}>
         <OtpInput
           placeholder="******"
           inputStyle={otpInput}
-          containerStyle={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}
+          containerStyle={otpContainer}
           value={otp}
           onChange={handleChangeInput}
           numInputs={6}
@@ -100,34 +109,20 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           {translate('DID_NOT_RECEIVE_A_CODE')}
           {'?  '}
           {receivedCode ? (
-            <b style={{ color: '#E2282C', fontSize: '14px' }}>
+            <b style={resendText}>
               {counter}
               {translate('SECONDS')}
             </b>
           ) : (
             <>
-              <b
-                onClick={() => {
-                  console.log('VERIFY_MOBILE_NUMBER');
-                }}
-                style={{ color: '#E2282C', fontSize: '14px' }}
-              >
-                {translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}
-                {/*TODO:Need to enable once resend code is functional */}
-              </b>{' '}
+              <b style={resendText}>{translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}</b>{' '}
+              <b style={{ fontSize: '14px' }}>{translate('OR')}</b>{' '}
               <b
                 onClick={() => {
                   resendOtp();
+                  setCounter(30);
                 }}
-                style={{ fontSize: '12px' }}
-              >
-                {translate('OR')}
-              </b>{' '}
-              <b
-                onClick={() => {
-                  resendOtp();
-                }}
-                style={{ color: '#E2282C', fontSize: '14px' }}
+                style={{ cursor: 'pointer', color: '#E2282C', fontSize: '14px' }}
               >
                 {translate('RESEND_CODE')}
               </b>
