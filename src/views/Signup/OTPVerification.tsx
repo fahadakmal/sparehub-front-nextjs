@@ -61,7 +61,7 @@ const OTPVerification = (props: any) => {
           type: 'error',
         });
       }
-    }
+    } 
   };
 
   const handleCloseToast = () => {
