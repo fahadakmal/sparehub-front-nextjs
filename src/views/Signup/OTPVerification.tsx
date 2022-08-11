@@ -1,8 +1,12 @@
 import React from 'react';
-import AuthContainer from '../../components/AuthContainer/AuthContainer';
-import Otp from '../../components/Otp';
-import { useAuth } from '../../auth/Auth';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Box } from '@mui/material';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import AuthContainer from '../../components/AuthContainer/AuthContainer';
+import { useAuth } from '../../auth/Auth';
+import Otp from '../../components/Otp';
+import styling from '../../stylesObjects/stylesObj';
 
 const OTPVerification = (props: any) => {
   const router = useRouter();
@@ -27,9 +31,17 @@ const OTPVerification = (props: any) => {
       }
     }
   };
+  const { backButton } = styling;
 
   return (
     <AuthContainer>
+      <Link href="/login" passHref>
+        <Box mt={3} sx={backButton}>
+          <a>
+            <ArrowBackOutlinedIcon fontSize="medium" />
+          </a>
+        </Box>
+      </Link>
       <Otp handleChange={handleChange} handleSubmit={handleSubmit} phoneNumber={phoneNumber} {...props} />
     </AuthContainer>
   );

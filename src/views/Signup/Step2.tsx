@@ -8,6 +8,7 @@ import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import Recaptcha from '../../components/Recaptcha';
 import Image from 'next/image';
 import { dotPass, tickpass } from '../../../public/images';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 
 const styling = {
   successMessage: {
@@ -56,6 +57,8 @@ const Step2 = ({
   const { errorMessage } = styling;
   const { strengthMsgs } = styling;
 
+  let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
+  let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
   return (
     <Grid columnSpacing={2} container>
       <Grid item sm={6} xs={12} pt={3}>
@@ -136,46 +139,30 @@ const Step2 = ({
         {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '}
       </Grid>
       <Grid item xs={12} pt={3}>
-        <Box mb={2} mt={3}>
-          <Grid container spacing={2}>
-            <Grid item xs={3} md={1}>
-              {passwordLength > 7 ? (
-                <Image src={tickpass} height={15} width={15} />
-              ) : (
-                <Image src={dotPass} height={10} width={10} />
-              )}
+        <Box mb={2} mt={1}>
+          <Grid container spacing={0}>
+            <Grid item xs={0.8} md={0.6}>
+              {passwordLength > 7 ? activeCheck : disabledCheck}
             </Grid>
-            <Grid item xs={9} md={11}>
+            <Grid item xs={11.2} md={11.4}>
               <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
             </Grid>
-            <Grid item xs={3} md={1}>
-              {isNumber ? (
-                <Image src={tickpass} height={15} width={15} />
-              ) : (
-                <Image src={dotPass} height={10} width={10} />
-              )}
+            <Grid item xs={0.8} md={0.6}>
+              {isNumber ? activeCheck : disabledCheck}
             </Grid>
-            <Grid item xs={9} md={11}>
+            <Grid item xs={11.2} md={11.4}>
               <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
             </Grid>
-            <Grid item xs={3} md={1}>
-              {isSpecialChar ? (
-                <Image src={tickpass} height={15} width={15} />
-              ) : (
-                <Image src={dotPass} height={10} width={10} />
-              )}
+            <Grid item xs={0.8} md={0.6}>
+              {isSpecialChar ? activeCheck : disabledCheck}
             </Grid>
-            <Grid item xs={9} md={11}>
+            <Grid item xs={11.2} md={11.4}>
               <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
             </Grid>
-            <Grid item xs={3} md={1}>
-              {isLowercase ? (
-                <Image src={tickpass} height={15} width={15} />
-              ) : (
-                <Image src={dotPass} height={10} width={10} />
-              )}
+            <Grid item xs={0.8} md={0.6}>
+              {isLowercase ? activeCheck : disabledCheck}
             </Grid>
-            <Grid item xs={9} md={11}>
+            <Grid item xs={11.2} md={11.4}>
               <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
             </Grid>
           </Grid>

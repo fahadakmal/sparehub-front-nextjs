@@ -11,7 +11,6 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 import { useAuth } from '../../auth/Auth';
-// import '../../App.css';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { useRouter } from 'next/router';
@@ -186,16 +185,12 @@ export default function Login({ translate }: any) {
                     }
                   />
                   <Typography component={'p'} variant="caption" display="block">
-                    <MuiLink
-                      href="emailForgotPassword"
-                      underline="hover"
-                      color="black"
-                      onClick={() => {
-                        router.push('./emailForgotPassword');
-                      }}
-                    >
-                      {translate('FORGOT_PASSWORD')}
-                    </MuiLink>
+                    <Link href="emailForgotPassword" passHref>
+                      {/* <Link href="phoneForgotPassword" passHref> */}
+                      <MuiLink underline="hover" color="black">
+                        {translate('FORGOT_PASSWORD')}
+                      </MuiLink>
+                    </Link>
                   </Typography>
                 </Box>
               </Grid>
@@ -251,16 +246,11 @@ export default function Login({ translate }: any) {
                 }
               />
               <Typography component={'p'} variant="caption" display="block">
-                <MuiLink
-                  href="phoneForgotPassword"
-                  underline="hover"
-                  color="black"
-                  onClick={() => {
-                    router.push('/phoneForgotPassword');
-                  }}
-                >
-                  {translate('FORGOT_PASSWORD')}
-                </MuiLink>
+                <Link href="phoneForgotPassword" passHref>
+                  <MuiLink underline="hover" color="black">
+                    {translate('FORGOT_PASSWORD')}
+                  </MuiLink>
+                </Link>
               </Typography>
             </Box>
           </TabPanel>

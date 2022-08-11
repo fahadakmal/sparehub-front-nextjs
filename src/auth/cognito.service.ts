@@ -1,9 +1,4 @@
-import {
-  CognitoUserAttribute,
-  CognitoUserPool,
-  AuthenticationDetails,
-  CognitoUser,
-} from 'amazon-cognito-identity-js';
+import { CognitoUserAttribute, CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 
 const userPoolId = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID;
 const clientId = process.env.NEXT_PUBLIC_COGNITO_APP_CLIENT_ID;
@@ -104,11 +99,7 @@ export async function signInWithEmail(username: string, password: string) {
   });
 }
 
-export async function signUpUserWithEmail(
-  username: string,
-  email: string,
-  password: string
-) {
+export async function signUpUserWithEmail(username: string, email: string, password: string) {
   return new Promise(function (resolve, reject) {
     const attributeList = [
       new CognitoUserAttribute({
@@ -129,12 +120,7 @@ export async function signUpUserWithEmail(
   });
 }
 
-export async function signUpUserWithPhone(
-  name: string,
-  email: string,
-  phoneNumber: string,
-  password: string
-) {
+export async function signUpUserWithPhone(name: string, email: string, phoneNumber: string, password: string) {
   return new Promise(function (resolve, reject) {
     const attributeList = [
       new CognitoUserAttribute({
@@ -151,19 +137,13 @@ export async function signUpUserWithPhone(
       }),
     ];
 
-    userPool.signUp(
-      phoneNumber,
-      password,
-      attributeList,
-      [],
-      function (err, res) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res);
-        }
+    userPool.signUp(phoneNumber, password, attributeList, [], function (err, res) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(res);
       }
-    );
+    });
   }).catch((err) => {
     throw err;
   });
@@ -233,59 +213,51 @@ export async function signInWithPhone(phoneNumber: string, password: string) {
 }
 
 export function forgotPassword(email: any) {
-  return new Promise (function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const userData = {
-        Username: email,
-        Pool: userPool,
+      Username: email,
+      Pool: userPool,
     };
     const cognitoUser = new CognitoUser(userData);
     // call forgotPassword on cognitoUser
     cognitoUser.forgotPassword({
-      onSuccess: function(result) {
+      onSuccess: function (result) {
         console.log('forgotPassword.RESULT: ' + JSON.stringify(result));
-        resolve(result)
+        resolve(result);
       },
-      onFailure: function(err) {
+      onFailure: function (err) {
         console.log('forgotPassword.ERROR: ' + err);
         reject(err);
-      }
+      },
     });
-    // inputVerificationCode() { // this is optional, and likely won't be implemented as in AWS's example (i.e, prompt to get info)
-      //     var verificationCode = prompt('Please input verification code ', '');
-      //     var newPassword = prompt('Enter new password ', '');
-      //     cognitoUser.confirmPassword(verificationCode, newPassword, this);
-      // }
-      try {
-        if (cognitoUser) {
-            // The user already exists
-        }
-      } catch (adminGetUserError: any) {
-        if (adminGetUserError.name && adminGetUserError.name === "UserNotFoundException") {
-          console.log('user does not exist')  
-          // The user does not exist
-        } else {
-            
-            throw (adminGetUserError);
-        }
-    } 
-         
+    try {
+      if (cognitoUser) {
+        // The user already exists
+      }
+    } catch (adminGetUserError: any) {
+      if (adminGetUserError.name && adminGetUserError.name === 'UserNotFoundException') {
+        console.log('user does not exist');
+      } else {
+        throw adminGetUserError;
+      }
+    }
   });
 }
 
 // confirmPassword can be separately built out as follows...
 export function confirmPassword(username: string, verificationCode: string, newPassword: string) {
   const cognitoUser = new CognitoUser({
-      Username: username,
-      Pool: userPool
+    Username: username,
+    Pool: userPool,
   });
   return new Promise<void>((resolve, reject) => {
-      cognitoUser.confirmPassword(verificationCode, newPassword, {
-          onFailure(err) {
-              reject(err);
-          },
-          onSuccess() {
-              resolve();
-          },
-      });
+    cognitoUser.confirmPassword(verificationCode, newPassword, {
+      onFailure(err) {
+        reject(err);
+      },
+      onSuccess() {
+        resolve();
+      },
+    });
   });
 }

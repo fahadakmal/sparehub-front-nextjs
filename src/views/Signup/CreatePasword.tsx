@@ -1,45 +1,18 @@
+import * as React from 'react';
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
-import * as React from 'react';
-import AuthContainer from '../../components/AuthContainer/AuthContainer';
-import { PrimaryButton } from '../../components/Button/PrimaryButton';
-import PrimaryInput from '../../components/Input/PrimaryInput';
-import { useAuth } from '../../auth/Auth';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import AuthContainer from '../../components/AuthContainer/AuthContainer';
+import { useAuth } from '../../auth/Auth';
+import { PrimaryButton } from '../../components/Button/PrimaryButton';
+import PrimaryInput from '../../components/Input/PrimaryInput';
 import { dotPass, tickpass } from '../../../public/images';
-// import '../../App.css';
-
-const styling = {
-  successMessage: {
-    color: 'green',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  errorMessage: {
-    color: '#E2282C',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  strengthMsgs: {
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: '14px',
-    lineHeight: '28px',
-    letterSpacing: '0.24px',
-    color: '#000000',
-  },
-};
+import styling from '../../stylesObjects/stylesObj';
 
 export default function CreatePassword({ translate }: any) {
-  const { successMessage } = styling;
-  const { errorMessage } = styling;
-  const { strengthMsgs } = styling;
-
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const router = useRouter();
 
   const [user, setUser] = React.useState({
     password: '',
@@ -53,6 +26,10 @@ export default function CreatePassword({ translate }: any) {
   const [isLowercase, setIsLowercase] = React.useState(false);
   const [showErrorMessage, setShowErrorMessage] = React.useState(false);
   const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+
+  const router = useRouter();
+
+  const { successMessage, errorMessage, strengthMsgs } = styling;
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });

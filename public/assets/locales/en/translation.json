@@ -6,6 +6,7 @@
   "LOGIN": "Login",
   "SIGN_UP_MESSAGE": "Don't have an account? Sign Up",
   "RESET_PASSWORD": "Reset Password",
+  "RESET_PASSWORD_MSG": "please create a new strong password",
   "REMEMBER_PASSWORD": "Remember your password?",
   "FORGOT_PASSWORD_MESSAGE": "Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.",
   "FIRST_NAME": "First Name",
@@ -61,5 +62,6 @@
   "EIGHT_CHARS": "Minimum length 8 characters",
   "CONTAIN_NUMBER": "Contains at least 1 number",
   "CONTAIN_SPECIAL_CHARACTER": "Contains at least 1 special character",
-  "CONTAIN_LOWERCASE_LETTER": "Contains at least 1 lowercase letter"
+  "CONTAIN_LOWERCASE_LETTER": "Contains at least 1 lowercase letter",
+  "PASSWORD_ERROR_MSG": "Passwords did not match"
 }
