@@ -3,18 +3,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Box, Grid, Typography } from '@mui/material';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import { Email } from '@mui/icons-material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
-import { backArrow } from '../../../public/icons';
 import PrimaryInput from '../../components/Input/PrimaryInput';
-import { Email } from '@mui/icons-material';
 import { useAuth } from '../../auth/Auth';
 import styling from '../../stylesObjects/stylesObj';
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const EmailForgotPassword = ({ translate }: any) => {
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [forgetPassType, setForgetPassType] = useState('email');
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState('');
@@ -22,7 +23,12 @@ const EmailForgotPassword = ({ translate }: any) => {
   const router = useRouter();
   const auth: any = useAuth();
 
-  const { successMessage, errorMessage, strengthMsgs, backButton } = styling;
+  const { backButton } = styling;
+
+  const phoneChangeHandler = (event: any) => {
+    const value = event.target.value.replace(/\D/g, '');
+    setPhoneNumber(value);
+  };
 
   const emailChangeHandler = (event: any) => {
     const emailRegex = /\S+@\S+\.\S+/;
@@ -41,7 +47,6 @@ const EmailForgotPassword = ({ translate }: any) => {
   const handleForgotPassword = async () => {
     const userEmail = email;
     if (forgetPassType == 'email') {
-      // const { email, password, confirmPassword } = user;
       if (!email) {
         return;
       }
@@ -62,23 +67,12 @@ const EmailForgotPassword = ({ translate }: any) => {
     } else {
       console.log('abc');
     }
-    // else {
-    //   try {
-    //     console.log(user.phoneNumber, user.password);
-    //     const res = await auth.signUpWithPhone(user.firstName, user.email, phoneWithDialCode, user.password);
-    //     if (res) {
-    //       router.push({
-    //         pathname: '/otpVerification',
-    //         query: { phoneNumber: `${user.dialCode}${user.phoneNumber.trim()}` },
-    //       });
-    //     }
-    //   } catch (err) {
-    //     if (err instanceof Error) {
-    //       window.alert(err.message);
-    //     }
-    //   }
-    // }
   };
+
+  const loginTP = router.query;
+  const loginTP1 = router.query;
+  console.log(loginTP.name, 'loginType');
+  console.log(loginTP1, 'loginType1');
 
   return (
     <AuthContainer>
@@ -99,33 +93,41 @@ const EmailForgotPassword = ({ translate }: any) => {
               lineHeight: '31px',
             }}
           >
-            {translate('FORGOT_PASSWORD')}
+            {translate(LANG_STRINGS.FORGOT_PASSWORD)}
           </Typography>
-          <Typography>{translate('FORGOT_PASSWORD_EMAIL_ENTER')}</Typography>
+          <Typography>{translate(LANG_STRINGS.FORGOT_PASSWORD_EMAIL_ENTER)}</Typography>
         </Grid>
         <Grid item pt={3} pb={5} xs={12}>
           <Grid item pt={3} pb={5} xs={12}>
-            <PrimaryInput
-              label={translate('EMAIL')}
-              type={'text'}
-              name="email"
-              fullWidth
-              value={email}
-              placeholder={translate('EMAIL_ADDRESS')}
-              startAdornment={<Email color="disabled" />}
-              onChange={(event: any) => emailChangeHandler(event)}
-              required={true}
-            />
-            {isValid == true ? (
-              <Typography sx={successMessage}>{message}</Typography>
-            ) : (
-              <Typography sx={errorMessage}>{message}</Typography>
+            {loginTP.name == 'email' && (
+              <PrimaryInput
+                label={translate('EMAIL')}
+                type={'text'}
+                name="email"
+                fullWidth
+                value={email}
+                placeholder={translate('EMAIL_ADDRESS')}
+                startAdornment={<Email color="disabled" />}
+                onChange={(event: any) => emailChangeHandler(event)}
+                required={true}
+                helperText={isValid == true ? '' : translate('Must include "@" and ".com"')}
+              />
+            )}
+            {loginTP.name == 'phone' && (
+              <PhoneInput
+                label={translate('PHONE_NUMBER')}
+                type={'text'}
+                name="phoneNumber"
+                value={phoneNumber}
+                fullWidth
+                placeholder={translate('PHONE_NUMBER')}
+                startAdornment={<Typography>{+92}</Typography>}
+                onChange={phoneChangeHandler}
+              />
             )}
           </Grid>
-          {/* {step === 1 && (
-                <EmailStep1 />
-              )} */}
         </Grid>
+
         <Grid item xs={12} sx={{ marginTop: 2 }}>
           <PrimaryButton onClick={handleForgotPassword} variant="contained" fullWidth sx={{ marginTop: '8rem' }}>
             {translate('CONTINUE')}
