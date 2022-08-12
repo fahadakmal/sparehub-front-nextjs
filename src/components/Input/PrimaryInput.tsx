@@ -13,7 +13,8 @@ export default function PrimaryInput({
   onChange,
   value,
   required = false,
-  helperText
+  helperText,
+  error,
 }: any) {
   return (
     <TextField

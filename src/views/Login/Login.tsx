@@ -130,6 +130,7 @@ export default function Login({ translate }: any) {
       }
     }
   };
+  console.log(loginType);
 
   return (
     <AuthContainer>
@@ -195,12 +196,17 @@ export default function Login({ translate }: any) {
                     }
                   />
                   <Typography component={'p'} variant="caption" display="block">
-                    <Link href="emailForgotPassword" passHref>
-                      {/* <Link href="phoneForgotPassword" passHref> */}
+                    {/* <Link href="emailForgotPassword" passHref> */}
+                    {/* <button onClick={() => {router.push({pathname: 'emailForgotPassword', query: {name: loginType}})}}>{translate('FORGOT_PASSWORD')}</button> */}
+                    <Box
+                      onClick={() => {
+                        router.replace({ pathname: 'emailForgotPassword', query: { name: loginType } });
+                      }}
+                    >
                       <MuiLink underline="hover" color="black">
                         {translate('FORGOT_PASSWORD')}
                       </MuiLink>
-                    </Link>
+                    </Box>
                   </Typography>
                 </Box>
               </Grid>
@@ -256,11 +262,25 @@ export default function Login({ translate }: any) {
                 }
               />
               <Typography component={'p'} variant="caption" display="block">
-                <Link href="phoneForgotPassword" passHref>
+                {/* <Link href="phoneForgotPassword" passHref> */}
+                {/* <Link
+                  href={{
+                    pathname: 'emailForgotPassword',
+                    query: loginType,
+                  }}
+                  as="phoneForgotPassword"
+                  passHref
+                > */}
+                <Box
+                  onClick={() => {
+                    router.replace({ pathname: 'emailForgotPassword', query: { name: loginType } });
+                  }}
+                >
                   <MuiLink underline="hover" color="black">
                     {translate('FORGOT_PASSWORD')}
                   </MuiLink>
-                </Link>
+                </Box>
+                {/* </Link> */}
               </Typography>
             </Box>
           </TabPanel>

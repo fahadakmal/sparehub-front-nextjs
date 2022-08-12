@@ -3,11 +3,11 @@ import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { useAuth } from '../../auth/Auth';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
-import { dotPass, tickpass } from '../../../public/images';
 import styling from '../../stylesObjects/stylesObj';
 
 export default function CreatePassword({ translate }: any) {
@@ -115,6 +115,9 @@ export default function CreatePassword({ translate }: any) {
     }
   }, [user.confirmPassword]);
 
+  let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
+  let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
+
   return (
     <AuthContainer>
       <Grid xs={12} item textAlign={'center'}>
@@ -160,41 +163,25 @@ export default function CreatePassword({ translate }: any) {
           <Box mb={2} mt={3}>
             <Grid container spacing={2}>
               <Grid item xs={3} md={1}>
-                {passwordLength > 7 ? (
-                  <Image src={tickpass} height={15} width={15} />
-                ) : (
-                  <Image src={dotPass} height={10} width={10} />
-                )}
+                {passwordLength > 7 ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={9} md={11}>
                 <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
               </Grid>
               <Grid item xs={3} md={1}>
-                {isNumber ? (
-                  <Image src={tickpass} height={15} width={15} />
-                ) : (
-                  <Image src={dotPass} height={10} width={10} />
-                )}
+                {isNumber ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={9} md={11}>
                 <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
               </Grid>
               <Grid item xs={3} md={1}>
-                {isSpecialChar ? (
-                  <Image src={tickpass} height={15} width={15} />
-                ) : (
-                  <Image src={dotPass} height={10} width={10} />
-                )}
+                {isSpecialChar ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={9} md={11}>
                 <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
               </Grid>
               <Grid item xs={3} md={1}>
-                {isLowercase ? (
-                  <Image src={tickpass} height={15} width={15} />
-                ) : (
-                  <Image src={dotPass} height={10} width={10} />
-                )}
+                {isLowercase ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={9} md={11}>
                 <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>

@@ -25,16 +25,16 @@ const styles = {
     },
   },
   successMessage: {
-    color: "green",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: 'green',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
-  errorMessage: {
-    color: "#E2282C",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+  errorInputMessage: {
+    color: '#E2282C',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   strengthMsgs: {
     fontFamily: 'Mulish-Medium',
@@ -44,7 +44,7 @@ const styles = {
     lineHeight: '28px',
     letterSpacing: '0.24px',
     color: '#000000',
-  }
+  },
 };
 
 const initialState = {
@@ -73,10 +73,10 @@ export default function Signup({ translate }: any) {
   const [signUpRequest, setSignUpRequest] = React.useState(false);
   const [step, setStep] = React.useState(1);
   const [isValid, setIsValid] = React.useState(false);
-  const [message, setMessage] = React.useState("");
+  const [message, setMessage] = React.useState('');
 
   const { successMessage } = styles;
-  const { errorMessage } = styles;
+  const { errorInputMessage } = styles;
   const { strengthMsgs } = styles;
 
   const handleChange = (e: any) => {
@@ -93,10 +93,10 @@ export default function Signup({ translate }: any) {
 
     if (emailRegex.test(user.email)) {
       setIsValid(true);
-      setMessage("Your email looks good!");
+      setMessage('Your email looks good!');
     } else {
       setIsValid(false);
-      setMessage("Must include `@` and `.com`");
+      setMessage('Must include `@` and `.com`');
     }
   };
   const handleCountrySelect = (code: string) => {
@@ -140,24 +140,24 @@ export default function Signup({ translate }: any) {
   const handleSignUp = async () => {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
     if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
-      window.alert('Please enter complete information')
+      window.alert('Please enter complete information');
       return;
     }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
 
     try {
-      const userFoundInLocalDb= await apiPost('/auth/preSignUp',{email,phoneNo:phoneWithDialCode},'')
-      if(userFoundInLocalDb){
+      const userFoundInLocalDb = await apiPost('/auth/preSignUp', { email, phoneNo: phoneWithDialCode }, '');
+      if (userFoundInLocalDb) {
         window.alert('User with given email or phone no already exist');
         return;
       }
     } catch (error) {
-      if(error.statusCode==400){
+      if (error.statusCode == 400) {
         window.alert('Please enter correct data');
         return;
       }
     }
-    
+
     setSignUpRequest(true);
     if (signupType == 'email') {
       if (!(email && password && confirmPassword && password === confirmPassword)) {
@@ -167,7 +167,7 @@ export default function Signup({ translate }: any) {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
           const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
-          dispatch(registrationRequest(data));          
+          dispatch(registrationRequest(data));
           router.push({
             pathname: '/otpVerification',
             query: { email: `${user.email}` },
@@ -213,12 +213,12 @@ export default function Signup({ translate }: any) {
   const [isLowercase, setIsLowercase] = React.useState(false);
 
   const changeHandler = (e: any) => {
-      e.preventDefault();
+    e.preventDefault();
     //  setUser({ ...user, [prop]: event.target.value });
-      setUser({ ...user, [e.target.name]: e.target.value })
-     checkSpecialCharacterHandler(e);
-   };
-   const checkSpecialCharacterHandler = (event: any) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    checkSpecialCharacterHandler(e);
+  };
+  const checkSpecialCharacterHandler = (event: any) => {
     const mypass = event.target.value;
     const numbers = /[0-9]/g;
     const uppercaseLetters = /[A-Z]/g;
@@ -227,7 +227,7 @@ export default function Signup({ translate }: any) {
 
     if (numbers.test(mypass)) {
       setIsNumber(true);
-      console.log("abc")
+      console.log('abc');
     } else {
       setIsNumber(false);
     }
@@ -247,25 +247,29 @@ export default function Signup({ translate }: any) {
       setIsLowercase(false);
     }
   };
-  // confirm password 
+  // confirm password
 
-const [showErrorMessage, setShowErrorMessage] = React.useState(false);
-const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
-  
-const handleCPassword = (event: any) => {
-  setUser({...user,[event.target.name]: event.target.value})
-  setIsCPasswordDirty(true);
-}
-React.useEffect(()=> {
-  if (isCPasswordDirty) {
-    if(user.password === user.confirmPassword) {
-      setShowErrorMessage(false);
-    } else {
-      setShowErrorMessage(true);
+  const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+  const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+
+  const handleCPassword = (event: any) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+    setIsCPasswordDirty(true);
+  };
+  React.useEffect(() => {
+    if (isCPasswordDirty) {
+      if (user.password === user.confirmPassword) {
+        setShowErrorMessage(false);
+      } else {
+        setShowErrorMessage(true);
+      }
     }
-  }
-}, [user.confirmPassword])
+  }, [user.confirmPassword]);
 
+  const handleBack = () => {
+    setStep(step - 1);
+    // clearUserState();
+  };
 
   return (
     <AuthContainer>

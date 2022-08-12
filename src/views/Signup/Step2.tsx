@@ -1,35 +1,13 @@
 import * as React from 'react';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
-// import '../../App.css';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import Recaptcha from '../../components/Recaptcha';
 import Image from 'next/image';
-import { dotPass, tickpass } from '../../../public/images';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-
-const styling = {
-  successMessage: {
-    color: 'green',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  errorMessage: {
-    color: '#E2282C',
-    fontSize: '14px',
-    fontWeight: '600',
-  },
-  strengthMsgs: {
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: '14px',
-    lineHeight: '28px',
-    letterSpacing: '0.24px',
-    color: '#000000',
-  },
-};
+import styling from '../../stylesObjects/stylesObj';
 
 const Step2 = ({
   translate,
@@ -53,9 +31,7 @@ const Step2 = ({
   showErrorMessage,
   handleCPassword,
 }: any) => {
-  const { successMessage } = styling;
-  const { errorMessage } = styling;
-  const { strengthMsgs } = styling;
+  const { errorMessage, strengthMsgs } = styling;
 
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
