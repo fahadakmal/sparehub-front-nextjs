@@ -23,7 +23,7 @@ import i18next from 'i18next';
 import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
-import { useRouter } from 'next/router';
+
 const useStyles = {
   toggleBtn: {
     borderRadius: 2,
@@ -117,7 +117,7 @@ const listitems = [
 ];
 
 export default function DashboardContainer(props: any) {
-  const { window, children, translate } = props;
+  const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
@@ -129,7 +129,6 @@ export default function DashboardContainer(props: any) {
     setMobileOpen(!mobileOpen);
   };
 
-  const router=useRouter();
   const drawer = (
     <Box
       style={{
@@ -137,6 +136,8 @@ export default function DashboardContainer(props: any) {
         flexDirection: 'column',
         justifyContent: 'center',
       }}
+      component="div"
+      dir={i18n.dir()}
     >
       <div style={{ margin: '12px 0px 0px 15px', paddingTop: '10px' }}>
         <Image src={WhiteLogo} />
@@ -145,15 +146,7 @@ export default function DashboardContainer(props: any) {
         {listitems.map((item, index) => (
           <ListItem
             button
-            onClick={(event) => {
-              setSelectedIndex(index);
-              if(item.key === 'setting'){
-              router.push("/sellerDetail")
-              }
-              else{
-              }
-              // handleListItemClick(event, index)
-            }}
+            onClick={(event) => handleListItemClick(event, index)}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding
@@ -163,6 +156,7 @@ export default function DashboardContainer(props: any) {
                 {item.icon}
               </ListItemIcon>
               <ListItemText
+                sx={{ display: 'flex', alignItems: 'flex-start' }}
                 primaryTypographyProps={{ color: selectedIndex === item.item ? '#fff' : '#85869B' }}
                 primary={translate(item.label)}
               />
@@ -176,13 +170,15 @@ export default function DashboardContainer(props: any) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box component={'div'} dir={i18n.dir()} sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
+        dir={i18n.dir()}
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          ml: { sm: i18n.language !== 'ar' ? `${drawerWidth}px` : '0x' },
+          mr: { sm: i18n.language === 'ar' ? `${drawerWidth}px` : '0x' },
           backgroundColor: '#fff !important',
         }}
         elevation={0}
@@ -191,6 +187,8 @@ export default function DashboardContainer(props: any) {
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
+          dir={i18n.dir()}
+          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -207,6 +205,7 @@ export default function DashboardContainer(props: any) {
         </Drawer>
         <Drawer
           variant="permanent"
+          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#10113A' },
