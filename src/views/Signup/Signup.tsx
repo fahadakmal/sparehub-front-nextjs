@@ -24,16 +24,16 @@ const styles = {
     },
   },
   successMessage: {
-    color: "green",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+    color: 'green',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
-  errorMessage: {
-    color: "#E2282C",
-    fontFamily: "Mulish-Light",
-    fontSize: "14px",
-    fontWeight: "600",
+  errorInputMessage: {
+    color: '#E2282C',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
   },
   strengthMsgs: {
     fontFamily: 'Mulish-Medium',
@@ -43,7 +43,7 @@ const styles = {
     lineHeight: '28px',
     letterSpacing: '0.24px',
     color: '#000000',
-  }
+  },
 };
 
 const initialState = {
@@ -235,12 +235,12 @@ export default function Signup({ translate }: any) {
   const [isLowercase, setIsLowercase] = React.useState(false);
 
   const changeHandler = (e: any) => {
-      e.preventDefault();
+    e.preventDefault();
     //  setUser({ ...user, [prop]: event.target.value });
-      setUser({ ...user, [e.target.name]: e.target.value })
-     checkSpecialCharacterHandler(e);
-   };
-   const checkSpecialCharacterHandler = (event: any) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    checkSpecialCharacterHandler(e);
+  };
+  const checkSpecialCharacterHandler = (event: any) => {
     const mypass = event.target.value;
     const numbers = /[0-9]/g;
     const uppercaseLetters = /[A-Z]/g;
@@ -249,7 +249,7 @@ export default function Signup({ translate }: any) {
 
     if (numbers.test(mypass)) {
       setIsNumber(true);
-      console.log("abc")
+      console.log('abc');
     } else {
       setIsNumber(false);
     }
@@ -269,7 +269,7 @@ export default function Signup({ translate }: any) {
       setIsLowercase(false);
     }
   };
-  // confirm password 
+  // confirm password
 
 const [showErrorMessage, setShowErrorMessage] = React.useState(false);
 const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);

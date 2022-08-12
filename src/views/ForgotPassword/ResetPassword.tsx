@@ -134,9 +134,9 @@ const ResetPassword = ({ translate }: any) => {
       <Box mt={4} mb={6}>
         <Grid xs={12} item textAlign={'center'}>
           <Typography mb={2} sx={authContainerTitle}>
-            {translate('RESET_PASSWORD')}
+            {translate(LANG_STRINGS.RESET_PASSWORD)}
           </Typography>
-          <Typography component={'p'}>{translate('RESET_PASSWORD_MSG')}</Typography>
+          <Typography component={'p'}>{translate(LANG_STRINGS.RESET_PASSWORD_MSG)}</Typography>
         </Grid>
       </Box>
       <Box>
@@ -146,7 +146,7 @@ const ResetPassword = ({ translate }: any) => {
             type={showPassword ? 'text' : 'password'}
             name="password"
             fullWidth
-            placeholder={translate('ENTER_PASSWORD')}
+            placeholder={translate(LANG_STRINGS.ENTER_PASSWORD)}
             startAdornment={<Lock color="disabled" />}
             endAdornment={showPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowPassword}
@@ -165,12 +165,10 @@ const ResetPassword = ({ translate }: any) => {
             startAdornment={<Lock color="disabled" />}
             endAdornment={showConfirmPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowConfirmPassword}
-            // onChange={handleChange}
             value={user.confirmPassword}
             onChange={handleCPassword}
             helperText={showErrorMessage ? translate('PASSWORD_ERROR_MSG') : ''}
           />
-          {/* {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '} */}
         </Grid>
         <Grid item xs={12} pt={3}>
           <Box mb={2} mt={1}>
@@ -179,25 +177,25 @@ const ResetPassword = ({ translate }: any) => {
                 {passwordLength > 7 ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
+                <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.EIGHT_CHARS)}</Typography>
               </Grid>
               <Grid item xs={0.8} md={0.6}>
                 {isNumber ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
+                <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_NUMBER)}</Typography>
               </Grid>
               <Grid item xs={0.8} md={0.6}>
                 {isSpecialChar ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
+                <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_SPECIAL_CHARACTER)}</Typography>
               </Grid>
               <Grid item xs={0.8} md={0.6}>
                 {isLowercase ? activeCheck : disabledCheck}
               </Grid>
               <Grid item xs={11.2} md={11.4}>
-                <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
+                <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_LOWERCASE_LETTER)}</Typography>
               </Grid>
             </Grid>
           </Box>

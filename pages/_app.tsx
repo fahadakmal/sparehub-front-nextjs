@@ -1,12 +1,12 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
-import 'bootstrap/dist/css/bootstrap.css';
-import '@fontsource/mulish';
-import store from '../src/redux/store';
-import { Provider } from 'react-redux';
-import '../src/config/i18next';
 import React from 'react';
 import Head from 'next/head';
+import { Provider } from 'react-redux';
+import type { AppProps } from 'next/app';
+import store from '../src/redux/store';
+import '../src/config/i18next';
+import 'bootstrap/dist/css/bootstrap.css';
+import '@fontsource/mulish';
+import '../styles/globals.css';
 
 function App({ Component, pageProps }: AppProps) {
   return (
