@@ -1,19 +1,18 @@
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, Tab, Tabs, Typography, CircularProgress, LinearProgress } from '@mui/material';
-import Image from 'next/image';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { TabContext, TabPanel } from '@mui/lab';
+import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
-import Step1 from './Step1';
-import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
-import { useRouter } from 'next/router';
-import { BackArrow } from '../../../public/icons';
-import { validateEmail } from '../../utils';
 import { registrationRequest } from '../../redux/slices/authSlice';
 import { apiPost } from '../../services';
+import { validateEmail } from '../../utils';
+import Step1 from './Step1';
+import Step2 from './Step2';
+import ToastAlert from '../../components/Toast/ToastAlert';
 
 const styles = {
   tab: {
@@ -39,19 +38,23 @@ const initialState = {
 
 export default function Signup({ translate }: any) {
   const { tab } = styles;
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const dispatch = useDispatch();
   const auth: any = useAuth();
   const router = useRouter();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [emailValid, setEmailValid] = React.useState(false);
-
-  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
-  const [user, setUser] = React.useState(initialState);
-  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
-  const [signupType, setSignupType] = React.useState('email');
-  const [signUpRequest, setSignUpRequest] = React.useState(false);
-  const [step, setStep] = React.useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [user, setUser] = useState(initialState);
+  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const [signupType, setSignupType] = useState('email');
+  const [signUpRequest, setSignUpRequest] = useState(false);
+  const [step, setStep] = useState(1);
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
 
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
@@ -84,7 +87,6 @@ export default function Signup({ translate }: any) {
 
   const handleVerifyRecaptcha = (token: any) => {
     const isValid = handleValidation();
-    //TODO:Need to handle recaptcha token
     if (isValid) {
       setRecaptchaStatusVerified(true);
     } else {
@@ -101,7 +103,7 @@ export default function Signup({ translate }: any) {
   const handleSignUp = async () => {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
     if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
-      window.alert('Please enter complete information');
+      setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
       return;
     }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
@@ -109,12 +111,22 @@ export default function Signup({ translate }: any) {
     try {
       const userFoundInLocalDb = await apiPost('/auth/preSignUp', { email, phoneNo: phoneWithDialCode }, '');
       if (userFoundInLocalDb) {
-        window.alert('User with given email or phone no already exist');
+        setToast({
+          ...toast,
+          message: 'User with given email or phone already exist',
+          appearence: true,
+          type: 'error',
+        });
         return;
       }
     } catch (error: any) {
       if (error.statusCode == 400) {
-        window.alert('Please enter correct data');
+        setToast({
+          ...toast,
+          message: 'Please enter correct data',
+          appearence: true,
+          type: 'error',
+        });
         return;
       }
     }
@@ -122,6 +134,7 @@ export default function Signup({ translate }: any) {
     setSignUpRequest(true);
     if (signupType == 'email') {
       if (!(email && password && confirmPassword && password === confirmPassword)) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
       try {
@@ -136,7 +149,12 @@ export default function Signup({ translate }: any) {
         }
       } catch (err) {
         if (err instanceof Error) {
-          window.alert(err.message);
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
         }
       }
     } else {
@@ -152,7 +170,12 @@ export default function Signup({ translate }: any) {
         }
       } catch (err) {
         if (err instanceof Error) {
-          window.alert(err.message);
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
         }
       }
     }
@@ -169,7 +192,10 @@ export default function Signup({ translate }: any) {
 
   const handleBack = () => {
     setStep(step - 1);
-    // clearUserState();
+  };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
   };
 
   return (
@@ -285,6 +311,12 @@ export default function Signup({ translate }: any) {
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
         </Typography>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );

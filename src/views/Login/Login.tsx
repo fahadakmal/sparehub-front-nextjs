@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
@@ -14,6 +14,7 @@ import { useAuth } from '../../auth/Auth';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { validateEmail } from '../../utils';
+import ToastAlert from '../../components/Toast/ToastAlert';
 
 const styles = {
   tab: {
@@ -29,11 +30,11 @@ const styles = {
 export default function Login({ translate }: any) {
   const { tab } = styles;
   const router = useRouter();
-  const [loginType, setLoginType] = React.useState('email');
+  const [loginType, setLoginType] = useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
-  const [emailValid, setEmailValid] = React.useState(false);
+  const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -41,6 +42,12 @@ export default function Login({ translate }: any) {
     country: 'SA',
     dialCode: '+966',
   });
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
+
   const auth: any = useAuth();
 
   const handleChange = (e: any) => {
@@ -86,49 +93,46 @@ export default function Login({ translate }: any) {
     }
   };
 
-  const redirectDashboard = () => {
-    router.push('/');
-  };
-
   const handleLogin = async () => {
+    const isValid = handleValidation();
+
     if (loginType == 'email') {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
       const { email, password } = user;
       try {
-        await auth.signInWithEmail(email, password);
-        redirectDashboard();
+        const res = await auth.signInWithEmail(email, password);
       } catch (err: any) {
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     } else {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
       const { password, dialCode, phoneNumber } = user;
       const phoneWithDialCode = dialCode + phoneNumber.trim();
       try {
         const res = await auth.signInWithPhone(phoneWithDialCode, password);
-        console.log('cognito res', res);
-
-        // redirectDashboard();
       } catch (err: any) {
         console.log('aws response rror', err);
-
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     }
+  };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
   };
 
   return (
@@ -287,10 +291,7 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          {/* <Link href="/sellerDetail">
-          {translate('DONT_HAVE_ACCOUNT')}{' '}
-          </Link> */}
-          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
+          <Link style={{ textDecoration: 'none !important' }} href="/signup" passHref>
             <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           </Link>
           <b>
@@ -301,6 +302,12 @@ export default function Login({ translate }: any) {
             </Link>
           </b>
         </Typography>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );

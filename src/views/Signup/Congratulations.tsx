@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import { useRouter } from 'next/router';
+import ToastAlert from '../../components/Toast/ToastAlert';
 
 const useStyles = {
   root: {
@@ -21,9 +22,24 @@ const useStyles = {
 const Congratulations = ({ translate }: any) => {
   const { root } = useStyles;
   const router = useRouter();
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
+
+  useEffect(() => {
+    setToast({ ...toast, message: 'User has been verified!', appearence: true, type: 'success' });
+  });
+
   const handleNavigate = () => {
     router.push('/');
   };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
   return (
     <AuthContainer>
       <Grid item sx={root}>
@@ -36,6 +52,12 @@ const Congratulations = ({ translate }: any) => {
         <PrimaryButton onClick={handleNavigate} fullWidth>
           {translate('TAKE_ME_LOGIN')}
         </PrimaryButton>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );

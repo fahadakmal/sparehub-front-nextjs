@@ -165,6 +165,10 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
+  async function signOut() {
+    cognito.logout();
+  }
+
   const state: IAuth = {
     authStatus,
     sessionInfo,
@@ -175,6 +179,7 @@ export const AuthProvider = ({ children }: Props) => {
     otpConfirmation,
     resendOtp,
     signInWithPhone,
+    signOut,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
