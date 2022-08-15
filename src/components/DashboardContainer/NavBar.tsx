@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Avatar, Box, Grid, IconButton, Tab, Tabs, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import i18next from 'i18next';
 import LANGUAGES from '../../enums';
 import SeachInput from '../SearchInput/SearchInput';
+import { useAuth } from '../../auth/Auth';
 
 const styles = {
   navbarContainer: {
@@ -52,8 +54,9 @@ const styles = {
 };
 
 export default function NavBar(props: any) {
+  const auth: any = useAuth();
+  const router = useRouter();
   const { handleDrawerToggle, translate } = props;
-
   const { navbarContainer, tabs, tab, userProfileBox } = styles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
@@ -64,6 +67,10 @@ export default function NavBar(props: any) {
 
   onchange = () => {
     console.log('onchange');
+  };
+
+  const handleLogout = () => {
+    auth.signOut();
   };
 
   return (
@@ -95,7 +102,7 @@ export default function NavBar(props: any) {
                 <Tab sx={tab} value="en" label={LANGUAGES.eng} />
                 <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
               </Tabs>
-              <Box sx={userProfileBox}>
+              <Box onClick={handleLogout} sx={userProfileBox}>
                 <Avatar alt="Ted talk" src="https://picsum.photos/200/300" />
                 <Grid container alignItems="center" direction="column">
                   <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
