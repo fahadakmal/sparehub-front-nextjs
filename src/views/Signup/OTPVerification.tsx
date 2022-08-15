@@ -42,7 +42,7 @@ const OTPVerification = (props: any) => {
 
   const resendOtp = async () => {
     try {
-      const res = await auth.resendOtp(phoneNumber);
+      const res = await auth.resendOtp(verificationType);
       if (res) {
         setToast({
           ...toast,
