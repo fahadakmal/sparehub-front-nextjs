@@ -97,6 +97,7 @@ const OTPVerification = (props: any) => {
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         phoneNumber={verificationType}
+        // email={verificationType}
         {...props}
         identity={identity}
         resendOtp={resendOtp}
