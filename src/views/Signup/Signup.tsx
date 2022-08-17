@@ -151,7 +151,7 @@ export default function Signup({ translate }: any) {
         window.alert('User with given email or phone no already exist');
         return;
       }
-    } catch (error) {
+    } catch (error: any) {
       if (error.statusCode == 400) {
         window.alert('Please enter correct data');
         return;
@@ -334,6 +334,7 @@ export default function Signup({ translate }: any) {
                   handleVerifyRecaptcha={handleVerifyRecaptcha}
                   handleSignUp={handleSignUp}
                   recaptchaStatusVerified={recaptchaStatusVerified}
+                  emailValid={emailValid}
                   passwordLength={passwordLength}
                   isNumber={isNumber}
                   isUppercase={isUppercase}

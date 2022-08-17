@@ -74,6 +74,17 @@ const EmailForgotPassword = ({ translate }: any) => {
   console.log(loginTP.name, 'loginType');
   console.log(loginTP1, 'loginType1');
 
+  const continueForm = () => {
+    // if (loginTP.name == 'email') {
+    router.push(
+      {
+        pathname: '/resetPassword',
+        query: { email: email || phoneNumber, type: loginTP.name },
+      },
+      '/resetPassword',
+    );
+  };
+
   return (
     <AuthContainer>
       <Link href="/login" passHref>
@@ -101,26 +112,26 @@ const EmailForgotPassword = ({ translate }: any) => {
           <Grid item pt={3} pb={5} xs={12}>
             {loginTP.name == 'email' && (
               <PrimaryInput
-                label={translate('EMAIL')}
+                label={translate(LANG_STRINGS.EMAIL)}
                 type={'text'}
                 name="email"
                 fullWidth
                 value={email}
-                placeholder={translate('EMAIL_ADDRESS')}
+                placeholder={translate(LANG_STRINGS.EMAIL_ADDRESS)}
                 startAdornment={<Email color="disabled" />}
                 onChange={(event: any) => emailChangeHandler(event)}
                 required={true}
-                helperText={isValid == true ? '' : translate('Must include "@" and ".com"')}
+                // helperText={isValid == true ? '' : translate(LANG_STRINGS.EMAIL_ERROR_MSG)}
               />
             )}
             {loginTP.name == 'phone' && (
               <PhoneInput
-                label={translate('PHONE_NUMBER')}
+                label={translate(LANG_STRINGS.PHONE_NUMBER)}
                 type={'text'}
                 name="phoneNumber"
                 value={phoneNumber}
                 fullWidth
-                placeholder={translate('PHONE_NUMBER')}
+                placeholder={translate(LANG_STRINGS.PHONE_NUMBER)}
                 startAdornment={<Typography>{+92}</Typography>}
                 onChange={phoneChangeHandler}
               />
@@ -129,8 +140,8 @@ const EmailForgotPassword = ({ translate }: any) => {
         </Grid>
 
         <Grid item xs={12} sx={{ marginTop: 2 }}>
-          <PrimaryButton onClick={handleForgotPassword} variant="contained" fullWidth sx={{ marginTop: '8rem' }}>
-            {translate('CONTINUE')}
+          <PrimaryButton onClick={continueForm} variant="contained" fullWidth sx={{ marginTop: '8rem' }}>
+            {translate(LANG_STRINGS.CONTINUE)}
           </PrimaryButton>
         </Grid>
       </Box>

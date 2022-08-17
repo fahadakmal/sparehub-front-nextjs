@@ -26,6 +26,7 @@ export interface IAuth {
   otpConfirmation?: any;
   resendOtp?: any;
   signInWithPhone?: any;
+  confirmPassword?: any;
 }
 
 const defaultState: IAuth = {
@@ -165,13 +166,25 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  async function forgotPassword (email: string) {
+  async function forgotPassword (username: string) {
     try {
-      return await cognito.forgotPassword(email);
+      return await cognito.forgotPassword(username);
     } catch (error) {
       if (error instanceof Error) {
           throw error;
         }
+    }
+  }
+
+  async function confirmPassword (username: string, verificationCode: string, newPassword: string) {
+    try {
+      console.log(username,verificationCode, newPassword, 'username top')
+      return await cognito.confirmPassword(username, verificationCode, newPassword);
+      
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
     }
   }
 
@@ -186,6 +199,7 @@ export const AuthProvider = ({ children }: Props) => {
     resendOtp,
     signInWithPhone,
     forgotPassword,
+    confirmPassword,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;

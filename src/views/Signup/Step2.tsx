@@ -30,6 +30,7 @@ const Step2 = ({
   checkSpecialCharacterHandler,
   showErrorMessage,
   handleCPassword,
+  emailValid,
 }: any) => {
   const { errorMessage, strengthMsgs } = styling;
 

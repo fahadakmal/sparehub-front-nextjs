@@ -212,13 +212,13 @@ export async function signInWithPhone(phoneNumber: string, password: string) {
   });
 }
 
-export function forgotPassword(email: any) {
+export function forgotPassword(username: string) {
   return new Promise(function (resolve, reject) {
-    const userData = {
-      Username: email,
-      Pool: userPool,
-    };
-    const cognitoUser = new CognitoUser(userData);
+    const cognitoUser = getCognitoUser(username);
+    if (!cognitoUser) {
+      reject(`could not find ${username}`);
+      return;
+    }
     // call forgotPassword on cognitoUser
     cognitoUser.forgotPassword({
       onSuccess: function (result) {
@@ -230,27 +230,21 @@ export function forgotPassword(email: any) {
         reject(err);
       },
     });
-    try {
-      if (cognitoUser) {
-        // The user already exists
-      }
-    } catch (adminGetUserError: any) {
-      if (adminGetUserError.name && adminGetUserError.name === 'UserNotFoundException') {
-        console.log('user does not exist');
-      } else {
-        throw adminGetUserError;
-      }
-    }
+  }).catch((err) => {
+    throw err;
   });
 }
 
 // confirmPassword can be separately built out as follows...
 export function confirmPassword(username: string, verificationCode: string, newPassword: string) {
-  const cognitoUser = new CognitoUser({
-    Username: username,
-    Pool: userPool,
-  });
+  console.log(username, verificationCode, newPassword, 'email, verification');
+
   return new Promise<void>((resolve, reject) => {
+    const cognitoUser = getCognitoUser(username);
+    if (!cognitoUser) {
+      reject(`could not find ${username}`);
+      return;
+    }
     cognitoUser.confirmPassword(verificationCode, newPassword, {
       onFailure(err) {
         reject(err);

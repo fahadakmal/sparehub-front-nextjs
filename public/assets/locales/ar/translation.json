@@ -65,5 +65,6 @@
   "CONTAIN_NUMBER": "يحتوي على رقم واحد على الأقل",
   "CONTAIN_SPECIAL_CHARACTER": "يحتوي على حرف خاص واحد على الأقل",
   "CONTAIN_LOWERCASE_LETTER": "تحتوي على حرف واحد صغير على الأقل",
-  "PASSWORD_ERROR_MSG": "كلمات المرور غير متطابقة"
+  "PASSWORD_ERROR_MSG": "كلمات المرور غير متطابقة",
+  "EMAIL_ERROR_MSG":"يجب أن يتضمن '@' و '.'"
 }

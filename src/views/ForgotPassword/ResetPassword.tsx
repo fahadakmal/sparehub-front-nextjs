@@ -111,6 +111,36 @@ const ResetPassword = ({ translate }: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
     setIsCPasswordDirty(true);
   };
+  const data = router.query;
+  console.log(data.email, 'data', data.type, 'type');
+
+  const handleForgotPassword = async () => {
+    const userEmail = data.type;
+    if (data.type == 'email') {
+      if (!data.type) {
+        return;
+      }
+      try {
+        const res = await auth.forgotPassword(data.email);
+        if (res) {
+          router.push(
+            {
+              pathname: '/otpVerification',
+              query: { email: data.email, newPassword: user.password },
+            },
+            '/otpVerification',
+          );
+          console.log('abc');
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          window.alert(error.message);
+        }
+      }
+    } else {
+      console.log('abc');
+    }
+  };
 
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
@@ -154,13 +184,28 @@ const ResetPassword = ({ translate }: any) => {
             type={showConfirmPassword ? 'text' : 'password'}
             name="confirmPassword"
             fullWidth
-            placeholder={translate('ENTER_PASS_AGAIN')}
+            placeholder={translate(LANG_STRINGS.ENTER_PASS_AGAIN)}
             startAdornment={<Lock color="disabled" />}
             endAdornment={showConfirmPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowConfirmPassword}
             value={user.confirmPassword}
             onChange={handleCPassword}
-            helperText={showErrorMessage ? translate('PASSWORD_ERROR_MSG') : ''}
+            helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
+          />
+        </Grid>
+        <Grid item xs={12} pt={3}>
+          <PrimaryInput
+            label={translate(LANG_STRINGS.CONFIRM_PASSWORD)}
+            type={'text'}
+            name="code"
+            fullWidth
+            placeholder={translate(LANG_STRINGS.ENTER_PASS_AGAIN)}
+            startAdornment={<Lock color="disabled" />}
+            endAdornment={showConfirmPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
+            onClick={hideShowConfirmPassword}
+            value={user.confirmPassword}
+            onChange={handleCPassword}
+            helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
           />
         </Grid>
         <Grid item xs={12} pt={3}>
@@ -196,8 +241,8 @@ const ResetPassword = ({ translate }: any) => {
       </Box>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton onClick={() => router.push('/otpVerification')} variant="contained" fullWidth>
-          {translate('CREATE_PASSWORD')}
+        <PrimaryButton onClick={handleForgotPassword} variant="contained" fullWidth>
+          {translate(LANG_STRINGS.CREATE_PASSWORD)}
         </PrimaryButton>
       </Grid>
     </AuthContainer>
