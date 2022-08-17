@@ -5,6 +5,8 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 import i18next from 'i18next';
 import LANGUAGES from '../../enums';
 import SeachInput from '../SearchInput/SearchInput';
+import { useDispatch } from 'react-redux';
+import { handleChangeLanguage } from '../../redux/slices/languageSlice';
 
 const styles = {
   navbarContainer: {
@@ -52,14 +54,16 @@ const styles = {
 };
 
 export default function NavBar(props: any) {
+  const dispatch = useDispatch();
   const { handleDrawerToggle, translate } = props;
 
   const { navbarContainer, tabs, tab, userProfileBox } = styles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
-  const handleChangeLanguage = (e: any, newVal: string) => {
+  const handleLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
     i18next.changeLanguage(newVal);
+    dispatch(handleChangeLanguage(newVal));
   };
 
   onchange = () => {
@@ -91,7 +95,7 @@ export default function NavBar(props: any) {
           <Grid item>
             <Grid container alignItems="center" gap={1}>
               <NotificationsOutlinedIcon sx={{ color: 'black' }} />
-              <Tabs sx={tabs} value={language} onChange={handleChangeLanguage}>
+              <Tabs sx={tabs} value={language} onChange={handleLanguage}>
                 <Tab sx={tab} value="en" label={LANGUAGES.eng} />
                 <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
               </Tabs>

@@ -3,10 +3,12 @@ import { Grid, Hidden, useMediaQuery, useTheme } from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import { useDispatch } from 'react-redux';
+import Image from 'next/image';
 import i18next from 'i18next';
 import { Logo } from '../../public/icons';
 import LANGUAGES from '../enums';
-import Image from 'next/image';
+import { handleChangeLanguage } from '../redux/slices/languageSlice';
 
 const useStyles = {
   toggleBtn: {
@@ -33,14 +35,18 @@ const useStyles = {
   },
 };
 
-const Header = () => {
+const Header = (props: any) => {
+  const { handleChangeLanguage } = props;
+  const dispatch = useDispatch();
   const { englishBtn, arabicBtn, toggleBtn } = useStyles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
-  const handleChangeLanguage = (e: any, newVal: string) => {
+  const handleLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
-    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleChangeLanguage ~ e.target.value', newVal);
+    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleLanguage ~ e.target.value', newVal);
     i18next.changeLanguage(newVal);
+    handleChangeLanguage(newVal);
+    // dispatch(handleChangeLanguage(newVal));
   };
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -64,7 +70,7 @@ const Header = () => {
               borderRadius: '7px',
             }}
             value={language}
-            onChange={handleChangeLanguage}
+            onChange={handleLanguage}
           >
             <Tab
               sx={{ color: '#000000', backgroundColor: language === 'en' ? '#F0F3FD' : 'default', borderRadius: '8px' }}

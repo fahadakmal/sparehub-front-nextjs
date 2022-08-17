@@ -2,14 +2,8 @@ import React from 'react';
 import WithAuthentication from '../src/hooks/WithAuthentication';
 import { Login } from '../src/views/Login';
 
-const LoginPage = () => {
+const LoginPage = (props: any) => {
+  return <WithAuthentication component={Login} requiredAuth={false} {...props} />;
+};
 
-  return (
-    <WithAuthentication
-    component={Login}
-    requiredAuth={false}
-/>
-  )
-}
-
-export default LoginPage
+export default LoginPage;

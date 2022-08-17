@@ -26,7 +26,7 @@ const styles = {
   },
 };
 
-export default function Login({ translate }: any) {
+export default function Login({ translate, handleChangeLanguage }: any) {
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = React.useState('email');
@@ -132,7 +132,7 @@ export default function Login({ translate }: any) {
   };
 
   return (
-    <AuthContainer>
+    <AuthContainer handleChangeLanguage={handleChangeLanguage}>
       <Grid xs={12} item textAlign={'center'}>
         <Typography component="h1" variant="h5">
           {translate('LOGIN')}
