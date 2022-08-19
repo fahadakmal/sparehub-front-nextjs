@@ -20,3 +20,5 @@ const SellerHeading=({headings,draftBtn,mydata}: any)=>{
 }
 export default SellerHeading
 
+
+

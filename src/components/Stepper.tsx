@@ -22,10 +22,20 @@ const Steper = ({ currentStep, steps }: StepperProps) => {
     return skipped.has(step);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(currentStep)) {
-      throw new Error("You can't skip a step that isn't optional.");
-    }
+            <div className='col-lg-2'>
+                <div className="row">
+            <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1" >
+            <div className="radius1"> 
+            </div>
+            </div>
+            <div className="col-lg-7 col-md-1 col-sm-1 col-xs-1" style={{width:"115px",fontSize:"14px"}}>
+            Bank Account
+            </div>
+            <div className='col-lg-4' style={{width:"105px"}}>
+            <hr></hr>
+            </div>
+            </div>
+            </div>
 
     setSkipped((prevSkipped) => {
       const newSkipped = new Set(prevSkipped.values());

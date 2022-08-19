@@ -324,7 +324,7 @@ export default function Login({ translate }: any) {
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
         <PrimaryButton
-          disabled={!(isValid && Object.keys(touched).length > 0)}
+          disabled={(isValid && Object.keys(touched).length > 0)}
           onClick={handleLogin}
           variant="contained"
           fullWidth

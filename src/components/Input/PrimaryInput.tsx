@@ -1,12 +1,6 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
-
-const root = {
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '8px',
-  },
-};
-
+import MenuItem from '@mui/material';
 export default function PrimaryInput({
   label,
   placeholder,
@@ -52,6 +46,7 @@ export default function PrimaryInput({
           </InputAdornment>
         ),
       }}
-    ></TextField>
+    >
+  </TextField>
   );
 }

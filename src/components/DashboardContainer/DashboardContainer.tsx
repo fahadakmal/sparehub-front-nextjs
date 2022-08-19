@@ -158,9 +158,10 @@ export default function DashboardContainer(props: any) {
             button
             onClick={(event) => {
               setSelectedIndex(index);
-              if (item.key === 'setting') {
-                router.push('/SellerDetail');
-              } else {
+              if(item.key === 'setting'){
+              router.push("/SellerDetail")
+              }
+              else{
               }
               // handleListItemClick(event, index)
             }}
