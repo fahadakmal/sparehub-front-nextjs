@@ -66,5 +66,7 @@
   "CONTAIN_SPECIAL_CHARACTER": "يحتوي على حرف خاص واحد على الأقل",
   "CONTAIN_LOWERCASE_LETTER": "تحتوي على حرف واحد صغير على الأقل",
   "PASSWORD_ERROR_MSG": "كلمات المرور غير متطابقة",
-  "EMAIL_ERROR_MSG":"يجب أن يتضمن '@' و '.'"
+  "EMAIL_ERROR_MSG":"يجب أن يتضمن '@' و '.'",
+  "PASSWORD_UPDATED_MSG": "تم تحديث كلمة المرور الخاصة بك وتأمينها بنجاح. تسجيل الدخول إلى حسابك",
+  "CHECK_YOUR_EMAIL":"تحقق من بريدك الالكتروني"
 }
