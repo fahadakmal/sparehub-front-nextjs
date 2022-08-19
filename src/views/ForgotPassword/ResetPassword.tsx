@@ -14,6 +14,8 @@ import styling from '../../components/stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
 import Otp from '../../components/Otp';
 import { confirmPassword } from '../../auth/cognito.service';
+import Otp from '../../components/Otp';
+import { confirmPassword } from '../../auth/cognito.service';
 
 const ResetPassword = ({ translate }: any) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -136,11 +138,6 @@ const ResetPassword = ({ translate }: any) => {
     isLowercase &&
     user.confirmPassword.trim() === user.password.trim();
 
-  const [otp, setOtp] = useState('');
-  const handleOTP = (event: any) => {
-    setOtp(event.target.value);
-  };
-
   return (
     <AuthContainer>
       <Link href="/login" passHref>
@@ -159,18 +156,6 @@ const ResetPassword = ({ translate }: any) => {
         </Grid>
       </Box>
       <Box>
-        {/* <Grid item xs={12} pt={3}>
-          <PrimaryInput
-            label={translate(LANG_STRINGS.OTP_VERIFICATION)}
-            type={'text'}
-            name="code"
-            fullWidth
-            placeholder={translate(LANG_STRINGS.OTP_VERIFICATION)}
-            startAdornment={<Lock color="disabled" />}
-            value={otp}
-            onChange={handleOTP}
-          />
-        </Grid> */}
         <Grid item xs={12} pt={3}>
           <PrimaryInput
             label={translate(LANG_STRINGS.NEW_PASSWORD)}
@@ -232,7 +217,7 @@ const ResetPassword = ({ translate }: any) => {
       </Box>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} fullWidth>
+        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} disabled={!enabled} fullWidth>
           {translate(LANG_STRINGS.CREATE_PASSWORD)}
         </PrimaryButton>
       </Grid>
