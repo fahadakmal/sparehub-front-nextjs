@@ -11,6 +11,8 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import DropdownSelect from '../../components/items/DropdownSelect';
 import SelectField from '../../components/SelectField';
 import Checkbox from '@mui/material/Checkbox';
+import Image from 'next/image';
+import ErrorModal from '../sellerprofile/ErrorModal';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -21,6 +23,8 @@ const WarehouseAddress = ({ translate }: any) => {
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [city, setCity] = useState<string>('');
+  const [addLocation, setAddLocation]= useState()
+  const [on, setOn] = useState<boolean>(false);
   console.log(mobileNumber, 'mobile');
   const handleSubmit = () => {};
 
@@ -68,6 +72,18 @@ const WarehouseAddress = ({ translate }: any) => {
             headings={translate(LANG_STRINGS.SELLER_HEADINGS)}
             draftBtn={translate(LANG_STRINGS.SAVE_AS_DRAFT)}
           />
+          {on ? (
+            <ErrorModal
+              model={on}
+              wrong={translate(LANG_STRINGS.SOMETHING_WENT_WRONG)}
+              delete={translate(LANG_STRINGS.DELETE_IT)}
+              action={translate(LANG_STRINGS.ACTION)}
+              close={translate(LANG_STRINGS.CLOSE)}
+              setmodel={setOn}
+            />
+          ) : (
+            ''
+          )}
           <Grid style={{ marginTop: '20px', marginBottom: '7px', marginLeft: '20px', marginRight: '20px' }}>
             <Grid style={{ marginTop: '30px' }}>
               <Steper
@@ -216,12 +232,47 @@ const WarehouseAddress = ({ translate }: any) => {
                     />
                   </FormGroup>
                 </Grid>
-            
+                <Grid xs={12} style={{border:"1px solid grey", padding:"15px", borderRadius:"5px",marginTop:"5px"}}>
+                  <Grid style={{textAlign:"center"}} spacing={3}>
+                  <Image src="/icons/addLocation.png" alt="uploadfile" width={18.15} height={16} /> <span style={{paddingLeft:"10px",fontWeight:"bold"}}>
+                    Add Location</span>
+                  </Grid>
+                </Grid>
 
 
               </Grid>
               <Grid item xs={3}>
-                hiii
+                <Grid style={{ backgroundColor: '#FBFBFA', padding: '10px', height: '320px' }}>
+                  <Grid style={{ fontWeight: 'bolder' }}>{translate(LANG_STRINGS.UPLOADED_DOCUMENTS)}</Grid>
+                  <hr></hr>
+                  {addLocation ? (
+                    <Grid container>
+                      <Grid item xs={2}>
+                        <Image src="/icons/pdf.png" alt="uploadfile" width={29} height={31} />
+                      </Grid>
+                      <Grid item xs={7}>
+                        <Typography variant="body1">{addLocation}</Typography>
+                      </Grid>
+                      <Grid item xs={2}>
+                        <Image src="/icons/showFile.png" alt="uploadfile" width={20.25} height={14.64} />
+                      </Grid>
+                      <Grid item xs={1}>
+                        <Image
+                          src="/icons/deleteDocument.png"
+                          alt="uploadfile"
+                          width={12.56}
+                          height={13.32}
+                          onClick={() => setOn(true)}
+                        />
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <Grid style={{ marginTop: '70px', textAlign: 'center' }}>
+                      <Image src="/icons/noDocument.png" alt="uploadfile" width={100} height={100} />
+                      <Grid>{translate(LANG_STRINGS.NOT_UPLOADED_DOCUMENTS)}</Grid>
+                    </Grid>
+                  )}
+              </Grid>
               </Grid>
             </Grid>
             <Grid style={{ marginTop: '30px' }}>

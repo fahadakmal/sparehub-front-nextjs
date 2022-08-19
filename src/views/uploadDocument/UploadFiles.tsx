@@ -214,7 +214,6 @@ const UploadFiles = ({ translate }: any) => {
                     </Grid>
                   </Grid>
                 </Grid>
-                {/* </Uploady> */}
               </Grid>
               <Grid item xs={3}>
                 <Grid sx={{ backgroundColor: '#FBFBFA', padding: '10px', height: '320px' }}>
