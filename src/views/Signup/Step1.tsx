@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Email } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
-// import '../../App.css';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
-const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep }: any) => {
+
+const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep, emailValid }: any) => {
   const btnDisable =
-    signupType === 'email' && !user.email ? true : signupType === 'phone' && user.phoneNumber.length < 7 ? true : false;
+    signupType === 'email' && !emailValid ? true : signupType === 'phone' && user.phoneNumber.length < 7 ? true : false;
   return (
     <>
       <Grid item xs={12} pt={3}>
@@ -42,6 +42,7 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             startAdornment={<Email color="disabled" />}
             onChange={handleChange}
             required={true}
+            error={!emailValid}
           />
         )}
       </Grid>

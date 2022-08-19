@@ -1,7 +1,7 @@
-import { Login } from '@mui/icons-material';
-import { useRouter } from 'next/router';
 import React, { createContext, useContext, useState, useEffect } from 'react';
-
+import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { loginRequest } from '../redux/slices/authSlice';
 import * as cognito from './cognito.service';
 
 export enum AuthStatus {
@@ -66,6 +66,7 @@ export const AuthIsNotSignedIn = ({ children }: Props) => {
 export const AuthProvider = ({ children }: Props) => {
   const [authStatus, setAuthStatus] = useState(AuthStatus.Loading);
   const [sessionInfo, setSessionInfo] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getSessionInfo() {
@@ -141,11 +142,13 @@ export const AuthProvider = ({ children }: Props) => {
 
   async function signInWithPhone(phoneNumber: string, password: string) {
     try {
-      await cognito.signInWithPhone(phoneNumber, password);
+      const res = await cognito.signInWithPhone(phoneNumber, password);
+      dispatch(loginRequest({ attribute: phoneNumber, loginType: 'Phone', loginSuccess: true }));
       setAuthStatus(AuthStatus.SignedIn);
     } catch (err) {
       if (err instanceof Error) {
         setAuthStatus(AuthStatus.SignedOut);
+        dispatch(loginRequest({ attribute: phoneNumber, loginType: 'Phone', loginSuccess: false }));
         throw err;
       }
     }
@@ -162,6 +165,10 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
+  async function signOut() {
+    cognito.logout();
+  }
+
   const state: IAuth = {
     authStatus,
     sessionInfo,
@@ -172,6 +179,7 @@ export const AuthProvider = ({ children }: Props) => {
     otpConfirmation,
     resendOtp,
     signInWithPhone,
+    signOut,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;

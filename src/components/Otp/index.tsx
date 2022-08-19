@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Box } from '@mui/material';
 import OtpInput from 'react-otp-input';
 import { PrimaryButton } from '../Button/PrimaryButton';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { BackArrow } from '../../../public/icons';
 // import '../../App.css';
 
 const useStyles = {
-  otpContainer: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  otpContainer: {},
   otpInput: {
-    height: 56,
-    width: 68,
+    width: 40,
+    padding: 8,
     borderRadius: 8,
     backgroundColor: '#F0F3FD',
     border: 'none',
-    marginLeft: 8,
-    marginRight: 8,
+    marginLeft: 4,
+    marginRight: 4,
+    marginBottom: 8,
     '&:focus': {
       outline: 'none',
     },
   },
 };
 
-const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
+const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp }: any) => {
   const [receivedCode, setReceivedCode] = React.useState(true);
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
@@ -52,9 +55,30 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
     };
   }, [counter]);
 
+  const handleBack = () => {
+    router.back();
+  };
+
+  const handleResend = () => {
+    setCounter(30);
+    setReceivedCode(!receivedCode);
+    resendOtp();
+  };
+
   return (
     <>
-      <Grid xs={12} item textAlign={'center'} pt={6}>
+      <Grid sx={{ position: 'relative' }} xs={12} item textAlign={'center'} pt={6}>
+        <Box
+          padding={'16px'}
+          borderRadius={2}
+          border="1px solid rgba(0, 0, 0, 0.1)"
+          position={'absolute'}
+          onClick={handleBack}
+          left={-90}
+          top={0}
+        >
+          <Image src={BackArrow} />
+        </Box>
         <Grid pt={3}>
           <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
             {translate('OTP_VERIFICATION')}
@@ -70,7 +94,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
         <OtpInput
           placeholder="******"
           inputStyle={otpInput}
-          className="otp"
+          containerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           value={otp}
           onChange={handleChangeInput}
           numInputs={6}
@@ -78,7 +102,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
         />
       </Grid>
       <Grid textAlign={'center'} item xs={12} pt={6}>
-        <Typography style={{ cursor: 'pointer' }}>
+        <Typography>
           {translate('DID_NOT_RECEIVE_A_CODE')}
           {'?  '}
           {receivedCode ? (
@@ -88,28 +112,11 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber }: any) => {
             </b>
           ) : (
             <>
-              <b
-                onClick={() => {
-                  console.log('VERIFY_MOBILE_NUMBER');
-                }}
-                style={{ color: '#E2282C', fontSize: '14px' }}
-              >
-                {translate('VERIFY_MOBILE_NUMBER')}
-              </b>{' '}
-              <b
-                onClick={() => {
-                  console.log('RESEND_CODE');
-                }}
-                style={{ fontSize: '12px' }}
-              >
-                {translate('OR')}
-              </b>{' '}
-              <b
-                onClick={() => {
-                  console.log('RESEND_CODE');
-                }}
-                style={{ color: '#E2282C', fontSize: '14px' }}
-              >
+              <Typography component={'span'}>
+                {translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}
+              </Typography>
+              <b style={{ fontSize: '12px' }}>{translate('OR')}</b>
+              <b onClick={handleResend} style={{ color: '#E2282C', fontSize: '14px', cursor: 'pointer' }}>
                 {translate('RESEND_CODE')}
               </b>
             </>

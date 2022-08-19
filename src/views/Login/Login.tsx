@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { useTranslation } from 'react-i18next';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
@@ -11,10 +11,11 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 import { useAuth } from '../../auth/Auth';
-// import '../../App.css';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
-import { useRouter } from 'next/router';
+import { validateEmail } from '../../utils';
+import ToastAlert from '../../components/Toast/ToastAlert';
+
 const styles = {
   tab: {
     color: '#000',
@@ -29,9 +30,11 @@ const styles = {
 export default function Login({ translate }: any) {
   const { tab } = styles;
   const router = useRouter();
-  const [loginType, setLoginType] = React.useState('email');
+  const [loginType, setLoginType] = useState('email');
   const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -39,9 +42,18 @@ export default function Login({ translate }: any) {
     country: 'SA',
     dialCode: '+966',
   });
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
+
   const auth: any = useAuth();
 
   const handleChange = (e: any) => {
+    if (e.target.name === 'email') {
+      setEmailValid(validateEmail(e.target.value));
+    }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
@@ -62,7 +74,7 @@ export default function Login({ translate }: any) {
     let isValid = false;
     const { email, password, phoneNumber } = user;
     if (loginType === 'email') {
-      if (email && password) {
+      if (email && emailValid && password) {
         isValid = true;
       }
     } else {
@@ -81,45 +93,46 @@ export default function Login({ translate }: any) {
     }
   };
 
-  const redirectDashboard = () => {
-    router.push('/');
-  };
-
   const handleLogin = async () => {
+    const isValid = handleValidation();
+
     if (loginType == 'email') {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
       const { email, password } = user;
       try {
-        await auth.signInWithEmail(email, password);
-        redirectDashboard();
+        const res = await auth.signInWithEmail(email, password);
       } catch (err: any) {
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     } else {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
-      const { password } = user;
-      const phoneWithDialCode = user.dialCode + user.phoneNumber.trim();
+      const { password, dialCode, phoneNumber } = user;
+      const phoneWithDialCode = dialCode + phoneNumber.trim();
       try {
-        await auth.signInWithPhone(phoneWithDialCode, password);
-        redirectDashboard();
+        const res = await auth.signInWithPhone(phoneWithDialCode, password);
       } catch (err: any) {
+        console.log('aws response rror', err);
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     }
+  };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
   };
 
   return (
@@ -154,6 +167,7 @@ export default function Login({ translate }: any) {
                   placeholder={translate('EMAIL_ADDRESS')}
                   startAdornment={<Email color="disabled" />}
                   onChange={handleChange}
+                  error={!emailValid}
                 />
               </Grid>
               <Grid item pt={3} xs={12}>
@@ -276,16 +290,10 @@ export default function Login({ translate }: any) {
         </PrimaryButton>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
-      
         <Typography>
-        {/* <Link href="/sellerDetail">
-          {translate('DONT_HAVE_ACCOUNT')}{' '}
-          </Link> */}
-          <Link style={{textDecoration:"none !important"}} href="/sellerDetail" passHref>
-              <span>
-                {translate('DONT_HAVE_ACCOUNT')}{' '}
-              </span>
-            </Link>
+          <Link style={{ textDecoration: 'none !important' }} href="/signup" passHref>
+            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          </Link>
           <b>
             <Link href="signup" passHref>
               <MuiLink underline="hover" color="#E2282C">
@@ -294,6 +302,12 @@ export default function Login({ translate }: any) {
             </Link>
           </b>
         </Typography>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );

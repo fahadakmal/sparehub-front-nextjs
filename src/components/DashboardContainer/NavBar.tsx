@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Avatar, Box, Grid, IconButton, Tab, Tabs, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import i18next from 'i18next';
 import LANGUAGES from '../../enums';
 import SeachInput from '../SearchInput/SearchInput';
+import { useAuth } from '../../auth/Auth';
 
 const styles = {
   navbarContainer: {
@@ -52,8 +54,9 @@ const styles = {
 };
 
 export default function NavBar(props: any) {
+  const auth: any = useAuth();
+  const router = useRouter();
   const { handleDrawerToggle, translate } = props;
-
   const { navbarContainer, tabs, tab, userProfileBox } = styles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
@@ -64,6 +67,10 @@ export default function NavBar(props: any) {
 
   onchange = () => {
     console.log('onchange');
+  };
+
+  const handleLogout = () => {
+    auth.signOut();
   };
 
   return (
@@ -79,12 +86,13 @@ export default function NavBar(props: any) {
           <MenuIcon />
         </IconButton>
         <Grid container sx={{ justifyContent: { xs: 'end', md: 'space-between' } }} alignItems="center">
-          <Grid item sx={{ display: { xs: 'none', md: 'block' } }}>
+          <Grid item sm={4} sx={{ display: { xs: 'none', md: 'block' } }}>
             <SeachInput
               label={translate('SEARCH')}
               buttonText={translate('SEARCH')}
               onchange={onchange}
               placeholder={translate('SEARCH_PLACEHOLDER')}
+              language={language}
             />
           </Grid>
           <Grid item>
@@ -94,16 +102,13 @@ export default function NavBar(props: any) {
                 <Tab sx={tab} value="en" label={LANGUAGES.eng} />
                 <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
               </Tabs>
-              <Box sx={userProfileBox}>
-                <Avatar
-                  alt="Ted talk"
-                  src="https://pbs.twimg.com/profile_images/877631054525472768/Xp5FAPD5_reasonably_small.jpg"
-                />
+              <Box onClick={handleLogout} sx={userProfileBox}>
+                <Avatar alt="Ted talk" src="https://picsum.photos/200/300" />
                 <Grid container alignItems="center" direction="column">
                   <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
-                    John Alex
+                    Admin
                   </Typography>
-                  <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography>
+                  {/* <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography> */}
                 </Grid>
               </Box>
             </Grid>
