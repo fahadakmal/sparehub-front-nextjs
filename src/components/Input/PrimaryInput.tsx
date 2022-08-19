@@ -33,11 +33,11 @@ export default function PrimaryInput({
   onBlur,
   required = false,
   error = false,
-  otherProps
+  otherProps,
 }: any) {
   return (
-    <TextField  
-      focused={focused} 
+    <TextField
+      focused={focused}
       error={error}
       label={label}
       required={required}
@@ -61,6 +61,6 @@ export default function PrimaryInput({
           </InputAdornment>
         ),
       }}
-    />
+    ></TextField>
   );
 }

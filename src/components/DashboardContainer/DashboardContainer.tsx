@@ -146,7 +146,14 @@ export default function DashboardContainer(props: any) {
         {listitems.map((item, index) => (
           <ListItem
             button
-            onClick={(event) => handleListItemClick(event, index)}
+            onClick={(event) => {
+              setSelectedIndex(index);
+              if (item.key === 'setting') {
+                router.push('/SellerDetail');
+              } else {
+              }
+              // handleListItemClick(event, index)
+            }}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding
