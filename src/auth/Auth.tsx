@@ -198,9 +198,6 @@ export const AuthProvider = ({ children }: Props) => {
   async function signOut() {
     cognito.logout();
   }
-
-=======
->>>>>>> ab2b8de (forgot (phone and email) on same screen)
   const state: IAuth = {
     authStatus,
     sessionInfo,

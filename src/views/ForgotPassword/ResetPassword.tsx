@@ -159,6 +159,18 @@ const ResetPassword = ({ translate }: any) => {
         </Grid>
       </Box>
       <Box>
+        {/* <Grid item xs={12} pt={3}>
+          <PrimaryInput
+            label={translate(LANG_STRINGS.OTP_VERIFICATION)}
+            type={'text'}
+            name="code"
+            fullWidth
+            placeholder={translate(LANG_STRINGS.OTP_VERIFICATION)}
+            startAdornment={<Lock color="disabled" />}
+            value={otp}
+            onChange={handleOTP}
+          />
+        </Grid> */}
         <Grid item xs={12} pt={3}>
           <PrimaryInput
             label={translate(LANG_STRINGS.NEW_PASSWORD)}
