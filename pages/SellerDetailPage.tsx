@@ -1,7 +1,7 @@
 import React from "react";
 import WithAuthentication from "../src/hooks/WithAuthentication";
 import { SellerDetail } from "../src/views/sellerprofile";
-const sellerDetailPage = () => {
+const SellerDetailPage = () => {
 
   return (
       <WithAuthentication
@@ -11,4 +11,4 @@ const sellerDetailPage = () => {
   )
 }
 
-export default sellerDetailPage
+export default SellerDetailPage
