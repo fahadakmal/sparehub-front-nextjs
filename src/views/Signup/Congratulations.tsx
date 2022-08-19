@@ -29,10 +29,10 @@ const Congratulations = ({ translate }: any) => {
 
   useEffect(() => {
     setToast({ ...toast, message: 'User has been verified!', appearence: true, type: 'success' });
-  });
+  }, []);
 
   const handleNavigate = () => {
-    router.push('/');
+    router.push('/login');
   };
 
   const handleCloseToast = () => {
