@@ -249,17 +249,21 @@ export function confirmPassword(username: string, verificationCode: string, newP
 
   return new Promise<void>((resolve, reject) => {
     const cognitoUser = getCognitoUser(username);
+    console.log(cognitoUser, 'cognitoUser');
     if (!cognitoUser) {
       reject(`could not find ${username}`);
       return;
     }
-    cognitoUser.confirmPassword(verificationCode, newPassword, {
+    cognitoUser.confirmPassword( verificationCode, newPassword, {
       onFailure(err) {
         reject(err);
       },
-      onSuccess() {
-        resolve();
+      onSuccess(res: any) {
+        resolve(res);
       },
     });
   });
 }
+
+
+
