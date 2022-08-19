@@ -12,6 +12,8 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import styling from '../../stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
+import Otp from '../../components/Otp';
+import { confirmPassword } from '../../auth/cognito.service';
 
 const ResetPassword = ({ translate }: any) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,15 +33,15 @@ const ResetPassword = ({ translate }: any) => {
   const [isLowercase, setIsLowercase] = useState(false);
   // confirm password
 
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [matchedPass, setMatchedPass] = useState(false);
   const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
 
   useEffect(() => {
     if (isCPasswordDirty) {
       if (user.password === user.confirmPassword) {
-        setShowErrorMessage(false);
+        setMatchedPass(false);
       } else {
-        setShowErrorMessage(true);
+        setMatchedPass(true);
       }
     }
   }, [user.confirmPassword]);
@@ -124,30 +126,15 @@ const ResetPassword = ({ translate }: any) => {
     );
   };
 
-  const codeHandler = async () => {
-    try {
-      console.log('confirm pass start');
-      console.log(email, otp, user.password, 'my data');
-      const { res } = await auth.confirmPassword(email, otp, user.password);
-      console.log(res, 'confirm pass after');
-      if (res) {
-        console.log('goinn for route');
-        router.push('/congratulations');
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        window.alert(err.message);
-      }
-    }
-  };
-
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
 
-  const [otp, setOtp] = useState('');
-  const handleOTP = (event: any) => {
-    setOtp(event.target.value);
-  };
+  const enabled =
+    passwordLength > 7 &&
+    isNumber &&
+    isSpecialChar &&
+    isLowercase &&
+    user.confirmPassword.trim() === user.password.trim();
 
   return (
     <AuthContainer>
@@ -167,18 +154,6 @@ const ResetPassword = ({ translate }: any) => {
         </Grid>
       </Box>
       <Box>
-        {/* <Grid item xs={12} pt={3}>
-          <PrimaryInput
-            label={translate(LANG_STRINGS.OTP_VERIFICATION)}
-            type={'text'}
-            name="code"
-            fullWidth
-            placeholder={translate(LANG_STRINGS.OTP_VERIFICATION)}
-            startAdornment={<Lock color="disabled" />}
-            value={otp}
-            onChange={handleOTP}
-          />
-        </Grid> */}
         <Grid item xs={12} pt={3}>
           <PrimaryInput
             label={translate(LANG_STRINGS.NEW_PASSWORD)}
@@ -189,7 +164,6 @@ const ResetPassword = ({ translate }: any) => {
             startAdornment={<Lock color="disabled" />}
             endAdornment={showPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowPassword}
-            // onChange={handleChange}
             value={user.password}
             onChange={changeHandler('password')}
           />
@@ -206,10 +180,8 @@ const ResetPassword = ({ translate }: any) => {
             onClick={hideShowConfirmPassword}
             value={user.confirmPassword}
             onChange={handleCPassword}
-            // helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
           />
         </Grid>
-        {/* <PrimaryButton onClick={codeHandler}>Code Hander</PrimaryButton> */}
         <Grid item xs={12} pt={3}>
           <Box mb={2} mt={1}>
             <Grid container spacing={0}>
@@ -243,7 +215,7 @@ const ResetPassword = ({ translate }: any) => {
       </Box>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton onClick={handleForgotPassword} variant="contained" fullWidth>
+        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} fullWidth>
           {translate(LANG_STRINGS.CREATE_PASSWORD)}
         </PrimaryButton>
       </Grid>

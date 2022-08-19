@@ -25,14 +25,27 @@ const OTPVerification = (props: any) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const res = await auth.otpConfirmation(verificationType, otp);
-      if (res) {
-        router.push('/congratulations');
+    if (!newPassword) {
+      try {
+        const res = await auth.otpConfirmation(verificationType, otp);
+        if (res) {
+          router.push('/congratulations');
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          window.alert(err.message);
+        }
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        window.alert(err.message);
+    } else {
+      try {
+        const res = await auth.confirmPassword(email, otp, newPassword);
+        if (res) {
+          router.push('/congratulations');
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          window.alert(err.message);
+        }
       }
     }
   };
@@ -50,22 +63,6 @@ const OTPVerification = (props: any) => {
       }
     }
   };
-  const codeHandler = async () => {
-    try {
-      console.log('confirm pass start');
-      console.log(email, otp, newPassword, 'my data');
-      const res = await auth.confirmPassword(email, otp, newPassword);
-      console.log(res, 'confirm pass after');
-      if (res) {
-        console.log('goinn for route');
-        router.push('/congratulations');
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        window.alert(err.message);
-      }
-    }
-  };
 
   return (
     <AuthContainer>
@@ -76,7 +73,6 @@ const OTPVerification = (props: any) => {
         {...props}
         identity={identity}
         resendOtp={resendOtp}
-        codeHandler={codeHandler}
       />
     </AuthContainer>
   );
