@@ -23,7 +23,7 @@ const WarehouseAddress = ({ translate }: any) => {
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [city, setCity] = useState<string>('');
-  const [addLocation, setAddLocation]= useState()
+  const [addLocation, setAddLocation] = useState();
   const [on, setOn] = useState<boolean>(false);
   console.log(mobileNumber, 'mobile');
   const handleSubmit = () => {};
@@ -58,10 +58,6 @@ const WarehouseAddress = ({ translate }: any) => {
   const handleCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
   };
-
-
-      
-  
 
   return (
     <SellerScreenLayout>
@@ -232,17 +228,18 @@ const WarehouseAddress = ({ translate }: any) => {
                     />
                   </FormGroup>
                 </Grid>
-                <Grid xs={12} style={{border:"1px solid grey", padding:"15px", borderRadius:"5px",marginTop:"5px"}}>
-                  <Grid style={{textAlign:"center"}} spacing={3}>
-                  <Image src="/icons/addLocation.png" alt="uploadfile" width={18.15} height={16} /> <span style={{paddingLeft:"10px",fontWeight:"bold"}}>
-                    Add Location</span>
+                <Grid
+                  xs={12}
+                  style={{ border: '1px solid grey', padding: '15px', borderRadius: '5px', marginTop: '5px' }}
+                >
+                  <Grid style={{ textAlign: 'center' }}>
+                    <Image src="/icons/addLocation.png" alt="uploadfile" width={18.15} height={16} />{' '}
+                    <span style={{ paddingLeft: '10px', fontWeight: 'bold' }}>Add Location</span>
                   </Grid>
                 </Grid>
-
-
               </Grid>
               <Grid item xs={3}>
-                <Grid style={{ backgroundColor: '#FBFBFA', padding: '10px', height: '320px' }}>
+                <Grid style={{ backgroundColor: '#FBFBFA', padding: '10px', height: '420px' }}>
                   <Grid style={{ fontWeight: 'bolder' }}>{translate(LANG_STRINGS.UPLOADED_DOCUMENTS)}</Grid>
                   <hr></hr>
                   {addLocation ? (
@@ -251,7 +248,7 @@ const WarehouseAddress = ({ translate }: any) => {
                         <Image src="/icons/pdf.png" alt="uploadfile" width={29} height={31} />
                       </Grid>
                       <Grid item xs={7}>
-                        <Typography variant="body1">{addLocation}</Typography>
+                        <Typography variant="body1">{sellerLocation.locNamEng}</Typography>
                       </Grid>
                       <Grid item xs={2}>
                         <Image src="/icons/showFile.png" alt="uploadfile" width={20.25} height={14.64} />
@@ -272,7 +269,7 @@ const WarehouseAddress = ({ translate }: any) => {
                       <Grid>{translate(LANG_STRINGS.NOT_UPLOADED_DOCUMENTS)}</Grid>
                     </Grid>
                   )}
-              </Grid>
+                </Grid>
               </Grid>
             </Grid>
             <Grid style={{ marginTop: '30px' }}>
