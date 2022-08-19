@@ -1,14 +1,14 @@
 import React from "react";
 import WithAuthentication from "../src/hooks/WithAuthentication";
-import { SellerDetail } from "../src/views/sellerprofile";
-const sellerDetailPage = () => {
+import { BankDetail } from "../src/views/bankDetail";
+const customerbankDetail = () => {
 
   return (
       <WithAuthentication
-          component={SellerDetail}
+          component={BankDetail}
           requiredAuth={true}
       />
   )
 }
 
-export default sellerDetailPage
+export default customerbankDetail

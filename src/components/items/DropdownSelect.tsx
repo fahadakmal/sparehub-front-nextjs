@@ -16,9 +16,9 @@ const DropdownSelect=(props: any)=>{
         setAge(event.target.value);
         props.setValue(event.target.value)
       };
-    return(<FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">{props.required}</InputLabel>
-          <OutlinedInput placeholder="Enter mobile"
+    return(<FormControl sx={{ width: '100%' }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">{props.label}</InputLabel>
+          <OutlinedInput placeholder={props.required}
         //   error
             id="outlined-adornment-password"
             startAdornment={
@@ -31,20 +31,20 @@ const DropdownSelect=(props: any)=>{
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}>
           <MenuItem value="">
-          <Image src="/icons/flag.svg" width="25px" height="20px" alt='flags' />
-          <span > +996</span>
+          <Image style={{marginTop:"3px"}} src="/icons/flag.svg" width="20px" height="15px" alt='flags' />
+          <span> +996</span>
           </MenuItem>
-          <MenuItem value="u">
-          <Image src="/icons/dropdownIcon.svg" width="25px" height="20px" alt='flags' />
+          <MenuItem value="0301">
+          <Image style={{marginTop:"4px"}} src="/icons/dropdownIcon.svg" width="20px" height="18px" alt='flags' />
           <span > +303</span>
           </MenuItem>
-          <MenuItem value="i"><Image src="/icons/sparehub.svg" width="25px" height="20px" alt='flags' />
+          <MenuItem value="i"><Image style={{marginTop:"4px"}} src="/icons/sparehub.svg" width="20px" height="18px" alt='flags' />
           <span > +902</span></MenuItem>
         </Select>
       </FormControl>
               </InputAdornment>
             }
-            label={props.required}
+            label={props.label}
           />
           </FormControl>
     )

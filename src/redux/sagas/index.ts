@@ -1,7 +1,8 @@
 import { all } from 'redux-saga/effects';
-import userSaga from './userSaga';
 import authSaga from './authSaga';
-
+import catSaga from './sellercountrySaga';
+import sellercountrySaga from './sellercountrySaga';
+import sellerStateSaga from './sellerStateSaga';
 export default function* rootSaga() {
-  yield all([userSaga(), authSaga()]);
+  yield all([authSaga(), sellercountrySaga(),sellerStateSaga()]);
 }

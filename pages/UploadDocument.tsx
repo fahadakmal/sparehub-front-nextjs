@@ -1,14 +1,14 @@
 import React from "react";
 import WithAuthentication from "../src/hooks/WithAuthentication";
-import { SellerDetail } from "../src/views/sellerprofile";
-const sellerDetailPage = () => {
+import { UploadFiles } from "../src/views/uploadDocument";
+const UploadDocument = () => {
 
   return (
       <WithAuthentication
-          component={SellerDetail}
+          component={UploadFiles}
           requiredAuth={true}
       />
   )
 }
 
-export default sellerDetailPage
+export default UploadDocument
