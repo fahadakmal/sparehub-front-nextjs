@@ -27,8 +27,8 @@ export default function PrimaryInput({
   sx,
 }: any) {
   return (
-    <TextField  
-      focused={focused} 
+    <TextField
+      focused={focused}
       error={error}
       label={label}
       required={required}
@@ -52,6 +52,6 @@ export default function PrimaryInput({
           </InputAdornment>
         ),
       }}
-    />
+    ></TextField>
   );
 }

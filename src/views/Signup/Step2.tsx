@@ -12,7 +12,6 @@ import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import styling from '../../components/stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
 
-
 const Step2 = ({
   translate,
   signupType,
@@ -39,8 +38,7 @@ const Step2 = ({
 }: any) => {
   const { errorMessage, strengthMsgs } = styling;
 
-  
-  const {values,errors,touched,isValid:formikValid,handleBlur} = formik
+  const { values, errors, touched, isValid: formikValid, handleBlur } = formik;
   let captchaRef: any = React.useRef<ReCAPTCHA>();
   const handleChangeRecaptcha = (token: string | null) => {
     getRecaptchaToken(token);
@@ -68,7 +66,7 @@ const Step2 = ({
           required={true}
           value={values?.firstName}
           error={touched.firstName && Boolean(errors.firstName)}
-            helperText={touched.firstName && errors.firstName}
+          helperText={touched.firstName && errors.firstName}
         />
       </Grid>
       <Grid item sm={6} xs={12} pt={3}>
@@ -82,7 +80,7 @@ const Step2 = ({
           onBlur={handleBlur}
           required={true}
           value={values?.lastName}
-          error={touched.lastName && Boolean(errors.lastName) }
+          error={touched.lastName && Boolean(errors.lastName)}
           helperText={touched.lastName && errors.lastName}
         />
       </Grid>
@@ -131,7 +129,7 @@ const Step2 = ({
           onChange={changeHandler}
           value={user?.password}
           error={touched.password ?? Boolean(errors.password)}
-            helperText={touched.password ?? errors.password}
+          helperText={touched.password ?? errors.password}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -146,7 +144,6 @@ const Step2 = ({
           onClick={hideShowConfirmPassword}
           onChange={handleCPassword}
           value={user?.confirmPassword}
-          
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -191,7 +188,12 @@ const Step2 = ({
         </div>
       </Grid>
       <Grid item xs={12} pt={3}>
-        <PrimaryButton  disabled={!(isValid && formikValid && Object.keys(touched).length > 0)} onClick={handleSignUp} variant="contained" fullWidth>
+        <PrimaryButton
+          disabled={!(isValid && formikValid && Object.keys(touched).length > 0)}
+          onClick={handleSignUp}
+          variant="contained"
+          fullWidth
+        >
           {translate('SIGN_UP')}
         </PrimaryButton>
       </Grid>
