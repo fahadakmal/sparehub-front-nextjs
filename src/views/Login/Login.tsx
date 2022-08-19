@@ -311,7 +311,7 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          <Link style={{ textDecoration: 'none !important' }} href="/signup" passHref>
+          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
             <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           </Link>
           <b>
