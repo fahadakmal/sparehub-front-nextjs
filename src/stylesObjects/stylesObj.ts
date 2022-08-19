@@ -36,6 +36,11 @@ const styling = {
     fontSize: '24px',
     lineHeight: '31px',
   },
+  typoForgotPass: {
+    fontWeight: 700,
+    fontSize: '24px',
+    lineHeight: '31px',
+  },
 };
 
 export default styling;

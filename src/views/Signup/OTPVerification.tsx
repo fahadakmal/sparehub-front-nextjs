@@ -4,6 +4,7 @@ import Otp from '../../components/Otp';
 import { useAuth } from '../../auth/Auth';
 import { useRouter } from 'next/router';
 import ToastAlert from '../../components/Toast/ToastAlert';
+import styling from '../../components/stylesObjects/stylesObj';
 
 const OTPVerification = (props: any) => {
   const router = useRouter();
@@ -25,34 +26,54 @@ const OTPVerification = (props: any) => {
   };
 
   const handleSubmit = async () => {
-    try {
-      const res = await auth.otpConfirmation(verificationType, otp);
-      if (res) {
-        router.push('/congratulations');
+    if (!newPassword) {
+      try {
+        const res = await auth.otpConfirmation(verificationType, otp);
+        if (res) {
+          router.push('/congratulations');
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
+        }
       }
-    } catch (err) {
-      if (err instanceof Error) {
-        setToast({
-          ...toast,
-          message: err.message,
-          appearence: true,
-          type: 'error',
-        });
+    } else {
+      try {
+        const res = await auth.confirmPassword(email, otp, newPassword);
+        if (res) {
+          setToast({
+            ...toast,
+            message: '6 digit OTP has been sent',
+            appearence: true,
+            type: 'success',
+          });
+          router.push('/congratulations');
+          return;
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
+        }
       }
     }
   };
+  const { backButton } = styling;
 
   const resendOtp = async () => {
     try {
-      const res = await auth.resendOtp(verificationType);
+      const res = await auth.resendOtp(phoneNumber);
       if (res) {
-        setToast({
-          ...toast,
-          message: '6 digit OTP has been sent',
-          appearence: true,
-          type: 'success',
-        });
-        return;
+        router.push('/congratulations');
       }
     } catch (err) {
       if (err instanceof Error) {
@@ -64,22 +85,6 @@ const OTPVerification = (props: any) => {
         });
       }
     } 
-  };
-  const codeHandler = async () => {
-    try {
-      console.log('confirm pass start');
-      console.log(email, otp, newPassword, 'my data');
-      const res = await auth.confirmPassword(email, otp, newPassword);
-      console.log(res, 'confirm pass after');
-      if (res) {
-        console.log('goinn for route');
-        router.push('/congratulations');
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        window.alert(err.message);
-      }
-    }
   };
 
   const handleCloseToast = () => {
@@ -95,7 +100,6 @@ const OTPVerification = (props: any) => {
         {...props}
         identity={identity}
         resendOtp={resendOtp}
-        codeHandler={codeHandler}
       />
       <ToastAlert
         appearence={toast.appearence}
