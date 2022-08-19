@@ -111,34 +111,33 @@ const ResetPassword = ({ translate }: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
     setIsCPasswordDirty(true);
   };
-  const data = router.query;
-  console.log(data.email, 'data', data.type, 'type');
+  const { email, type, phone } = router.query;
+  console.log(email, 'data', phone, 'phone', type, 'type');
 
   const handleForgotPassword = async () => {
-    const userEmail = data.type;
-    if (data.type == 'email') {
-      if (!data.type) {
-        return;
+    router.push(
+      {
+        pathname: '/otpVerification',
+        query: { email: email, newPassword: user.password },
+      },
+      '/otpVerification',
+    );
+  };
+
+  const codeHandler = async () => {
+    try {
+      console.log('confirm pass start');
+      console.log(email, otp, user.password, 'my data');
+      const { res } = await auth.confirmPassword(email, otp, user.password);
+      console.log(res, 'confirm pass after');
+      if (res) {
+        console.log('goinn for route');
+        router.push('/congratulations');
       }
-      try {
-        const res = await auth.forgotPassword(data.email);
-        if (res) {
-          router.push(
-            {
-              pathname: '/otpVerification',
-              query: { email: data.email, newPassword: user.password },
-            },
-            '/otpVerification',
-          );
-          console.log('abc');
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          window.alert(error.message);
-        }
+    } catch (err) {
+      if (err instanceof Error) {
+        window.alert(err.message);
       }
-    } else {
-      console.log('abc');
     }
   };
 
@@ -151,6 +150,11 @@ const ResetPassword = ({ translate }: any) => {
     isSpecialChar &&
     isLowercase &&
     user.confirmPassword.trim() === user.password.trim();
+
+  const [otp, setOtp] = useState('');
+  const handleOTP = (event: any) => {
+    setOtp(event.target.value);
+  };
 
   return (
     <AuthContainer>
@@ -170,6 +174,18 @@ const ResetPassword = ({ translate }: any) => {
         </Grid>
       </Box>
       <Box>
+        {/* <Grid item xs={12} pt={3}>
+          <PrimaryInput
+            label={translate(LANG_STRINGS.OTP_VERIFICATION)}
+            type={'text'}
+            name="code"
+            fullWidth
+            placeholder={translate(LANG_STRINGS.OTP_VERIFICATION)}
+            startAdornment={<Lock color="disabled" />}
+            value={otp}
+            onChange={handleOTP}
+          />
+        </Grid> */}
         <Grid item xs={12} pt={3}>
           <PrimaryInput
             label={translate(LANG_STRINGS.NEW_PASSWORD)}
@@ -197,24 +213,10 @@ const ResetPassword = ({ translate }: any) => {
             onClick={hideShowConfirmPassword}
             value={user.confirmPassword}
             onChange={handleCPassword}
-            helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
+            // helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
           />
         </Grid>
-        <Grid item xs={12} pt={3}>
-          <PrimaryInput
-            label={translate(LANG_STRINGS.CONFIRM_PASSWORD)}
-            type={'text'}
-            name="code"
-            fullWidth
-            placeholder={translate(LANG_STRINGS.ENTER_PASS_AGAIN)}
-            startAdornment={<Lock color="disabled" />}
-            endAdornment={showConfirmPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
-            onClick={hideShowConfirmPassword}
-            value={user.confirmPassword}
-            onChange={handleCPassword}
-            helperText={showErrorMessage ? translate(LANG_STRINGS.PASSWORD_ERROR_MSG) : ''}
-          />
-        </Grid>
+        {/* <PrimaryButton onClick={codeHandler}>Code Hander</PrimaryButton> */}
         <Grid item xs={12} pt={3}>
           <Box mb={2} mt={1}>
             <Grid container spacing={0}>

@@ -66,5 +66,9 @@
   "SEARCH": "Search",
   "SEARCH_PLACEHOLDER": "e.g products, reports, staff ...",
   "PASSWORD_ERROR_MSG": "Passwords did not match",
-  "EMAIL_ERROR_MSG":"Must include '@' and '.'"
+  "EMAIL_ERROR_MSG":"Must include '@' and '.'",
+  "PASSWORD_UPDATED":"Password Updated Successfully",
+  "PASSWORD_UPDATED_MSG": "your password has been successfully updated & secured. Login into your account",
+  "CHECK_YOUR_EMAIL":"Check your Email"
+
 }

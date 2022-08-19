@@ -166,27 +166,34 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  async function forgotPassword (username: string) {
+  async function forgotPassword(username: string) {
     try {
       return await cognito.forgotPassword(username);
-    } catch (error) {
-      if (error instanceof Error) {
-          throw error;
-        }
-    }
-  }
-
-  async function confirmPassword (username: string, verificationCode: string, newPassword: string) {
-    try {
-      console.log(username,verificationCode, newPassword, 'username top')
-      return await cognito.confirmPassword(username, verificationCode, newPassword);
-      
     } catch (error) {
       if (error instanceof Error) {
         throw error;
       }
     }
   }
+
+  async function confirmPassword(username: string, verificationCode: string, newPassword: string) {
+    try {
+      console.log(username, verificationCode, newPassword, 'username top');
+      return await cognito.confirmPassword(username, verificationCode, newPassword);
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+    }
+  }
+
+  // async function sendCode(username: string) {
+  //   try {
+  //     await cognito.sendCode(username)
+  //   } catch (err) {
+  //     throw err
+  //   }
+  // }
 
   const state: IAuth = {
     authStatus,

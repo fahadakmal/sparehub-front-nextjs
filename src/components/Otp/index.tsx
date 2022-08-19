@@ -24,7 +24,7 @@ const useStyles = {
   },
 };
 
-const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp }: any) => {
+const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp, codeHandler }: any) => {
   const [receivedCode, setReceivedCode] = React.useState(true);
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
@@ -57,6 +57,17 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
 
   const handleBack = () => {
     router.back();
+  };
+  const OtpSubmitHandler = () => {
+    if ((phoneNumber = 'phone')) {
+      <PrimaryButton disabled={!otpFilled} onClick={handleSubmit} fullWidth>
+        {translate('VERIFY')}
+      </PrimaryButton>;
+    } else {
+      <PrimaryButton disabled={!otpFilled} onClick={codeHandler} fullWidth>
+        {translate('VERIFY')}
+      </PrimaryButton>;
+    }
   };
 
   const handleResend = () => {
