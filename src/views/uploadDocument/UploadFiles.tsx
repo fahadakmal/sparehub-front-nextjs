@@ -17,6 +17,7 @@ import 'cropperjs/dist/cropper.css';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import ErrorModal from '../sellerprofile/ErrorModal';
+import { SellerDetail } from '../sellerprofile';
 
 const UploadFiles = ({ translate }: any) => {
   const [on, setOn] = useState<boolean>(false);
@@ -40,7 +41,7 @@ const UploadFiles = ({ translate }: any) => {
   };
   const backNavigate = (e: any) => {
     e.preventDefault();
-    router.push('../SellerDetail');
+    router.push('../SellerDetailPage');
   };
 
   const ReactFileReader: any = dynamic(() => import('react-file-reader'), {

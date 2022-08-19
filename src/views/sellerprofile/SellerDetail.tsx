@@ -2,7 +2,7 @@
 import { Grid } from '@mui/material';
 import SellerHeading from '../../components/SellerHeading';
 import Steper from '../../components/Stepper';
-import 'react-image-picker-editor/dist/index.css';
+// import 'react-image-picker-editor/dist/index.css';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import SelectField from '../../components/SelectField';
