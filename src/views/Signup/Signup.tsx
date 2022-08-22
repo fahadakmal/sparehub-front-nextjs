@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { countries } from '../../components/Select/Countries';
+import ToastAlert from '../../components/Toast/ToastAlert';
 import { registrationRequest } from '../../redux/slices/authSlice';
 import { apiPost } from '../../services';
 import { validateEmail } from '../../utils';
 import Step1 from './Step1';
 import Step2 from './Step2';
-import ToastAlert from '../../components/Toast/ToastAlert';
 
 const styles = {
   tab: {
@@ -46,7 +46,7 @@ export default function Signup({ translate }: any) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState(initialState);
-  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
   const [signupType, setSignupType] = useState('email');
   const [signUpRequest, setSignUpRequest] = useState(false);
   const [step, setStep] = useState(1);
@@ -85,13 +85,8 @@ export default function Signup({ translate }: any) {
     return isValid;
   };
 
-  const handleVerifyRecaptcha = (token: any) => {
-    const isValid = handleValidation();
-    if (isValid) {
-      setRecaptchaStatusVerified(true);
-    } else {
-      setRecaptchaStatusVerified(false);
-    }
+  const getRecaptchaToken = (token: any) => {
+    setRecaptchaToken(token);
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -104,6 +99,10 @@ export default function Signup({ translate }: any) {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
     if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
       setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+      return;
+    }
+    if (recaptchaToken.length < 1) {
+      setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
       return;
     }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
@@ -188,15 +187,20 @@ export default function Signup({ translate }: any) {
 
   const clearUserState = () => {
     setUser({ ...initialState });
+    setEmailValid(false);
   };
 
   const handleBack = () => {
+    setUser({ ...initialState });
+    setRecaptchaToken('');
     setStep(step - 1);
   };
 
   const handleCloseToast = () => {
     setToast({ ...toast, appearence: false });
   };
+
+  const isValid = handleValidation();
 
   return (
     <AuthContainer>
@@ -208,7 +212,7 @@ export default function Signup({ translate }: any) {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={0}
+            left={-90}
             top={0}
           >
             <ArrowBackIcon />
@@ -258,10 +262,10 @@ export default function Signup({ translate }: any) {
                   showConfirmPassword={showConfirmPassword}
                   hideShowConfirmPassword={hideShowConfirmPassword}
                   user={user}
-                  handleVerifyRecaptcha={handleVerifyRecaptcha}
+                  getRecaptchaToken={getRecaptchaToken}
                   handleSignUp={handleSignUp}
-                  recaptchaStatusVerified={recaptchaStatusVerified}
                   emailValid={emailValid}
+                  isValid={isValid}
                 />
               )}
             </>
@@ -288,9 +292,9 @@ export default function Signup({ translate }: any) {
                 showConfirmPassword={showConfirmPassword}
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
-                handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={recaptchaStatusVerified}
+                getRecaptchaToken={getRecaptchaToken}
                 emailValid={emailValid}
+                isValid={isValid}
               />
             )}
           </TabPanel>

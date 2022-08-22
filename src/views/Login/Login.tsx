@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
+import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
@@ -15,6 +16,7 @@ import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { validateEmail } from '../../utils';
 import ToastAlert from '../../components/Toast/ToastAlert';
+import i18next from 'i18next';
 
 const styles = {
   tab: {
@@ -28,10 +30,11 @@ const styles = {
 };
 
 export default function Login({ translate }: any) {
+  let captchaRef: any = useRef<ReCAPTCHA>();
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
-  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
@@ -62,7 +65,10 @@ export default function Login({ translate }: any) {
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    captchaRef.props.grecaptcha.reset();
     setLoginType(newValue);
+    setUser({ ...user, email: '', password: '', phoneNumber: '', country: 'SA', dialCode: '+966' });
+    setRecaptchaToken('');
   };
 
   const handleCountrySelect = (code: string) => {
@@ -85,12 +91,8 @@ export default function Login({ translate }: any) {
     return isValid;
   };
 
-  const handleVerifyRecaptcha = (token: any) => {
-    const isValid = handleValidation();
-
-    if (token && isValid) {
-      setRecaptchaStatusVerified(true);
-    }
+  const getRecaptchaToken = (token: any) => {
+    setRecaptchaToken(token);
   };
 
   const handleLogin = async () => {
@@ -99,6 +101,10 @@ export default function Login({ translate }: any) {
     if (loginType == 'email') {
       if (!isValid) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        return;
+      }
+      if (recaptchaToken.length < 1) {
+        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
       const { email, password } = user;
@@ -114,6 +120,10 @@ export default function Login({ translate }: any) {
     } else {
       if (!isValid) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        return;
+      }
+      if (recaptchaToken.length < 1) {
+        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
       const { password, dialCode, phoneNumber } = user;
@@ -134,6 +144,8 @@ export default function Login({ translate }: any) {
   const handleCloseToast = () => {
     setToast({ ...toast, appearence: false });
   };
+
+  const isValid = handleValidation();
 
   return (
     <AuthContainer>
@@ -281,11 +293,19 @@ export default function Login({ translate }: any) {
       </Box>
 
       <Grid pt={3} item width={'100%'}>
-        <Recaptcha translate={translate} handleVerifyRecaptcha={handleVerifyRecaptcha} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ReCAPTCHA
+            size="normal"
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY + ''}
+            ref={(e) => (captchaRef = e)}
+            onChange={getRecaptchaToken}
+            hl={i18next.language}
+          />
+        </div>
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={!isValid} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>
@@ -295,7 +315,7 @@ export default function Login({ translate }: any) {
             <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           </Link>
           <b>
-            <Link href="signup" passHref>
+            <Link href="/signup" passHref replace>
               <MuiLink underline="hover" color="#E2282C">
                 {translate('REGISTER_NOW')}
               </MuiLink>
