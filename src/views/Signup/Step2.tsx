@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Grid, Typography } from '@mui/material';
+import ReCAPTCHA from 'react-google-recaptcha';
 // import '../../App.css';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
-import Recaptcha from '../../components/Recaptcha';
+import i18next from 'i18next';
 
 const Step2 = ({
   translate,
@@ -15,12 +16,17 @@ const Step2 = ({
   hideShowPassword,
   showConfirmPassword,
   hideShowConfirmPassword,
-  handleVerifyRecaptcha,
+  getRecaptchaToken,
   handleSignUp,
   user,
-  recaptchaStatusVerified,
   emailValid,
+  isValid,
 }: any) => {
+  let captchaRef: any = React.useRef<ReCAPTCHA>();
+  const handleChangeRecaptcha = (token: string | null) => {
+    getRecaptchaToken(token);
+  };
+
   return (
     <Grid columnSpacing={2} container>
       <Grid item sm={6} xs={12} pt={3}>
@@ -32,6 +38,7 @@ const Step2 = ({
           placeholder={translate('FIRST_NAME')}
           onChange={handleChange}
           required={true}
+          value={user.firstName}
         />
       </Grid>
       <Grid item sm={6} xs={12} pt={3}>
@@ -43,6 +50,7 @@ const Step2 = ({
           placeholder={translate('LAST_NAME')}
           onChange={handleChange}
           required={true}
+          value={user.lastName}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -57,6 +65,7 @@ const Step2 = ({
             onChange={handleChange}
             required={true}
             error={!emailValid}
+            value={user.email}
           />
         ) : (
           <PhoneInput
@@ -67,6 +76,7 @@ const Step2 = ({
             startAdornment={<Typography>{user.dialCode}</Typography>}
             onChange={handleChange}
             required={true}
+            value={user.phoneNumber}
           />
         )}
       </Grid>
@@ -81,6 +91,7 @@ const Step2 = ({
           endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowPassword}
           onChange={handleChange}
+          value={user.password}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -94,13 +105,22 @@ const Step2 = ({
           endAdornment={showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowConfirmPassword}
           onChange={handleChange}
+          value={user.confirmPassword}
         />
       </Grid>
       <Grid item pt={2} width="100%">
-        <Recaptcha translate={translate} handleVerifyRecaptcha={handleVerifyRecaptcha} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ReCAPTCHA
+            size="normal"
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY + ''}
+            ref={(e) => (captchaRef = e)}
+            onChange={handleChangeRecaptcha}
+            hl={i18next.language}
+          />
+        </div>
       </Grid>
       <Grid item xs={12} pt={3}>
-        <PrimaryButton disabled={false} onClick={handleSignUp} variant="contained" fullWidth>
+        <PrimaryButton disabled={!isValid} onClick={handleSignUp} variant="contained" fullWidth>
           {translate('SIGN_UP')}
         </PrimaryButton>
       </Grid>

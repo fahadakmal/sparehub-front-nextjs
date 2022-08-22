@@ -39,7 +39,6 @@ const Header = () => {
   const [language, setLanguage] = useState(storedLang || 'en');
   const handleChangeLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
-    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleChangeLanguage ~ e.target.value', newVal);
     i18next.changeLanguage(newVal);
   };
   const theme = useTheme();
