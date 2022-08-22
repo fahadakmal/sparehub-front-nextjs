@@ -5,6 +5,7 @@ import { PrimaryButton } from '../Button/PrimaryButton';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BackArrow } from '../../../public/icons';
+import i18next from 'i18next';
 // import '../../App.css';
 
 const useStyles = {
@@ -74,8 +75,9 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           border="1px solid rgba(0, 0, 0, 0.1)"
           position={'absolute'}
           onClick={handleBack}
-          left={-90}
+          left={i18next.language !== 'ar' ? -90 : ''}
           top={0}
+          right={i18next.language === 'ar' ? -90 : ''}
         >
           <Image src={BackArrow} />
         </Box>

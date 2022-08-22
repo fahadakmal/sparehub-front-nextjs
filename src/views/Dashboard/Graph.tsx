@@ -10,9 +10,10 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-
+import Image from 'next/image';
 import { Box, Grid, OutlinedInput, MenuItem } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Graph, OrderGraph, ProductGraph } from '../../../public/images';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -146,7 +147,9 @@ export default function StateGraph({ translate }: any) {
                 </Select>
               </Box>
             </Grid>
-            <Line options={options} data={data} />
+            <Image src={Graph} />
+
+            {/* <Line options={options} data={data} /> */}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={6} md={6} lg={6}>
@@ -202,6 +205,63 @@ export default function StateGraph({ translate }: any) {
                 </Select>
               </Box>
             </Grid>
+            <Image src={OrderGraph} />
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6} lg={6}>
+          <Grid
+            container
+            direction="column"
+            sx={{ border: '1px', borderRadius: '8px', background: '#ffffff', padding: '7px' }}
+          >
+            <Grid item sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid
+                item
+                sx={{
+                  fontStyle: 'normal',
+                  fontWeight: 700,
+                  fontFamily: 'Mulish',
+                  fontSize: '24px',
+                  lineHeight: '134.4%',
+                  color: '#000000',
+                }}
+              >
+                Order vs Time
+              </Grid>
+              <Box
+                sx={{
+                  fontFamily: 'Mulish',
+                  fontSize: '14px',
+                  color: '#000000',
+                }}
+              >
+                <Select
+                  displayEmpty
+                  value={personName}
+                  onChange={handleChange}
+                  input={<OutlinedInput />}
+                  renderValue={(selected) => {
+                    if (selected.length === 0) {
+                      return <em>Placeholder</em>;
+                    }
+
+                    return selected.join(', ');
+                  }}
+                  MenuProps={MenuProps}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                >
+                  <MenuItem disabled value="">
+                    <em>Placeholder</em>
+                  </MenuItem>
+                  {names.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </Box>
+            </Grid>
+            <Image src={ProductGraph} />
           </Grid>
         </Grid>
       </Grid>

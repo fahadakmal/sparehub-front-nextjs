@@ -21,7 +21,7 @@ const useStyles = {
   },
 };
 
-export default function AuthContainer({ children, handleChangeLanguage }: any) {
+export default function AuthContainer({ children }: any) {
   const { leftContainer, footer } = useStyles;
   const { t, i18n } = useTranslation();
   const theme = useTheme();
@@ -36,7 +36,7 @@ export default function AuthContainer({ children, handleChangeLanguage }: any) {
       </Hidden>
       <Grid item xs={12} sm={12} md={6}>
         <Box>
-          <Header handleChangeLanguage={handleChangeLanguage} />
+          <Header />
         </Box>
         <Box component={'div'} dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
           <Grid px={isMobileScreen ? 5 : 15} container rowGap={2}>

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
+import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
@@ -14,6 +15,8 @@ import { useAuth } from '../../auth/Auth';
 import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { validateEmail } from '../../utils';
+import ToastAlert from '../../components/Toast/ToastAlert';
+import i18next from 'i18next';
 
 const styles = {
   tab: {
@@ -26,14 +29,15 @@ const styles = {
   },
 };
 
-export default function Login({ translate, handleChangeLanguage }: any) {
+export default function Login({ translate }: any) {
+  let captchaRef: any = useRef<ReCAPTCHA>();
   const { tab } = styles;
   const router = useRouter();
-  const [loginType, setLoginType] = React.useState('email');
-  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = useState(false);
+  const [loginType, setLoginType] = useState('email');
+  const [recaptchaToken, setRecaptchaToken] = useState('');
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
-  const [emailValid, setEmailValid] = React.useState(false);
+  const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -41,6 +45,12 @@ export default function Login({ translate, handleChangeLanguage }: any) {
     country: 'SA',
     dialCode: '+966',
   });
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
+
   const auth: any = useAuth();
 
   const handleChange = (e: any) => {
@@ -55,7 +65,10 @@ export default function Login({ translate, handleChangeLanguage }: any) {
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    captchaRef.props.grecaptcha.reset();
     setLoginType(newValue);
+    setUser({ ...user, email: '', password: '', phoneNumber: '', country: 'SA', dialCode: '+966' });
+    setRecaptchaToken('');
   };
 
   const handleCountrySelect = (code: string) => {
@@ -78,61 +91,64 @@ export default function Login({ translate, handleChangeLanguage }: any) {
     return isValid;
   };
 
-  const handleVerifyRecaptcha = (token: any) => {
-    const isValid = handleValidation();
-
-    if (token && isValid) {
-      setRecaptchaStatusVerified(true);
-    }
-  };
-
-  const redirectDashboard = () => {
-    router.push('/');
+  const getRecaptchaToken = (token: any) => {
+    setRecaptchaToken(token);
   };
 
   const handleLogin = async () => {
+    const isValid = handleValidation();
+
     if (loginType == 'email') {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        return;
+      }
+      if (recaptchaToken.length < 1) {
+        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
       const { email, password } = user;
       try {
-        await auth.signInWithEmail(email, password);
-        redirectDashboard();
+        const res = await auth.signInWithEmail(email, password);
       } catch (err: any) {
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     } else {
-      const isValid = handleValidation();
       if (!isValid) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        return;
+      }
+      if (recaptchaToken.length < 1) {
+        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
       const { password, dialCode, phoneNumber } = user;
       const phoneWithDialCode = dialCode + phoneNumber.trim();
       try {
         const res = await auth.signInWithPhone(phoneWithDialCode, password);
-        console.log('cognito res', res);
-
-        // redirectDashboard();
       } catch (err: any) {
         console.log('aws response rror', err);
-
         if (err._type === 'UserNotConfirmedException') {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
-          window.alert(err.message);
+          setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         }
       }
     }
   };
 
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
+  const isValid = handleValidation();
+
   return (
-    <AuthContainer handleChangeLanguage={handleChangeLanguage}>
+    <AuthContainer>
       <Grid xs={12} item textAlign={'center'}>
         <Typography component="h1" variant="h5">
           {translate('LOGIN')}
@@ -277,30 +293,41 @@ export default function Login({ translate, handleChangeLanguage }: any) {
       </Box>
 
       <Grid pt={3} item width={'100%'}>
-        <Recaptcha translate={translate} handleVerifyRecaptcha={handleVerifyRecaptcha} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ReCAPTCHA
+            size="normal"
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY + ''}
+            ref={(e) => (captchaRef = e)}
+            onChange={getRecaptchaToken}
+            hl={i18next.language}
+          />
+        </div>
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!recaptchaStatusVerified} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={!isValid} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          {/* <Link href="/sellerDetail">
-          {translate('DONT_HAVE_ACCOUNT')}{' '}
-          </Link> */}
-          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
+          <Link style={{ textDecoration: 'none !important' }} href="/signup" passHref>
             <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           </Link>
           <b>
-            <Link href="signup" passHref>
+            <Link href="/signup" passHref replace>
               <MuiLink underline="hover" color="#E2282C">
                 {translate('REGISTER_NOW')}
               </MuiLink>
             </Link>
           </b>
         </Typography>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );

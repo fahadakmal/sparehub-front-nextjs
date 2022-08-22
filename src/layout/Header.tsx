@@ -1,52 +1,23 @@
-import React, { useState } from 'react';
 import { Grid, Hidden, useMediaQuery, useTheme } from '@mui/material';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import { useDispatch } from 'react-redux';
-import Image from 'next/image';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import i18next from 'i18next';
+import Image from 'next/image';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Logo } from '../../public/icons';
 import LANGUAGES from '../enums';
 import { handleChangeLanguage } from '../redux/slices/languageSlice';
 
-const useStyles = {
-  toggleBtn: {
-    borderRadius: 2,
-    color: '#000',
-    borderColor: '#D9D9D9',
-    width: '90px',
-    fontWeight: '500',
-    '&:hover': {
-      borderColor: '#D9D9D9',
-    },
-  },
-  englishBtn: {
-    borderRight: 'none',
-    '&:hover': {
-      borderRight: 'none',
-    },
-  },
-  arabicBtn: {
-    borderLeft: 'none',
-    '&:hover': {
-      borderLeft: 'none',
-    },
-  },
-};
-
 const Header = (props: any) => {
-  const { handleChangeLanguage } = props;
   const dispatch = useDispatch();
-  const { englishBtn, arabicBtn, toggleBtn } = useStyles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
   const handleLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
-    console.log('🚀 ~ file: Header.tsx ~ line 43 ~ handleLanguage ~ e.target.value', newVal);
     i18next.changeLanguage(newVal);
-    handleChangeLanguage(newVal);
-    // dispatch(handleChangeLanguage(newVal));
+    dispatch(handleChangeLanguage(newVal));
   };
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));

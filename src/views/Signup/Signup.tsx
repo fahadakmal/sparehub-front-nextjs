@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, Tab, Tabs, Typography, CircularProgress, LinearProgress } from '@mui/material';
-import Image from 'next/image';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { TabContext, TabPanel } from '@mui/lab';
+import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
+import i18next from 'i18next';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
-import Step1 from './Step1';
-import Step2 from './Step2';
 import { countries } from '../../components/Select/Countries';
-import { useRouter } from 'next/router';
-import { BackArrow } from '../../../public/icons';
-import { validateEmail } from '../../utils';
+import ToastAlert from '../../components/Toast/ToastAlert';
 import { registrationRequest } from '../../redux/slices/authSlice';
 import { apiPost } from '../../services';
+import { validateEmail } from '../../utils';
+import Step1 from './Step1';
+import Step2 from './Step2';
 
 const styles = {
   tab: {
@@ -39,19 +39,23 @@ const initialState = {
 
 export default function Signup({ translate }: any) {
   const { tab } = styles;
+  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const dispatch = useDispatch();
   const auth: any = useAuth();
   const router = useRouter();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const [emailValid, setEmailValid] = React.useState(false);
-
-  const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
-  const [user, setUser] = React.useState(initialState);
-  const [recaptchaStatusVerified, setRecaptchaStatusVerified] = React.useState(false);
-  const [signupType, setSignupType] = React.useState('email');
-  const [signUpRequest, setSignUpRequest] = React.useState(false);
-  const [step, setStep] = React.useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [user, setUser] = useState(initialState);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const [signupType, setSignupType] = useState('email');
+  const [signUpRequest, setSignUpRequest] = useState(false);
+  const [step, setStep] = useState(1);
+  const [toast, setToast] = useState({
+    message: '',
+    appearence: false,
+    type: '',
+  });
 
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
@@ -82,14 +86,8 @@ export default function Signup({ translate }: any) {
     return isValid;
   };
 
-  const handleVerifyRecaptcha = (token: any) => {
-    const isValid = handleValidation();
-    //TODO:Need to handle recaptcha token
-    if (isValid) {
-      setRecaptchaStatusVerified(true);
-    } else {
-      setRecaptchaStatusVerified(false);
-    }
+  const getRecaptchaToken = (token: any) => {
+    setRecaptchaToken(token);
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
@@ -101,7 +99,11 @@ export default function Signup({ translate }: any) {
   const handleSignUp = async () => {
     const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
     if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
-      window.alert('Please enter complete information');
+      setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+      return;
+    }
+    if (recaptchaToken.length < 1) {
+      setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
       return;
     }
     const phoneWithDialCode = dialCode + phoneNumber.trim();
@@ -109,12 +111,22 @@ export default function Signup({ translate }: any) {
     try {
       const userFoundInLocalDb = await apiPost('/auth/preSignUp', { email, phoneNo: phoneWithDialCode }, '');
       if (userFoundInLocalDb) {
-        window.alert('User with given email or phone no already exist');
+        setToast({
+          ...toast,
+          message: 'User with given email or phone already exist',
+          appearence: true,
+          type: 'error',
+        });
         return;
       }
     } catch (error: any) {
       if (error.statusCode == 400) {
-        window.alert('Please enter correct data');
+        setToast({
+          ...toast,
+          message: 'Please enter correct data',
+          appearence: true,
+          type: 'error',
+        });
         return;
       }
     }
@@ -122,6 +134,7 @@ export default function Signup({ translate }: any) {
     setSignUpRequest(true);
     if (signupType == 'email') {
       if (!(email && password && confirmPassword && password === confirmPassword)) {
+        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
       try {
@@ -136,7 +149,12 @@ export default function Signup({ translate }: any) {
         }
       } catch (err) {
         if (err instanceof Error) {
-          window.alert(err.message);
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
         }
       }
     } else {
@@ -152,7 +170,12 @@ export default function Signup({ translate }: any) {
         }
       } catch (err) {
         if (err instanceof Error) {
-          window.alert(err.message);
+          setToast({
+            ...toast,
+            message: err.message,
+            appearence: true,
+            type: 'error',
+          });
         }
       }
     }
@@ -165,12 +188,21 @@ export default function Signup({ translate }: any) {
 
   const clearUserState = () => {
     setUser({ ...initialState });
+    setEmailValid(false);
   };
 
   const handleBack = () => {
+    setUser({ ...initialState });
+    setRecaptchaToken('');
     setStep(step - 1);
-    // clearUserState();
+    setEmailValid(false);
   };
+
+  const handleCloseToast = () => {
+    setToast({ ...toast, appearence: false });
+  };
+
+  const isValid = handleValidation();
 
   return (
     <AuthContainer>
@@ -182,8 +214,9 @@ export default function Signup({ translate }: any) {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={0}
+            left={i18next.language !== 'ar' ? -90 : ''}
             top={0}
+            right={i18next.language === 'ar' ? -90 : ''}
           >
             <ArrowBackIcon />
           </Box>
@@ -232,10 +265,10 @@ export default function Signup({ translate }: any) {
                   showConfirmPassword={showConfirmPassword}
                   hideShowConfirmPassword={hideShowConfirmPassword}
                   user={user}
-                  handleVerifyRecaptcha={handleVerifyRecaptcha}
+                  getRecaptchaToken={getRecaptchaToken}
                   handleSignUp={handleSignUp}
-                  recaptchaStatusVerified={recaptchaStatusVerified}
                   emailValid={emailValid}
+                  isValid={isValid}
                 />
               )}
             </>
@@ -262,9 +295,9 @@ export default function Signup({ translate }: any) {
                 showConfirmPassword={showConfirmPassword}
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
-                handleVerifyRecaptcha={handleVerifyRecaptcha}
-                recaptchaStatusVerified={recaptchaStatusVerified}
+                getRecaptchaToken={getRecaptchaToken}
                 emailValid={emailValid}
+                isValid={isValid}
               />
             )}
           </TabPanel>
@@ -285,6 +318,12 @@ export default function Signup({ translate }: any) {
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
         </Typography>
+        <ToastAlert
+          appearence={toast.appearence}
+          type={toast.type}
+          message={toast.message}
+          handleClose={handleCloseToast}
+        />
       </Grid>
     </AuthContainer>
   );
