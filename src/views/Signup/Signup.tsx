@@ -191,7 +191,8 @@ export default function Signup({ translate }: any) {
   };
 
   const handleBack = () => {
-    // setUser({ ...initialState });
+    setUser({ ...initialState });
+    setRecaptchaToken('');
     setStep(step - 1);
   };
 
@@ -211,7 +212,7 @@ export default function Signup({ translate }: any) {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={0}
+            left={-90}
             top={0}
           >
             <ArrowBackIcon />

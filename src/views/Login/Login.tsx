@@ -34,7 +34,7 @@ export default function Login({ translate }: any) {
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
-  const [recaptchaToken, setRecaptchaToken] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
@@ -65,8 +65,10 @@ export default function Login({ translate }: any) {
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
+    captchaRef.props.grecaptcha.reset();
     setLoginType(newValue);
     setUser({ ...user, email: '', password: '', phoneNumber: '', country: 'SA', dialCode: '+966' });
+    setRecaptchaToken('');
   };
 
   const handleCountrySelect = (code: string) => {
@@ -101,7 +103,7 @@ export default function Login({ translate }: any) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
         return;
       }
-      if (captchaRef.props.grecaptcha.getResponse().length < 1) {
+      if (recaptchaToken.length < 1) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
@@ -118,6 +120,10 @@ export default function Login({ translate }: any) {
     } else {
       if (!isValid) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        return;
+      }
+      if (recaptchaToken.length < 1) {
+        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
       const { password, dialCode, phoneNumber } = user;
