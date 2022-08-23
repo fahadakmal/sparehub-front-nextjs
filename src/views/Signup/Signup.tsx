@@ -76,23 +76,7 @@ export default function Signup({ translate }: any) {
     appearence: false,
     type: '',
   });
-  // const [isValid, setIsValid] = React.useState(false);
-  // const [message, setMessage] = React.useState("");
 
-
-  // const emailChangeHandler = (event: any) => {
-  //   const emailRegex = /\S+@\S+\.\S+/;
-  //   const value = event.target.value.trim();
-  //   setUser(value);
-
-  //   if (emailRegex.test(user.email)) {
-  //     setIsValid(true);
-  //     setMessage("Your email looks good!");
-  //   } else {
-  //     setIsValid(false);
-  //     setMessage("Must include `@` and `.com`");
-  //   }
-  // };
 
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
