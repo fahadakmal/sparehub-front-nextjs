@@ -27,6 +27,7 @@ export interface IAuth {
   resendOtp?: any;
   signInWithPhone?: any;
   confirmPassword?: any;
+  confirmPassword?: any;
 }
 
 const defaultState: IAuth = {

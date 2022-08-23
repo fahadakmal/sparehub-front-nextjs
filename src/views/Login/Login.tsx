@@ -217,9 +217,9 @@ export default function Login({ translate }: any) {
                       }}
                       sx={{ cursor: 'pointer' }}
                     >
-                      <MuiLink underline="hover" color="black">
+                        <MuiLink underline="hover" color="black">
                         {translate('FORGOT_PASSWORD')}
-                      </MuiLink>
+                        </MuiLink>
                     </Box>
                   </Typography>
                 </Box>

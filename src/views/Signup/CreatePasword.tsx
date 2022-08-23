@@ -143,7 +143,7 @@ export default function CreatePassword({ translate }: any) {
             startAdornment={<Lock color="disabled" />}
             endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
             onClick={hideShowPassword}
-            // onChange={handleChange}
+            // // onChange={handleChange}
             value={user.password}
             onChange={changeHandler('password')}
           />
@@ -158,7 +158,7 @@ export default function CreatePassword({ translate }: any) {
             startAdornment={<Lock color="disabled" />}
             endAdornment={showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
             onClick={hideShowConfirmPassword}
-            // onChange={handleChange}
+            // // onChange={handleChange}
             value={user.confirmPassword}
             onChange={handleCPassword}
           />
