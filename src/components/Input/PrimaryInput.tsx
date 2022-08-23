@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
-import MenuItem from '@mui/material';
 export default function PrimaryInput({
   label,
   placeholder,

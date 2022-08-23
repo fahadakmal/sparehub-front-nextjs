@@ -159,11 +159,8 @@ export default function DashboardContainer(props: any) {
             onClick={(event) => {
               setSelectedIndex(index);
               if(item.key === 'setting'){
-              router.push("SellerDetailPage")
+              router.push("../../seller/create")
               }
-              else{
-              }
-              // handleListItemClick(event, index)
             }}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}

@@ -18,19 +18,21 @@ const ErrorModal = ({ deleteIt, model, setmodel, image, wrong, dialog, action, c
     setmodel(false);
   };
 
-  return (
-    <Dialog
-      className="text-center"
-      sx={{ borderRadius: '50px' }}
-      fullScreen={fullScreen}
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="responsive-dialog-title"
-    >
-      <Grid className="text-center" sx={{ padding: '30px', width: '400px' }}>
-        <Grid style={{ textAlign: 'center', marginTop: '0px' }}>
-          <Image src={image} alt="delete" width={46.67} height={48} />
-        </Grid>
+  {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open responsive dialog
+      </Button> */}
+    return(
+      <Dialog className="text-center"
+      sx={{borderRadius:"50px"}}
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      ><Grid className="text-center" sx={{padding:"30px",width:"400px"}}>
+        {/* <DialogTitle id="responsive-dialog-title"> */}
+        <Grid style={{textAlign:'center',marginTop:"0px"}}>
+        <Image  src={props.image} alt="delete" width={46.67} height={48} /></Grid>
+        {/* </DialogTitle> */}
         <DialogContent>
           <Typography variant="subtitle2" style={{ fontWeight: 'bold' }}>
             {wrong}
