@@ -1,6 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TabContext, TabPanel } from '@mui/lab';
 import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
+import i18next from 'i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -194,6 +195,7 @@ export default function Signup({ translate }: any) {
     setUser({ ...initialState });
     setRecaptchaToken('');
     setStep(step - 1);
+    setEmailValid(false);
   };
 
   const handleCloseToast = () => {
@@ -212,8 +214,9 @@ export default function Signup({ translate }: any) {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={-90}
+            left={i18next.language !== 'ar' ? -90 : ''}
             top={0}
+            right={i18next.language === 'ar' ? -90 : ''}
           >
             <ArrowBackIcon />
           </Box>

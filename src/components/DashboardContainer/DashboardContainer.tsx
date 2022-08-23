@@ -177,8 +177,7 @@ export default function DashboardContainer(props: any) {
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: i18n.language !== 'ar' ? `${drawerWidth}px` : '0x' },
-          mr: { sm: i18n.language === 'ar' ? `${drawerWidth}px` : '0x' },
+          ml: { sm: `${drawerWidth}px` },
           backgroundColor: '#fff !important',
         }}
         elevation={0}
@@ -187,8 +186,6 @@ export default function DashboardContainer(props: any) {
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
-          dir={i18n.dir()}
-          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -205,7 +202,6 @@ export default function DashboardContainer(props: any) {
         </Drawer>
         <Drawer
           variant="permanent"
-          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#10113A' },
