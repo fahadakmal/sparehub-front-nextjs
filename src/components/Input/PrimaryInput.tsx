@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
-import MenuItem from '@mui/material';
 export default function PrimaryInput({
   label,
   placeholder,
@@ -14,6 +13,7 @@ export default function PrimaryInput({
   value,
   required = false,
   error = false,
+  helperText
 }: any) {
   return (
     <TextField
@@ -28,6 +28,7 @@ export default function PrimaryInput({
       fullWidth={fullWidth}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}
+      helperText={helperText}
       InputProps={{
         startAdornment: <InputAdornment position="start">{startAdornment}</InputAdornment>,
         endAdornment: (

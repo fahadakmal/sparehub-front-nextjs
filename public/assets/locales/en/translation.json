@@ -142,5 +142,8 @@
   "CLOSE": "Close",
   "ACTION": "Action",
   "ADDRESS": "Address",
-  "RETURN_LOCATION":"This Location serves as a Return Location"
+  "RETURN_LOCATION":"This Location serves as a Return Location",
+  "COMPLETED_PROFILE_TEXT":"All required information / documents is provided. It is now submitted to Sparehub Admin for verification and approval process",
+  "PROFILE_COMPLETED":"Profile Completed",
+  "GO_TO_DASHBOARD":"Go to Dashboard"
 }

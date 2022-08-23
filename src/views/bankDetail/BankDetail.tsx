@@ -38,24 +38,15 @@ const BankDetail = ({ translate }: any) => {
     e.preventDefault();
     router.push('../UploadDocument');
   };
-  return (
-    <SellerScreenLayout>
-      <Grid className="marginlftRight">
-        <Grid className="shadow">
-          <SellerHeading
-            mydata={() => handleSubmit()}
-            headings={translate(LANG_STRINGS.SELLER_HEADINGS)}
-            draftBtn={translate(LANG_STRINGS.SAVE_AS_DRAFT)}
-          />
-          <Grid sx={{ marginTop: '20px', marginBottom: '7px', padding: '20px' }}>
-            <Steper
+  return (<>
+            {/* <Steper
               count={count}
               sellerAccount={translate(LANG_STRINGS.SELLER_ACCOUNT)}
               businessDocument={translate(LANG_STRINGS.BUSINESS_INFORMATION)}
               bankAccount={translate(LANG_STRINGS.BANK_ACCOUNT)}
               warehouseAddress={translate(LANG_STRINGS.WAREHOUSE_ADDRESS)}
               returnAddress={translate(LANG_STRINGS.RETURN_ADDRESS)}
-            />
+            /> */}
             <Grid sx={{ fontWeight: 'bolder', marginTop: '20px' }}>{translate(LANG_STRINGS.BANK_ACC_DETAIL_MSG)}</Grid>
             <Grid container sx={{ marginTop: '1px' }} spacing={4}>
               <Grid item xs={6}>
@@ -121,7 +112,7 @@ const BankDetail = ({ translate }: any) => {
                 />
               </Grid>
             </Grid>
-            <Grid>
+            {/* <Grid>
               <NextBtn
                 Validate={Validate}
                 backNavigate={backNavigate}
@@ -129,11 +120,8 @@ const BankDetail = ({ translate }: any) => {
                 backBtn={translate(LANG_STRINGS.BACK_BTN)}
                 mand_fields={translate(LANG_STRINGS.MANDATORY_FIELDS)}
               />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </SellerScreenLayout>
+            </Grid> */}
+            </>
   );
 };
 

@@ -28,22 +28,29 @@ const ErrorModal=(props: any)=>{
         Open responsive dialog
       </Button> */}
     return(
-      <Dialog
+      <Dialog className="text-center"
       sx={{borderRadius:"50px"}}
         fullScreen={fullScreen}
         open={open}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
-      ><Grid className="text-center" sx={{padding:"30px"}}>
+      ><Grid className="text-center" sx={{padding:"30px",width:"400px"}}>
         {/* <DialogTitle id="responsive-dialog-title"> */}
         <Grid style={{textAlign:'center',marginTop:"0px"}}>
-        <Image  src="/icons/deleteItem.png" alt="delete" width={46.67} height={42} /></Grid>
+        <Image  src={props.image} alt="delete" width={46.67} height={48} /></Grid>
         {/* </DialogTitle> */}
         <DialogContent>
             <Typography variant="subtitle2" style={{fontWeight:"bold"}}>{props.wrong}</Typography>
           <DialogContentText sx={{marginTop:"10px"}}>{props.delete}
           </DialogContentText>
         </DialogContent>
+        {props.dialog=="success" ?
+        <Grid container >
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6} spacing={12} onClick={handleClose}>
+          <Button style={{borderColor:"black",color:"black",textTransform:"none",width:"180.5px"}} variant="outlined">{props.action}</Button>
+          </Grid>
+        </Grid>:
         <Grid container spacing={2} >
             
           <Grid item xs={6} onClick={handleClose}>
@@ -52,7 +59,7 @@ const ErrorModal=(props: any)=>{
           <Grid item xs={6} onClick={handleClose}>
           <Button style={{backgroundColor:"#F9B507",color:"black",textTransform:"none",width:"137.5px"}} variant="contained">{props.action}</Button>
           </Grid>
-        </Grid>
+        </Grid>}
         </Grid>
       </Dialog>
       )
