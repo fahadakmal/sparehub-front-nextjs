@@ -126,7 +126,6 @@ border-radius: 50%;
   cursor: pointer;
 }
 .actionbtn{
-  /* width:"150px",backgroundColor:"black",color:"white", padding:"10px", borderRadius:"8px",textAlign:"center",cursor: 'pointer' */
   width: 30px;
   padding: 10px;
   border-radius: 8px;
@@ -135,7 +134,27 @@ border-radius: 50%;
   color: white;
   background-color: #F9B507;
 }
-
+.sellerHeading{
+  font-weight: 700;
+  color: black;
+  font-size: 24px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.draftbtn{
+  font-weight: 700;
+  color: black;
+  font-size: 16px;
+  margin-top: 20px;
+  font-style: bold;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid black;
+  width: 180px;
+  cursor: pointer;
+}
 
 
 

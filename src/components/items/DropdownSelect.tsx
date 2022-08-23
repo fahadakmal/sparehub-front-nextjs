@@ -1,6 +1,5 @@
 import React from "react";
 import { useState} from 'react';
-import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -9,16 +8,15 @@ import Image from 'next/image';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
-const DropdownSelect=(props: any)=>{
+const DropdownSelect=({setValue,label,required,}: any)=>{
     const [age, setAge] = useState('');
-    console.log(age)
     const handleChange = (event: SelectChangeEvent) => {
         setAge(event.target.value);
-        props.setValue(event.target.value)
+        setValue(event.target.value)
       };
     return(<FormControl sx={{ width: '100%' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">{props.label}</InputLabel>
-          <OutlinedInput placeholder={props.required}
+          <InputLabel htmlFor="outlined-adornment-password">{label}</InputLabel>
+          <OutlinedInput placeholder={required}
         //   error
             id="outlined-adornment-password"
             startAdornment={
@@ -44,7 +42,7 @@ const DropdownSelect=(props: any)=>{
       </FormControl>
               </InputAdornment>
             }
-            label={props.label}
+            label={label}
           />
           </FormControl>
     )

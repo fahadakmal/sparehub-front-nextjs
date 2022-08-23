@@ -2,25 +2,19 @@
 import { Grid } from '@mui/material';
 import SellerHeading from '../../components/SellerHeading';
 import Steper from '../../components/Stepper';
-// import 'react-image-picker-editor/dist/index.css';
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import SelectField from '../../components/SelectField';
 import NextBtn from './NextBtn';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
-import Typography from '@mui/material';
-import DropdownSelect from '../../components/items/DropdownSelect';
 import { useSelector, useDispatch } from 'react-redux';
-import { getcountryFetch } from '../../redux/slices/sellerCountrySlice';
 // rtl code
-import { useMediaQuery, useTheme } from '@mui/material';
 import SellerScreenLayout from '../../components/SellerLayout/SellerScreensLayout';
-import PrimaryInput from '../../components/Input/PrimaryInput';
 import LANG_STRINGS from '../../enums/langStrings';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Email } from '@mui/icons-material';
+import { SellerDetails } from './forms/sellerDetails';
+import { UploadFiles } from '../uploadDocument';
+import { BankDetail } from '../bankDetail';
+import { WarehouseAddress } from '../warehousePage';
 //STYLE
 const useStyles = {
   leftContainer: {
@@ -37,6 +31,8 @@ const useStyles = {
 
 //COMPONENT
 const SellerDetail = ({ translate }: any) => {
+  const [currentStep, setCurrentStep] = useState(0);
+
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');
   const [city, setCity] = useState<string>('');
@@ -82,13 +78,12 @@ const SellerDetail = ({ translate }: any) => {
   const initialImage = '';
 
   // api work
-  const sellerCountry = useSelector((state: any) => state.sellerCountry.sellercountry);
-  const sellerstate = useSelector((state: any) => state.sellerstate.sellerstate);
-  console.log(sellerstate, 'sellerstate');
-  console.log(sellerCountry, 'sellercountry');
-  useEffect(() => {
-    dispatch(getcountryFetch('h'));
-  }, []);
+  // const sellerCountry = useSelector((state: any) => state.sellerCountry.sellercountry);
+  // const sellerstate = useSelector((state: any) => state.sellerstate.sellerstate);
+ 
+  // useEffect(() => {
+  //   dispatch(getcountryFetch('h'));
+  // }, []);
 
   const router = useRouter();
   const Validate = (e: any) => {
@@ -141,159 +136,24 @@ const SellerDetail = ({ translate }: any) => {
           <Grid style={{ marginTop: '20px', marginBottom: '7px', marginLeft: '20px', marginRight: '20px' }}>
             <Grid sx={{ marginTop: '30px' }}>
               <Steper
-                count={count}
-                sellerAccount={translate(LANG_STRINGS.SELLER_ACCOUNT)}
-                businessDocument={translate(LANG_STRINGS.BUSINESS_INFORMATION)}
-                bankAccount={translate(LANG_STRINGS.BANK_ACCOUNT)}
-                warehouseAddress={translate(LANG_STRINGS.WAREHOUSE_ADDRESS)}
-                returnAddress={translate(LANG_STRINGS.RETURN_ADDRESS)}
+                steps={[
+                  translate(LANG_STRINGS.SELLER_ACCOUNT),
+                  translate(LANG_STRINGS.BUSINESS_INFORMATION),
+                  translate(LANG_STRINGS.BANK_ACCOUNT),
+                  translate(LANG_STRINGS.WAREHOUSE_ADDRESS),
+                ]}
+                currentStep={currentStep}
               />
             </Grid>
-            <Grid container sx={{ marginTop: '31px' }}>
-              {/* <Grid item xs={9}> */}
-              <Grid container spacing={4}>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.BUSINESS_NAME)}
-                    type={'text'}
-                    name="businessName"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.BUSINESS_NAME_PLACEHOLDER)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.BUSINESS_NAME_AR)}
-                    type={'text'}
-                    name="businessNameArabic"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.BUSINESS_NAME_AR_PLACEHOLDER)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={4} sx={{ marginTop: '1px' }}>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.SHOP_NAME)}
-                    type={'text'}
-                    name="shopName"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.SHOP_NAME_PLACEHOLDER)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.SHOP_NAME_AR)}
-                    type={'text'}
-                    name="shopNameArabic"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.SHOP_NAME_AR_PLACEHOLDER)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid container sx={{ marginTop: '1px' }} spacing={4}>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.REG_NUMBER)}
-                    type={'text'}
-                    name="regNumber"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.ENTER_REG_NUMBER)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <DropdownSelect
-                    setValue={setMobileNumber}
-                    value={mobilNumber}
-                    label={translate(LANG_STRINGS.PHONE_NUMBER_LBL)}
-                    required={translate(LANG_STRINGS.ENTER_SELLER_NUMBER)}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container sx={{ marginTop: '1px' }} spacing={4}>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.BUSINESS_EMAIL)}
-                    type={'text'}
-                    name="email"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.BUSINESS_EMAIL_PLACEHOLDER)}
-                    startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.BUSINESS_URL)}
-                    type={'text'}
-                    name="url"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.SELLER_BUSINESS_URL)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container sx={{ marginTop: '1px' }} spacing={3}>
-                <Grid item xs={4}>
-                  <SelectField
-                    setAge={setCountry}
-                    value={country}
-                    mydata={sellerCountry}
-                    placeholder={translate(LANG_STRINGS.SELLER_COUNTRY)}
-                    label={translate(LANG_STRINGS.COUNTRY)}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <SelectField
-                    placeholder={translate(LANG_STRINGS.SELLER_STATE)}
-                    label={translate(LANG_STRINGS.STATE)}
-                    setAge={setState}
-                    value={state}
-                    mydata={sellerstate}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <SelectField
-                    placeholder={translate(LANG_STRINGS.SELLER_CITY)}
-                    label={translate(LANG_STRINGS.CITY)}
-                    setAge={setCity}
-                    value={city}
-                  />
-                </Grid>
-              </Grid>
-              <Grid container sx={{ marginTop: '25px' }}>
-                <Grid item xs={12}>
-                  <PrimaryInput
-                    label={translate(LANG_STRINGS.SELLER_ADDRESS)}
-                    type={'text'}
-                    name="url"
-                    fullWidth
-                    placeholder={translate(LANG_STRINGS.ENTER_BUSINESS_ADDRESS)}
-                    // startAdornment={<Email color="disabled" />}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
+            {currentStep == 0 && <SellerDetails translate={translate} />}
+            {currentStep == 1 && <UploadFiles translate={translate} />}
+            {currentStep == 2 && <BankDetail translate={translate} />}
+            {currentStep == 3 && <WarehouseAddress translate={translate} />}
             <Grid>
               <NextBtn
-                Validate={Validate}
-                backNavigate={backNavigate}
-                nextBtn={translate(LANG_STRINGS.NEXT_BTN)}
-                backBtn={translate(LANG_STRINGS.BACK_BTN)}
+                translate={translate}
+                handleNext={() => setCurrentStep(currentStep + 1)}
+                handleBack={() => setCurrentStep(currentStep - 1)}
                 mand_fields={translate(LANG_STRINGS.MANDATORY_FIELDS)}
               />
             </Grid>
