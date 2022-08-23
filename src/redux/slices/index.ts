@@ -6,7 +6,5 @@ const reducer = combineReducers({
   authSlice: AuthSlice,
   languageSlice: LanguageSlice,
 });
-export const langReducer = combineReducers({
-  langSlice: LanguageSlice,
-});
+
 export default reducer;
