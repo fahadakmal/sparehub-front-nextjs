@@ -29,6 +29,8 @@
   "FORGOT_PASSWORD": "Forgot Password?",
   "FORGOT_PASSWORD_PHONE_ENTER": "Enter your phone number to reset your password",
   "FORGOT_PASSWORD_EMAIL_ENTER": "Enter your registered email address to reset your password",
+  "FORGOT_PASSWORD_PHONE_ENTER": "Enter your phone number to reset your password",
+  "FORGOT_PASSWORD_EMAIL_ENTER": "Enter your registered email address to reset your password",
   "CONGRATULATIONS": "Congratulations",
   "SIGN_UP_SUCCESS_MESSAGE": "we have sent your sign up request admin for account approval, stay with us and you can start selling your products once your account is approved",
   "OKAY": "Okay",
