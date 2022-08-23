@@ -14,7 +14,6 @@ const SelectField = ({ label, checkValidation, placeholder, mydata, helperText,s
     <FormControl sx={{ minWidth: '100%' }}>
       <InputLabel id="demo-simple-select-helper-label">{label}</InputLabel>
       <Select
-        error={value == 'true' ? value : false}
         labelId="demo-simple-select-helper-label"
         id="demo-simple-select-helper"
         value={value}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import LANG_STRINGS from '../../enums/langStrings';
-import { useRouter } from 'next/router';
 import { Typography } from '@mui/material';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import DropdownSelect from '../../components/items/DropdownSelect';
@@ -17,7 +16,6 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 const WarehouseAddress = ({ translate }: any) => {
-  const [count, setCount] = useState(3);
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [country, setCountry] = useState<string>('');
   const [state, setState] = useState<string>('');
@@ -26,20 +24,6 @@ const WarehouseAddress = ({ translate }: any) => {
   const [on, setOn] = useState<boolean>(false);
   const [successModal, setsuccessModal] = useState<boolean>(false);
   const [require, setRequire] = useState<any>(false);
-  console.log(mobileNumber, 'mobile');
-  const handleSubmit = () => {};
-
-  const router = useRouter();
-  const Validate = (e: any) => {
-    e.preventDefault();
-    // router.push('../uploadfiles');
-    setsuccessModal(true);
-  };
-
-  const backNavigate = () => {
-    router.push('../SellerBankDetail');
-  };
-
   const [sellerLocation, setSellerLocation] = useState({
     firstName: '',
     lastName: '',
@@ -69,7 +53,6 @@ const WarehouseAddress = ({ translate }: any) => {
   const SignupSchema = Yup.object().shape({
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-    // email: Yup.string().email('Invalid email').required('Required'),
   });
 
   return (
@@ -128,7 +111,6 @@ const WarehouseAddress = ({ translate }: any) => {
                       name="firstName"
                       fullWidth
                       placeholder={translate(LANG_STRINGS.FIRST_NAME_PLACEHOLDER)}
-                      // startAdornment={<Email color="disabled" />}
                       onChange={handleChange}
                       required={true}
                       helperText={errors.firstName}
@@ -142,7 +124,6 @@ const WarehouseAddress = ({ translate }: any) => {
                       name="lastName"
                       fullWidth
                       placeholder={translate(LANG_STRINGS.LAST_NAME_PLACEHOLDER)}
-                      // startAdornment={<Email color="disabled" />}
                       onChange={handleChange}
                       required={true}
                       helperText={errors.lastName}
@@ -161,10 +142,8 @@ const WarehouseAddress = ({ translate }: any) => {
                 name="email"
                 fullWidth
                 placeholder={translate(LANG_STRINGS.BUSINESS_EMAIL_PLACEHOLDER)}
-                // startAdornment={<Email color="disabled" />}
                 onChange={handleChange}
                 required={true}
-                // helperText={errors.email && touched.email ? errors.email:null}
               />
             </Grid>
             <Grid item xs={6}>
@@ -190,7 +169,6 @@ const WarehouseAddress = ({ translate }: any) => {
                 name="locNamEng"
                 fullWidth
                 placeholder={translate(LANG_STRINGS.LOCATION_NAME_PLACEHOLDER)}
-                // startAdornment={<Email color="disabled" />}
                 onChange={handleChange}
                 required={true}
               />
@@ -202,7 +180,6 @@ const WarehouseAddress = ({ translate }: any) => {
                 name="locNamArb"
                 fullWidth
                 placeholder={translate(LANG_STRINGS.LOCATION_NAME_AR_PLACEHOLDER)}
-                // startAdornment={<Email color="disabled" />}
                 onChange={handleChange}
                 required={true}
               />
@@ -242,7 +219,6 @@ const WarehouseAddress = ({ translate }: any) => {
                 name="url"
                 fullWidth
                 placeholder={translate(LANG_STRINGS.ENTER_BUSINESS_ADDRESS)}
-                // startAdornment={<Email color="disabled" />}
                 onChange={handleChange}
                 required={true}
               />
