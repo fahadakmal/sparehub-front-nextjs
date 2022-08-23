@@ -8,10 +8,10 @@ import Image from 'next/image';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 
-const DropdownSelect=({setValue,label,required,}: any)=>{
-    const [age, setAge] = useState('');
+const DropdownSelect=({setValue,label,required}: any)=>{
+    const [countryCode, setCountryCode] = useState('');
     const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+      setCountryCode(event.target.value);
         setValue(event.target.value)
       };
     return(<FormControl sx={{ width: '100%' }} variant="outlined">
@@ -24,7 +24,7 @@ const DropdownSelect=({setValue,label,required,}: any)=>{
                 <FormControl className='fieldset' sx={{  minWidth: 100 }}>
         <Select variant="standard"
         disableUnderline
-          value={age}
+          value={countryCode}
           onChange={handleChange}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}>
