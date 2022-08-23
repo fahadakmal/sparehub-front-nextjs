@@ -11,7 +11,7 @@ interface StepperProps {
 }
 
 const Steper = ({ currentStep, steps }: StepperProps) => {
-  console.log(currentStep);
+  
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
   const isStepOptional = (step: number) => {
