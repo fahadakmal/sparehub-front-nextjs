@@ -14,8 +14,6 @@ import styling from '../../components/stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
 import Otp from '../../components/Otp';
 import { confirmPassword } from '../../auth/cognito.service';
-import Otp from '../../components/Otp';
-import { confirmPassword } from '../../auth/cognito.service';
 
 const ResetPassword = ({ translate }: any) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -217,7 +215,7 @@ const ResetPassword = ({ translate }: any) => {
       </Box>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} disabled={!enabled} fullWidth>
+        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} fullWidth>
           {translate(LANG_STRINGS.CREATE_PASSWORD)}
         </PrimaryButton>
       </Grid>
