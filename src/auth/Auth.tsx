@@ -186,6 +186,19 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
+  async function logout () {
+    try {
+      return await cognito.logout();
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+    }
+  }
+  async function signOut() {
+    cognito.logout();
+  }
+
   const state: IAuth = {
     authStatus,
     sessionInfo,
@@ -198,6 +211,7 @@ export const AuthProvider = ({ children }: Props) => {
     signInWithPhone,
     forgotPassword,
     confirmPassword,
+    signOut,
   };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;

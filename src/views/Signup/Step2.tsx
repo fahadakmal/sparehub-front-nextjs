@@ -10,6 +10,7 @@ import i18next from 'i18next';
 import Image from 'next/image';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
 import styling from '../../components/stylesObjects/stylesObj';
+import LANG_STRINGS from '../../enums/langStrings';
 
 
 const Step2 = ({
@@ -34,7 +35,6 @@ const Step2 = ({
   checkSpecialCharacterHandler,
   showErrorMessage,
   handleCPassword,
-  emailValid,
 }: any) => {
   const { errorMessage, strengthMsgs } = styling;
 
@@ -45,19 +45,22 @@ const Step2 = ({
   };
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
-
-  
-
+  const enabled =
+    passwordLength > 7 &&
+    isNumber &&
+    isSpecialChar &&
+    isLowercase &&
+    user.confirmPassword.trim() === user.password.trim();
 
   return (
     <Grid columnSpacing={2} container>
       <Grid item sm={6} xs={12} pt={3}>
         <PrimaryInput
-          label={translate('FIRST_NAME')}
+          label={translate(LANG_STRINGS.FIRST_NAME)}
           type={'text'}
           name="firstName"
           fullWidth
-          placeholder={translate('FIRST_NAME')}
+          placeholder={translate(LANG_STRINGS.FIRST_NAME)}
           onChange={handleChange}
           required={true}
           value={user?.firstName}
@@ -65,11 +68,11 @@ const Step2 = ({
       </Grid>
       <Grid item sm={6} xs={12} pt={3}>
         <PrimaryInput
-          label={translate('LAST_NAME')}
+          label={translate(LANG_STRINGS.LAST_NAME)}
           type={'text'}
           name="lastName"
           fullWidth
-          placeholder={translate('LAST_NAME')}
+          placeholder={translate(LANG_STRINGS.LAST_NAME)}
           onChange={handleChange}
           required={true}
           value={user?.lastName}
@@ -78,11 +81,11 @@ const Step2 = ({
       <Grid item xs={12} pt={3}>
         {signupType === 'phone' ? (
           <PrimaryInput
-            label={translate('EMAIL')}
+            label={translate(LANG_STRINGS.EMAIL)}
             type={'text'}
             name="email"
             fullWidth
-            placeholder={translate('EMAIL_ADDRESS')}
+            placeholder={translate(LANG_STRINGS.EMAIL_ADDRESS)}
             startAdornment={<Email color="disabled" />}
             onChange={handleChange}
             required={true}
@@ -91,10 +94,10 @@ const Step2 = ({
           />
         ) : (
           <PhoneInput
-            label={translate('PHONE_NUMBER')}
+            label={translate(LANG_STRINGS.PHONE_NUMBER)}
             name="phoneNumber"
             fullWidth
-            placeholder={translate('PHONE_NUMBER')}
+            placeholder={translate(LANG_STRINGS.PHONE_NUMBER)}
             startAdornment={<Typography>{user?.dialCode}</Typography>}
             onChange={handleChange}
             required={true}
@@ -104,21 +107,21 @@ const Step2 = ({
       </Grid>
       <Grid item xs={12} pt={3}>
         <PrimaryInput
-          label={translate('PASSWORD')}
+          label={translate(LANG_STRINGS.PASSWORD)}
           type={showPassword ? 'text' : 'password'}
           name="password"
           fullWidth
-          placeholder={translate('ENTER_PASSWORD')}
+          placeholder={translate(LANG_STRINGS.ENTER_PASSWORD)}
           startAdornment={<Lock color="disabled" />}
           endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowPassword}
           value={user?.password}
-          onChange={handleChange}
+          onChange={changeHandler}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
         <PrimaryInput
-          label={translate('CONFORM_PASSWORD')}
+          label={translate(LANG_STRINGS.CONFORM_PASSWORD)}
           type={showConfirmPassword ? 'text' : 'password'}
           name="confirmPassword"
           fullWidth
@@ -130,7 +133,6 @@ const Step2 = ({
           value={user?.confirmPassword}
           onChange={handleCPassword}
         />
-        {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '}
       </Grid>
       <Grid item xs={12} pt={3}>
         <Box mb={2} mt={1}>
@@ -139,25 +141,25 @@ const Step2 = ({
               {passwordLength > 7 ? activeCheck : disabledCheck}
             </Grid>
             <Grid item xs={11.2} md={11.4}>
-              <Typography sx={strengthMsgs}>{translate('EIGHT_CHARS')}</Typography>
+              <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.EIGHT_CHARS)}</Typography>
             </Grid>
             <Grid item xs={0.8} md={0.6}>
               {isNumber ? activeCheck : disabledCheck}
             </Grid>
             <Grid item xs={11.2} md={11.4}>
-              <Typography sx={strengthMsgs}>{translate('CONTAIN_NUMBER')}</Typography>
+              <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_NUMBER)}</Typography>
             </Grid>
             <Grid item xs={0.8} md={0.6}>
               {isSpecialChar ? activeCheck : disabledCheck}
             </Grid>
             <Grid item xs={11.2} md={11.4}>
-              <Typography sx={strengthMsgs}>{translate('CONTAIN_SPECIAL_CHARACTER')}</Typography>
+              <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_SPECIAL_CHARACTER)}</Typography>
             </Grid>
             <Grid item xs={0.8} md={0.6}>
               {isLowercase ? activeCheck : disabledCheck}
             </Grid>
             <Grid item xs={11.2} md={11.4}>
-              <Typography sx={strengthMsgs}>{translate('CONTAIN_LOWERCASE_LETTER')}</Typography>
+              <Typography sx={strengthMsgs}>{translate(LANG_STRINGS.CONTAIN_LOWERCASE_LETTER)}</Typography>
             </Grid>
           </Grid>
         </Box>
@@ -175,7 +177,7 @@ const Step2 = ({
       </Grid>
       <Grid item xs={12} pt={3}>
         <PrimaryButton disabled={!isValid} onClick={handleSignUp} variant="contained" fullWidth>
-          {translate('SIGN_UP')}
+          {translate(LANG_STRINGS.SIGN_UP)}
         </PrimaryButton>
       </Grid>
     </Grid>
