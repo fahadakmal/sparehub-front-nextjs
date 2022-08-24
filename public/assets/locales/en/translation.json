@@ -71,6 +71,7 @@
   "EMAIL_ERROR_MSG":"Must include '@' and '.'",
   "PASSWORD_UPDATED":"Password Updated Successfully",
   "PASSWORD_UPDATED_MSG": "your password has been successfully updated & secured. Login into your account",
-  "CHECK_YOUR_EMAIL":"Check your Email"
+  "CHECK_YOUR_EMAIL":"Check your Email",
+  "USER_VERIFIED":"User has been verified!"
 
 }
