@@ -1,7 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
-import i18next from 'i18next';
+import { Box, Grid, LinearProgress, Tab, Tabs, Typography,Link as MuiLink } from '@mui/material';
+import i18next,{t} from 'i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,34 @@ import { apiPost } from '../../services';
 import { validateEmail } from '../../utils';
 import Step1 from './Step1';
 import Step2 from './Step2';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import Link from 'next/link';
+
+
+
+const signupSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required(t("REQUIRED_FIELD")),
+  lastName: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required(t("REQUIRED_FIELD")),
+    email: Yup.string().ensure()
+    .when('phoneNumber',{
+      is:"",
+      then:Yup.string().email(t("INVALID_EMAIL")).required(t("REQUIRED_FIELD"))
+    }),
+    phoneNumber: Yup.string().ensure()
+    .when('email',{
+      is:"",
+      then:Yup.string().required(t("REQUIRED_FIELD")).min(9,t("MIN_PHONE_INPUT_LENGTH")).max(10,t("MAX_PHONE_INPUT_LENGTH"))
+    })
+},[["email","phoneNumber"]]);
+
+
 
 const styles = {
   tab: {
@@ -52,13 +80,21 @@ const initialState = {
   lastName: '',
   email: '',
   password: '',
-  confirmPassword: '',
+  confirmPassword: '',    
   country: 'SA',
   phoneNumber: '',
   dialCode: '+966',
 };
 
 export default function Signup({ translate }: any) {
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema:signupSchema,
+    validateOnBlur:false,
+    onSubmit: values => {
+      handleSignUp()
+    },
+  }); 
   const { tab } = styles;
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const dispatch = useDispatch();
@@ -66,7 +102,7 @@ export default function Signup({ translate }: any) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [emailValid, setEmailValid] = useState(false);
+  // const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState(initialState);
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [signupType, setSignupType] = useState('email');
@@ -79,13 +115,16 @@ export default function Signup({ translate }: any) {
   });
 
 
-  const handleChange = (e: any) => {
-    if (e.target.name === 'email') {
-      setEmailValid(validateEmail(e.target.value));
+  const handleValidation = () => {
+    let isValid = false;
+    const {  password, confirmPassword } = user;
+    if (password && confirmPassword && password === confirmPassword) {
+      isValid = true;
     }
-    setUser({ ...user, [e.target.name]: e.target.value });
+    return isValid;
   };
-  
+
+
   const handleCountrySelect = (code: string) => {
     const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
     setUser({ ...user, country: code, dialCode });
@@ -99,15 +138,6 @@ export default function Signup({ translate }: any) {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleValidation = () => {
-    let isValid = false;
-    const { email, password, confirmPassword } = user;
-    if (email && password && confirmPassword && password === confirmPassword) {
-      isValid = true;
-    }
-    return isValid;
-  };
-
   const getRecaptchaToken = (token: any) => {
     setRecaptchaToken(token);
   };
@@ -119,16 +149,12 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = user;
-    if (!(email && password && confirmPassword && password === confirmPassword && phoneNumber)) {
-      setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
-      return;
-    }
+    const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = formik.values;
     if (recaptchaToken.length < 1) {
       setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
       return;
     }
-    const phoneWithDialCode = dialCode + phoneNumber.trim();
+    const phoneWithDialCode = dialCode + phoneNumber.toString().trim();
 
     try {
       const userFoundInLocalDb = await apiPost('/auth/preSignUp', { email, phoneNo: phoneWithDialCode }, '');
@@ -155,10 +181,6 @@ export default function Signup({ translate }: any) {
 
     setSignUpRequest(true);
     if (signupType == 'email') {
-      if (!(email && password && confirmPassword && password === confirmPassword)) {
-        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
-        return;
-      }
       try {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
@@ -166,7 +188,7 @@ export default function Signup({ translate }: any) {
           dispatch(registrationRequest(data));
           router.push({
             pathname: '/otpVerification',
-            query: { email: `${user.email}` },
+            query: { email: `${email}` },
           });
         }
       } catch (err) {
@@ -210,7 +232,6 @@ export default function Signup({ translate }: any) {
 
   const clearUserState = () => {
     setUser({ ...initialState });
-    setEmailValid(false);
   };
   // validation
   const passwordLength = user.password.length;
@@ -274,11 +295,15 @@ React.useEffect(()=> {
 }, [user.confirmPassword])
 
 
+const handleChange = (e: any) => {
+  setUser({ ...user, [e.target.name]: e.target.value });
+};
+
+
   const handleBack = () => {
     setUser({ ...initialState });
     setRecaptchaToken('');
     setStep(step - 1);
-    setEmailValid(false);
   };
 
   const handleCloseToast = () => {
@@ -325,22 +350,23 @@ React.useEffect(()=> {
               <Tab sx={tab} label={translate('EMAIL')} value="email" />
             </Tabs>
           </Box>
+          <form onSubmit={formik.handleSubmit}>
           <TabPanel sx={{ padding: 0 }} value="email">
             <>
               {step === 1 && (
                 <Step1
-                  handleChange={handleChange}
-                  user={user}
+                  handleChange={formik.handleChange}
+                  user={formik.values}
                   translate={translate}
                   handleCountrySelect={handleCountrySelect}
                   signupType={signupType}
                   handleNextStep={handleNextStep}
-                  emailValid={emailValid}
+                  formik={formik}
                 />
               )}
               {step === 2 && (
                 <Step2
-                  handleChange={handleChange}
+                  handleChange={formik.handleChange}
                   translate={translate}
                   signupType={signupType}
                   showPassword={showPassword}
@@ -348,19 +374,19 @@ React.useEffect(()=> {
                   showConfirmPassword={showConfirmPassword}
                   hideShowConfirmPassword={hideShowConfirmPassword}
                   user={user}
+                  changeHandler={changeHandler}
                   getRecaptchaToken={getRecaptchaToken}
                   handleSignUp={handleSignUp}
-                  emailValid={emailValid}
-                  isValid={isValid}
                   passwordLength={passwordLength}
                   isNumber={isNumber}
                   isUppercase={isUppercase}
                   isSpecialChar={isSpecialChar}
                   isLowercase={isLowercase}
-                  changeHandler={changeHandler}
+                  isValid={isValid}
                   checkSpecialCharacterHandler={checkSpecialCharacterHandler}
                   showErrorMessage={showErrorMessage}
                   handleCPassword={handleCPassword}
+                  formik={formik}
                 />
               )}
             </>
@@ -368,18 +394,18 @@ React.useEffect(()=> {
           <TabPanel sx={{ padding: 0 }} value="phone">
             {step === 1 && (
               <Step1
-                handleChange={handleChange}
-                user={user}
+                handleChange={formik.handleChange}
+                user={formik.values}
                 translate={translate}
                 handleCountrySelect={handleCountrySelect}
                 signupType={signupType}
                 handleNextStep={handleNextStep}
-                emailValid={emailValid}
+                formik={formik}
               />
             )}
             {step === 2 && (
               <Step2
-                handleChange={handleChange}
+                handleChange={formik.handleChange}
                 translate={translate}
                 signupType={signupType}
                 showPassword={showPassword}
@@ -388,12 +414,12 @@ React.useEffect(()=> {
                 hideShowConfirmPassword={hideShowConfirmPassword}
                 handleSignUp={handleSignUp}
                 getRecaptchaToken={getRecaptchaToken}
-                emailValid={emailValid}
-                isValid={isValid}
+                formik={formik}
                 passwordLength={passwordLength}
                 isNumber={isNumber}
                 isUppercase={isUppercase}
                 isSpecialChar={isSpecialChar}
+                isValid={isValid}
                 isLowercase={isLowercase}
                 changeHandler={changeHandler}
                 checkSpecialCharacterHandler={checkSpecialCharacterHandler}
@@ -403,6 +429,7 @@ React.useEffect(()=> {
               />
             )}
           </TabPanel>
+          </form>
         </TabContext>
       </Box>
       {(isPending || signUpRequest) && (
@@ -412,6 +439,21 @@ React.useEffect(()=> {
       )}
       <br />
       <Grid textAlign={'center'} item xs={12} pt={1}>
+
+      <Typography>
+          <Link style={{ textDecoration: 'none !important' }} href="/" passHref>
+            <span>{translate('ALREADY_ACCOUNT')} </span>
+          </Link>
+          <b>
+            <Link href="/" passHref replace>
+              <MuiLink underline="hover" color="#E2282C">
+                {translate('LOGIN')}
+              </MuiLink>
+            </Link>
+          </b>
+        </Typography>
+
+{/* 
         <Typography
           style={{ cursor: 'pointer' }}
           onClick={() => {
@@ -419,7 +461,7 @@ React.useEffect(()=> {
           }}
         >
           {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
-        </Typography>
+        </Typography> */}
         <ToastAlert
           appearence={toast.appearence}
           type={toast.type}

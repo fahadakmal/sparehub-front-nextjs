@@ -25,7 +25,7 @@ const Step2 = ({
   handleSignUp,
   user,
   emailValid,
-  isValid,
+  formik,
   passwordLength,
   isNumber,
   isUppercase,
@@ -34,11 +34,13 @@ const Step2 = ({
   changeHandler,
   checkSpecialCharacterHandler,
   showErrorMessage,
+  isValid,
   handleCPassword,
 }: any) => {
   const { errorMessage, strengthMsgs } = styling;
 
   
+  const {values,errors,touched,isValid:formikValid,handleBlur} = formik
   let captchaRef: any = React.useRef<ReCAPTCHA>();
   const handleChangeRecaptcha = (token: string | null) => {
     getRecaptchaToken(token);
@@ -61,9 +63,12 @@ const Step2 = ({
           name="firstName"
           fullWidth
           placeholder={translate(LANG_STRINGS.FIRST_NAME)}
-          onChange={handleChange}
+          onChange={formik.handleChange}
+          onBlur={handleBlur}
           required={true}
-          value={user?.firstName}
+          value={values?.firstName}
+          error={touched.firstName && Boolean(errors.firstName)}
+            helperText={touched.firstName && errors.firstName}
         />
       </Grid>
       <Grid item sm={6} xs={12} pt={3}>
@@ -73,9 +78,12 @@ const Step2 = ({
           name="lastName"
           fullWidth
           placeholder={translate(LANG_STRINGS.LAST_NAME)}
-          onChange={handleChange}
+          onChange={formik.handleChange}
+          onBlur={handleBlur}
           required={true}
-          value={user?.lastName}
+          value={values?.lastName}
+          error={touched.lastName && Boolean(errors.lastName) }
+          helperText={touched.lastName && errors.lastName}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -87,10 +95,12 @@ const Step2 = ({
             fullWidth
             placeholder={translate(LANG_STRINGS.EMAIL_ADDRESS)}
             startAdornment={<Email color="disabled" />}
-            onChange={handleChange}
+            onChange={formik.handleChange}
+            onBlur={handleBlur}
             required={true}
-            error={!emailValid}
-            value={user?.email}
+            error={touched.email && Boolean(errors.email)}
+            helperText={touched.email && errors.email}
+            value={values?.email}
           />
         ) : (
           <PhoneInput
@@ -99,9 +109,12 @@ const Step2 = ({
             fullWidth
             placeholder={translate(LANG_STRINGS.PHONE_NUMBER)}
             startAdornment={<Typography>{user?.dialCode}</Typography>}
-            onChange={handleChange}
+            onChange={formik.handleChange}
+            onBlur={handleBlur}
             required={true}
-            value={user?.phoneNumber}
+            value={values?.phoneNumber}
+            error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+            helperText={touched.phoneNumber && errors.phoneNumber}
           />
         )}
       </Grid>
@@ -113,10 +126,12 @@ const Step2 = ({
           fullWidth
           placeholder={translate(LANG_STRINGS.ENTER_PASSWORD)}
           startAdornment={<Lock color="disabled" />}
-          endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+          endAdornment={!!showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowPassword}
-          value={user?.password}
           onChange={changeHandler}
+          value={user?.password}
+          error={touched.password ?? Boolean(errors.password)}
+            helperText={touched.password ?? errors.password}
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -127,11 +142,11 @@ const Step2 = ({
           fullWidth
           placeholder={translate('ENTER_PASS_AGAIN')}
           startAdornment={<Lock color="disabled" />}
-          endAdornment={showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+          endAdornment={!!showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
           onClick={hideShowConfirmPassword}
-          // onChange={handleChange}
-          value={user?.confirmPassword}
           onChange={handleCPassword}
+          value={user?.confirmPassword}
+          
         />
       </Grid>
       <Grid item xs={12} pt={3}>
@@ -176,8 +191,8 @@ const Step2 = ({
         </div>
       </Grid>
       <Grid item xs={12} pt={3}>
-        <PrimaryButton disabled={!isValid} onClick={handleSignUp} variant="contained" fullWidth>
-          {translate(LANG_STRINGS.SIGN_UP)}
+        <PrimaryButton  disabled={!(isValid && formikValid && Object.keys(touched).length > 0)} onClick={handleSignUp} variant="contained" fullWidth>
+          {translate('SIGN_UP')}
         </PrimaryButton>
       </Grid>
     </Grid>

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Grid, Typography, Tab, Checkbox, FormControlLabel, Box, Link as MuiLink, Tabs } from '@mui/material';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Email, Visibility, VisibilityOff, Lock } from '@mui/icons-material';
+import { Email, Visibility, VisibilityOff, Lock, TouchAppRounded } from '@mui/icons-material';
 import ReCAPTCHA from 'react-google-recaptcha';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
@@ -16,7 +16,25 @@ import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { validateEmail } from '../../utils';
 import ToastAlert from '../../components/Toast/ToastAlert';
-import i18next from 'i18next';
+import i18next,{t} from 'i18next';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+const loginSchema = Yup.object().shape({
+  email: Yup.string().ensure()
+  .when('phoneNumber',{
+    is:"",
+    then:Yup.string().email(t("INVALID_EMAIL")).required(t("REQUIRED_FIELD"))
+  }),
+  phoneNumber: Yup.string().ensure()
+  .when('email',{
+    is:"",
+    then:Yup.string().required(t("REQUIRED_FIELD")).min(9,t("MIN_PHONE_INPUT_LENGTH")).max(10,t("MAX_PHONE_INPUT_LENGTH"))
+  })
+  , 
+  password: Yup
+    .string()
+    .required(t("ENTER_PASSWORD_FIELD"))
+},[["email","phoneNumber"]]);
 
 const styles = {
   tab: {
@@ -31,6 +49,23 @@ const styles = {
 
 export default function Login({ translate }: any) {
   let captchaRef: any = useRef<ReCAPTCHA>();
+  const initialState={
+    email: '',
+    password: '',
+    phoneNumber: '',
+    country: 'SA',
+    dialCode: '+966',
+  }
+
+
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema:loginSchema,
+    validateOnBlur:false,
+    onSubmit: values => {},
+  });
+  const {values,errors,handleChange,handleSubmit,touched,isValid,resetForm,validateForm,handleBlur} = formik 
+  console.log(touched)
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
@@ -53,21 +88,14 @@ export default function Login({ translate }: any) {
 
   const auth: any = useAuth();
 
-  const handleChange = (e: any) => {
-    if (e.target.name === 'email') {
-      setEmailValid(validateEmail(e.target.value));
-    }
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
   const hideShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     captchaRef.props.grecaptcha.reset();
+    resetForm()
     setLoginType(newValue);
-    setUser({ ...user, email: '', password: '', phoneNumber: '', country: 'SA', dialCode: '+966' });
     setRecaptchaToken('');
   };
 
@@ -76,28 +104,12 @@ export default function Login({ translate }: any) {
     setUser({ ...user, country: code, dialCode });
   };
 
-  const handleValidation = () => {
-    let isValid = false;
-    const { email, password, phoneNumber } = user;
-    if (loginType === 'email') {
-      if (email && emailValid && password) {
-        isValid = true;
-      }
-    } else {
-      if (phoneNumber.length > 6 && password) {
-        isValid = true;
-      }
-    }
-    return isValid;
-  };
-
   const getRecaptchaToken = (token: any) => {
     setRecaptchaToken(token);
   };
 
   const handleLogin = async () => {
-    const isValid = handleValidation();
-
+    validateForm()
     if (loginType == 'email') {
       if (!isValid) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
@@ -107,7 +119,7 @@ export default function Login({ translate }: any) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
-      const { email, password } = user;
+      const { email, password } = formik.values;
       try {
         const res = await auth.signInWithEmail(email, password);
       } catch (err: any) {
@@ -118,10 +130,6 @@ export default function Login({ translate }: any) {
         }
       }
     } else {
-      if (!isValid) {
-        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
-        return;
-      }
       if (recaptchaToken.length < 1) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
@@ -131,7 +139,6 @@ export default function Login({ translate }: any) {
       try {
         const res = await auth.signInWithPhone(phoneWithDialCode, password);
       } catch (err: any) {
-        console.log('aws response rror', err);
         if (err._type === 'UserNotConfirmedException') {
           setToast({ ...toast, message: err.message, appearence: true, type: 'error' });
         } else {
@@ -145,10 +152,10 @@ export default function Login({ translate }: any) {
     setToast({ ...toast, appearence: false });
   };
 
-  const isValid = handleValidation();
-
   return (
     <AuthContainer>
+      
+      
       <Grid xs={12} item textAlign={'center'}>
         <Typography component="h1" variant="h5">
           {translate('LOGIN')}
@@ -168,18 +175,24 @@ export default function Login({ translate }: any) {
               <Tab sx={tab} label={translate('EMAIL')} value="email" />
             </Tabs>
           </Box>
+          
+          
           <TabPanel sx={{ padding: 0 }} value="email">
             <>
               <Grid sx={{ width: '100%' }} pt={3} item xs={12}>
                 <PrimaryInput
+                focused
                   label={translate('EMAIL')}
                   type={'text'}
                   name="email"
                   fullWidth
+                  value={values.email}
                   placeholder={translate('EMAIL_ADDRESS')}
                   startAdornment={<Email color="disabled" />}
                   onChange={handleChange}
-                  error={!emailValid}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.email) && touched.email}
+                  helperText={touched.email && errors.email}
                 />
               </Grid>
               <Grid item pt={3} xs={12}>
@@ -193,6 +206,9 @@ export default function Login({ translate }: any) {
                   endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                   onClick={hideShowPassword}
                   onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={Boolean(errors.password) && touched.password}
+                  helperText={touched.password && errors.password}
                 />
                 <Box
                   sx={{
@@ -231,7 +247,7 @@ export default function Login({ translate }: any) {
               <CountryDropdown
                 translate={translate}
                 handleChange={handleCountrySelect}
-                selected={user.country}
+                selected={values.country}
                 name="country"
               />
             </Grid>
@@ -239,11 +255,19 @@ export default function Login({ translate }: any) {
               <PhoneInput
                 label={translate('PHONE_NUMBER')}
                 type={'number'}
+                onBlur={handleBlur}
                 name="phoneNumber"
                 fullWidth
+                
+              
+                value={values.phoneNumber}
                 placeholder={translate('PHONE_NUMBER')}
-                startAdornment={<Typography>{user.dialCode}</Typography>}
+                startAdornment={<Typography>{values.dialCode}</Typography>}
                 onChange={handleChange}
+                error={Boolean(errors.phoneNumber) && touched.phoneNumber}
+                helperText={
+                  touched.phoneNumber && errors.phoneNumber
+                }
               />
             </Grid>
             <Grid item pt={3} xs={12}>
@@ -257,6 +281,9 @@ export default function Login({ translate }: any) {
                 endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                 onClick={hideShowPassword}
                 onChange={handleChange}
+                onBlur={handleBlur}
+                error={Boolean(errors.password) && touched.password}
+                helperText={touched.password && errors.password}
               />
             </Grid>
             <Box
@@ -305,7 +332,7 @@ export default function Login({ translate }: any) {
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!isValid} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton disabled={!(isValid && Object.keys(touched).length > 0)} onClick={handleLogin} variant="contained" fullWidth>
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>

@@ -117,7 +117,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
               <Typography component={'span'}>
                 {translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}
               </Typography>
-              <b style={{ fontSize: '12px' }}>{translate('OR')}</b>
+              <b style={{ fontSize: '12px' }}> &nbsp; {translate('OR')}</b> &nbsp;
               <b onClick={handleResend} style={{ color: '#E2282C', fontSize: '14px', cursor: 'pointer' }}>
                 {translate('RESEND_CODE')}
               </b>
