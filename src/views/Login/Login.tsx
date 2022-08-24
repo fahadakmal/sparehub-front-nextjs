@@ -211,16 +211,16 @@ export default function Login({ translate }: any) {
                     }
                   />
                   <Typography component={'p'} variant="caption" display="block">
-                    <MuiLink
-                      href="signup"
-                      underline="hover"
-                      color="black"
+                    <Box
                       onClick={() => {
-                        router.push('/signup');
+                        router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                       }}
+                      sx={{ cursor: 'pointer' }}
                     >
-                      {translate('FORGOT_PASSWORD')}
-                    </MuiLink>
+                      <MuiLink underline="hover" color="black">
+                        {translate('FORGOT_PASSWORD')}
+                      </MuiLink>
+                    </Box>
                   </Typography>
                 </Box>
               </Grid>
@@ -276,16 +276,16 @@ export default function Login({ translate }: any) {
                 }
               />
               <Typography component={'p'} variant="caption" display="block">
-                <MuiLink
-                  href="signup"
-                  underline="hover"
-                  color="black"
+                <Box
                   onClick={() => {
-                    router.push('/signup');
+                    router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                   }}
+                  sx={{ cursor: 'pointer' }}
                 >
-                  {translate('FORGOT_PASSWORD')}
-                </MuiLink>
+                  <MuiLink underline="hover" color="black">
+                    {translate('FORGOT_PASSWORD')}
+                  </MuiLink>
+                </Box>
               </Typography>
             </Box>
           </TabPanel>
@@ -311,7 +311,7 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          <Link style={{ textDecoration: 'none !important' }} href="/signup" passHref>
+          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
             <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           </Link>
           <b>

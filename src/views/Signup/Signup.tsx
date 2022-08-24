@@ -24,6 +24,27 @@ const styles = {
       borderRadius: '5px 5px 5px 5px',
     },
   },
+  successMessage: {
+    color: 'green',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
+  },
+  errorInputMessage: {
+    color: '#E2282C',
+    fontFamily: 'Mulish-Light',
+    fontSize: '14px',
+    fontWeight: '600',
+  },
+  strengthMsgs: {
+    fontFamily: 'Mulish-Medium',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '28px',
+    letterSpacing: '0.24px',
+    color: '#000000',
+  },
 };
 
 const initialState = {
@@ -57,13 +78,14 @@ export default function Signup({ translate }: any) {
     type: '',
   });
 
+
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
       setEmailValid(validateEmail(e.target.value));
     }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
+  
   const handleCountrySelect = (code: string) => {
     const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
     setUser({ ...user, country: code, dialCode });
@@ -190,6 +212,67 @@ export default function Signup({ translate }: any) {
     setUser({ ...initialState });
     setEmailValid(false);
   };
+  // validation
+  const passwordLength = user.password.length;
+  const [isNumber, setIsNumber] = React.useState(false);
+  const [isUppercase, setIsUppercase] = React.useState(false);
+  const [isSpecialChar, setIsSpecialChar] = React.useState(false);
+  const [isLowercase, setIsLowercase] = React.useState(false);
+
+  const changeHandler = (e: any) => {
+    e.preventDefault();
+    //  setUser({ ...user, [prop]: event.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
+    checkSpecialCharacterHandler(e);
+  };
+  const checkSpecialCharacterHandler = (event: any) => {
+    const mypass = event.target.value;
+    const numbers = /[0-9]/g;
+    const uppercaseLetters = /[A-Z]/g;
+    const specialCharacter = /[!@#$%^&*?~`>/<']/g;
+    const lowercase = /[a-z]/g;
+
+    if (numbers.test(mypass)) {
+      setIsNumber(true);
+      console.log('abc');
+    } else {
+      setIsNumber(false);
+    }
+    if (uppercaseLetters.test(mypass)) {
+      setIsUppercase(true);
+    } else {
+      setIsUppercase(false);
+    }
+    if (specialCharacter.test(mypass)) {
+      setIsSpecialChar(true);
+    } else {
+      setIsSpecialChar(false);
+    }
+    if (lowercase.test(mypass)) {
+      setIsLowercase(true);
+    } else {
+      setIsLowercase(false);
+    }
+  };
+  // confirm password
+
+const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+  
+const handleCPassword = (event: any) => {
+  setUser({...user,[event.target.name]: event.target.value})
+  setIsCPasswordDirty(true);
+}
+React.useEffect(()=> {
+  if (isCPasswordDirty) {
+    if(user.password === user.confirmPassword) {
+      setShowErrorMessage(false);
+    } else {
+      setShowErrorMessage(true);
+    }
+  }
+}, [user.confirmPassword])
+
 
   const handleBack = () => {
     setUser({ ...initialState });
@@ -269,6 +352,15 @@ export default function Signup({ translate }: any) {
                   handleSignUp={handleSignUp}
                   emailValid={emailValid}
                   isValid={isValid}
+                  passwordLength={passwordLength}
+                  isNumber={isNumber}
+                  isUppercase={isUppercase}
+                  isSpecialChar={isSpecialChar}
+                  isLowercase={isLowercase}
+                  changeHandler={changeHandler}
+                  checkSpecialCharacterHandler={checkSpecialCharacterHandler}
+                  showErrorMessage={showErrorMessage}
+                  handleCPassword={handleCPassword}
                 />
               )}
             </>
@@ -298,6 +390,16 @@ export default function Signup({ translate }: any) {
                 getRecaptchaToken={getRecaptchaToken}
                 emailValid={emailValid}
                 isValid={isValid}
+                passwordLength={passwordLength}
+                isNumber={isNumber}
+                isUppercase={isUppercase}
+                isSpecialChar={isSpecialChar}
+                isLowercase={isLowercase}
+                changeHandler={changeHandler}
+                checkSpecialCharacterHandler={checkSpecialCharacterHandler}
+                showErrorMessage={showErrorMessage}
+                handleCPassword={handleCPassword}
+                user={user}
               />
             )}
           </TabPanel>

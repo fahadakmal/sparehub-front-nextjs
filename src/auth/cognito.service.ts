@@ -219,3 +219,51 @@ export async function signInWithPhone(phoneNumber: string, password: string) {
     throw err;
   });
 }
+
+export function forgotPassword(username: string) {
+  return new Promise(function (resolve, reject) {
+    const cognitoUser = getCognitoUser(username);
+    if (!cognitoUser) {
+      reject(`could not find ${username}`);
+      return;
+    }
+    // call forgotPassword on cognitoUser
+    cognitoUser.forgotPassword({
+      onSuccess: function (result) {
+        console.log('forgotPassword.RESULT: ' + JSON.stringify(result));
+        resolve(result);
+      },
+      onFailure: function (err) {
+        console.log('forgotPassword.ERROR: ' + err);
+        reject(err);
+      },
+    });
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+// confirmPassword can be separately built out as follows...
+export function confirmPassword(username: string, verificationCode: string, newPassword: string) {
+  console.log(username, verificationCode, newPassword, 'email, verification');
+
+  return new Promise<void>((resolve, reject) => {
+    const cognitoUser = getCognitoUser(username);
+    console.log(cognitoUser, 'cognitoUser');
+    if (!cognitoUser) {
+      reject(`could not find ${username}`);
+      return;
+    }
+    cognitoUser.confirmPassword( verificationCode, newPassword, {
+      onFailure(err) {
+        reject(err);
+      },
+      onSuccess(res: any) {
+        resolve(res);
+      },
+    });
+  });
+}
+
+
+

@@ -1,38 +1,52 @@
-import * as React from 'react';
 import { Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Box, Grid, Typography } from '@mui/material';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
-import { useAuth } from '../../auth/Auth';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-  // import '../../App.css';
 import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import styling from '../../components/stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
+import Otp from '../../components/Otp';
+import { confirmPassword } from '../../auth/cognito.service';
 
+const ResetPassword = ({ translate }: any) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-export default function CreatePassword({ translate }: any) {
+  const router = useRouter();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const [user, setUser] = React.useState({
+  const [user, setUser] = useState({
     password: '',
     confirmPassword: '',
     country: 'SA',
   });
   // states for password validation
-  const [isNumber, setIsNumber] = React.useState(false);
-  const [isUppercase, setIsUppercase] = React.useState(false);
-  const [isSpecialChar, setIsSpecialChar] = React.useState(false);
-  const [isLowercase, setIsLowercase] = React.useState(false);
-  const [showErrorMessage, setShowErrorMessage] = React.useState(false);
-  const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+  const [isNumber, setIsNumber] = useState(false);
+  const [isUppercase, setIsUppercase] = useState(false);
+  const [isSpecialChar, setIsSpecialChar] = useState(false);
+  const [isLowercase, setIsLowercase] = useState(false);
+  // confirm password
 
-  const router = useRouter();
+  const [matchedPass, setMatchedPass] = useState(false);
+  const [isCPasswordDirty, setIsCPasswordDirty] = useState(false);
 
+  useEffect(() => {
+    if (isCPasswordDirty) {
+      if (user.password === user.confirmPassword) {
+        setMatchedPass(false);
+      } else {
+        setMatchedPass(true);
+      }
+    }
+  }, [user.confirmPassword]);
+
+  const { successMessage, errorMessage, strengthMsgs, backButton, authContainerTitle } = styling;
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -57,20 +71,14 @@ export default function CreatePassword({ translate }: any) {
     }
     return isValid;
   };
-
-  const handleNavigate = () => {
-    router.push('/congratulations');
-  };
-
   // password, showing and hiding
   const passwordLength = user.password.length;
 
-  const changeHandler = (prop: any) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (prop: any) => (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setUser({ ...user, [prop]: event.target.value });
     checkSpecialCharacterHandler(event);
   };
-
   const checkSpecialCharacterHandler = (event: any) => {
     const mypass = event.target.value;
     const numbers = /[0-9]/g;
@@ -101,68 +109,78 @@ export default function CreatePassword({ translate }: any) {
     }
   };
 
-  // confirm password
-
   const handleCPassword = (event: any) => {
     setUser({ ...user, [event.target.name]: event.target.value });
     setIsCPasswordDirty(true);
   };
+  const { email, type, phone } = router.query;
+  console.log(email, 'data', phone, 'phone', type, 'type');
 
-  React.useEffect(() => {
-    if (isCPasswordDirty) {
-      if (user.password === user.confirmPassword) {
-        setShowErrorMessage(false);
-      } else {
-        setShowErrorMessage(true);
-      }
-    }
-  }, [user.confirmPassword]);
-
-  const { errorMessage, strengthMsgs } = styling;
+  const handleForgotPassword = async () => {
+    router.push(
+      {
+        pathname: '/otpVerification',
+        query: { email: email, newPassword: user.password },
+      },
+      '/otpVerification',
+    );
+  };
 
   let activeCheck = <CheckOutlinedIcon sx={{ color: '#46BB59' }} fontSize="small" />;
   let disabledCheck = <CheckOutlinedIcon color="disabled" fontSize="small" />;
 
+  const enabled =
+    passwordLength > 7 &&
+    isNumber &&
+    isSpecialChar &&
+    isLowercase &&
+    user.confirmPassword.trim() === user.password.trim();
+
   return (
     <AuthContainer>
-      <Grid xs={12} item textAlign={'center'}>
-        <Typography component="h1" variant="h5">
-          {translate('CREATE_A_PASSWORD')}
-        </Typography>
-        <Typography component={'p'}>{translate('CREATE_PASSWORD_MESSAGE')}</Typography>
-      </Grid>
-
-      <>
+      <Link href="/login" passHref>
+        <Box mt={3} sx={backButton}>
+          <a>
+            <ArrowBackOutlinedIcon fontSize="medium" />
+          </a>
+        </Box>
+      </Link>
+      <Box mt={4} mb={6}>
+        <Grid xs={12} item textAlign={'center'}>
+          <Typography mb={2} sx={authContainerTitle}>
+            {translate(LANG_STRINGS.RESET_PASSWORD)}
+          </Typography>
+          <Typography component={'p'}>{translate(LANG_STRINGS.RESET_PASSWORD_MSG)}</Typography>
+        </Grid>
+      </Box>
+      <Box>
         <Grid item xs={12} pt={3}>
           <PrimaryInput
-            label={translate('NEW_PASSWORD')}
+            label={translate(LANG_STRINGS.NEW_PASSWORD)}
             type={showPassword ? 'text' : 'password'}
             name="password"
             fullWidth
-            placeholder={translate('ENTER_PASSWORD')}
+            placeholder={translate(LANG_STRINGS.ENTER_PASSWORD)}
             startAdornment={<Lock color="disabled" />}
-            endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+            endAdornment={showPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowPassword}
-            // onChange={handleChange}
             value={user.password}
             onChange={changeHandler('password')}
           />
         </Grid>
         <Grid item xs={12} pt={3}>
           <PrimaryInput
-            label={translate(LANG_STRINGS.CONFORM_PASSWORD)}
+            label={translate(LANG_STRINGS.CONFIRM_PASSWORD)}
             type={showConfirmPassword ? 'text' : 'password'}
             name="confirmPassword"
             fullWidth
             placeholder={translate(LANG_STRINGS.ENTER_PASS_AGAIN)}
             startAdornment={<Lock color="disabled" />}
-            endAdornment={showConfirmPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+            endAdornment={showConfirmPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
             onClick={hideShowConfirmPassword}
-            // onChange={handleChange}
             value={user.confirmPassword}
             onChange={handleCPassword}
           />
-          {showErrorMessage ? <Typography sx={errorMessage}>Passwords did not match</Typography> : ' '}
         </Grid>
         <Grid item xs={12} pt={3}>
           <Box mb={2} mt={1}>
@@ -194,13 +212,14 @@ export default function CreatePassword({ translate }: any) {
             </Grid>
           </Box>
         </Grid>
-      </>
+      </Box>
 
       <Grid item xs={12} pt={3}>
-        <PrimaryButton onClick={handleNavigate} variant="contained" fullWidth>
-          {translate('CREATE_PASSWORD')}
+        <PrimaryButton onClick={handleForgotPassword} variant="contained" disabled={!enabled} fullWidth>
+          {translate(LANG_STRINGS.CREATE_PASSWORD)}
         </PrimaryButton>
       </Grid>
     </AuthContainer>
   );
-}
+};
+export default ResetPassword;

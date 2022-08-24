@@ -5,7 +5,8 @@
   "REMEMBER_ME": "Remember Me",
   "LOGIN": "Login",
   "SIGN_UP_MESSAGE": "Don't have an account? Sign Up",
-  "RESET_PASSWORD": "Rest Password",
+  "RESET_PASSWORD": "Reset Password",
+  "RESET_PASSWORD_MSG": "please create a new strong password",
   "REMEMBER_PASSWORD": "Remember your password?",
   "FORGOT_PASSWORD_MESSAGE": "Lost your password? Please enter your username or email address. You will receive a link to create a new password via email.",
   "FIRST_NAME": "First Name",
@@ -26,6 +27,10 @@
   "REGISTER_NOW": "Register Now",
   "PHONE_NUMBER": "Phone Number",
   "FORGOT_PASSWORD": "Forgot Password?",
+  "FORGOT_PASSWORD_PHONE_ENTER": "Enter your phone number to reset your password",
+  "FORGOT_PASSWORD_EMAIL_ENTER": "Enter your registered email address to reset your password",
+  "FORGOT_PASSWORD_PHONE_ENTER": "Enter your phone number to reset your password",
+  "FORGOT_PASSWORD_EMAIL_ENTER": "Enter your registered email address to reset your password",
   "CONGRATULATIONS": "Congratulations",
   "SIGN_UP_SUCCESS_MESSAGE": "we have sent your sign up request admin for account approval, stay with us and you can start selling your products once your account is approved",
   "OKAY": "Okay",
@@ -56,6 +61,16 @@
   "MESSAGING": "Messaging",
   "PAYMENT_MANAGEMENT": "Payment Management",
   "SETTINGS": "Settings",
+  "EIGHT_CHARS": "Minimum length 8 characters",
+  "CONTAIN_NUMBER": "Contains at least 1 number",
+  "CONTAIN_SPECIAL_CHARACTER": "Contains at least 1 special character",
+  "CONTAIN_LOWERCASE_LETTER": "Contains at least 1 lowercase letter",
   "SEARCH": "Search",
-  "SEARCH_PLACEHOLDER": "e.g products, reports, staff ..."
+  "SEARCH_PLACEHOLDER": "e.g products, reports, staff ...",
+  "PASSWORD_ERROR_MSG": "Passwords did not match",
+  "EMAIL_ERROR_MSG":"Must include '@' and '.'",
+  "PASSWORD_UPDATED":"Password Updated Successfully",
+  "PASSWORD_UPDATED_MSG": "your password has been successfully updated & secured. Login into your account",
+  "CHECK_YOUR_EMAIL":"Check your Email"
+
 }
