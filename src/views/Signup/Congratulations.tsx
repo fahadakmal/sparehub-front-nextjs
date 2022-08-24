@@ -4,6 +4,7 @@ import AuthContainer from '../../components/AuthContainer/AuthContainer';
 import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import { useRouter } from 'next/router';
 import ToastAlert from '../../components/Toast/ToastAlert';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const useStyles = {
   root: {
@@ -28,7 +29,7 @@ const Congratulations = ({ translate }: any) => {
   });
 
   useEffect(() => {
-    setToast({ ...toast, message: 'User has been verified!', appearence: true, type: 'success' });
+    setToast({ ...toast, message: translate(LANG_STRINGS.USER_VERIFIED), appearence: true, type: 'success' });
   }, []);
 
   const handleNavigate = () => {
