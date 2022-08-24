@@ -8,45 +8,33 @@ import Header from '../../layout/Header';
 import Footer from '../../layout/Footer';
 import { Welcome } from '../../../public/images';
 import Image from 'next/image';
-
-const useStyles = {
-  leftContainer: {
-    display: 'flex',
-  },
-
-  footer: {
-    height: '10vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-};
+import MobileHeader from '../../layout/MobileHeader';
 
 export default function AuthContainer({ children }: any) {
-  const { leftContainer, footer } = useStyles;
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Grid container sx={{ minHeight: '100vh' }}>
-      <Hidden mdDown>
-        <Grid item sx={leftContainer} xs={12} sm={6}>
-          <Image src={Welcome} />
-        </Grid>
-      </Hidden>
-      <Grid item xs={12} sm={12} md={6}>
-        <Box>
-          <Header />
+    <Grid container sx={{ height: '100vh' }}>
+      <Hidden mdUp>
+        <Box position="absolute" sx={{ zIndex: 1, width: '100%', padding: '20px' }}>
+          <MobileHeader />
         </Box>
-        <Box component={'div'} dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
-          <Grid px={isMobileScreen ? 5 : 15} rowGap={2}>
+      </Hidden>
+      <Grid item xs={12} md={6} sx={{ height: { xs: '30%', md: '100%' }, position: 'relative' }}>
+        <Image src={Welcome} layout="fill" objectFit="cover" />
+      </Grid>
+      <Grid item xs={12} md={6} sx={{ paddingTop: { xs: '20px', md: '0px' } }}>
+        <Hidden mdDown>
+          <Header />
+        </Hidden>
+        <Box dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
+          <Grid container px={isMobileScreen ? 5 : 15} rowGap={2}>
             {children}
           </Grid>
         </Box>
-        <Box sx={footer}>
-          <Footer translate={t} />
-        </Box>
+        <Footer translate={t} />
       </Grid>
     </Grid>
   );
