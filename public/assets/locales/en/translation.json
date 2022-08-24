@@ -147,11 +147,11 @@
   "VERIFY": "Verify",
   "WELCOME_USER": "Welcome User",
   "USER_VERIFIED": "User has been verified!",
-  "ENTER_PASSWORD_FIELD":"Please enter your password",
-  "INVALID_EMAIL":"Email is invalid",
-  "REQUIRED_FIELD":"Required",
-  "PASSWORD_COMPLEXITY_ERROR":"Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
-  "PASSWORD_DOES_NOT_MATCH":"Passwords must match",
-  "MIN_PHONE_INPUT_LENGTH":"Minimum 9 digits are allowed",
-  "MAX_PHONE_INPUT_LENGTH":"Maximum 10 digits are allowed"
+  "ENTER_PASSWORD_FIELD": "Please enter your password",
+  "INVALID_EMAIL": "Email is invalid",
+  "REQUIRED_FIELD": "Required",
+  "PASSWORD_COMPLEXITY_ERROR": "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character",
+  "PASSWORD_DOES_NOT_MATCH": "Passwords must match",
+  "MIN_PHONE_INPUT_LENGTH": "Minimum 9 digits are allowed",
+  "MAX_PHONE_INPUT_LENGTH": "Maximum 10 digits are allowed"
 }

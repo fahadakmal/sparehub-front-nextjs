@@ -147,11 +147,11 @@
   "VERIFY": "تحقق",
   "WELCOME_USER": "مرحباً بك",
   "USER_VERIFIED": "تم التحقق من المستخدم!",
-  "REQUIRED_FIELD":"مطلوب",
-  "ENTER_PASSWORD_FIELD":"من فضلك أدخل رقمك السري",
-  "INVALID_EMAIL":"البريد الإلكتروني غير صالح",
-  "PASSWORD_COMPLEXITY_ERROR":"يجب أن يحتوي على 8 أحرف ، وحرف كبير واحد ، وحرف صغير واحد ، ورقم واحد ، وحرف خاص واحد",
-  "PASSWORD_DOES_NOT_MATCH":"يجب ان تتطابق كلمات المرور",
-  "MIN_PHONE_INPUT_LENGTH":"مسموح بـ 9 أرقام كحد أدنى",
-  "MAX_PHONE_INPUT_LENGTH":"مسموح بـ 10 أرقام كحد أقصى"
-} 
+  "REQUIRED_FIELD": "مطلوب",
+  "ENTER_PASSWORD_FIELD": "من فضلك أدخل رقمك السري",
+  "INVALID_EMAIL": "البريد الإلكتروني غير صالح",
+  "PASSWORD_COMPLEXITY_ERROR": "يجب أن يحتوي على 8 أحرف ، وحرف كبير واحد ، وحرف صغير واحد ، ورقم واحد ، وحرف خاص واحد",
+  "PASSWORD_DOES_NOT_MATCH": "يجب ان تتطابق كلمات المرور",
+  "MIN_PHONE_INPUT_LENGTH": "مسموح بـ 9 أرقام كحد أدنى",
+  "MAX_PHONE_INPUT_LENGTH": "مسموح بـ 10 أرقام كحد أقصى"
+}
