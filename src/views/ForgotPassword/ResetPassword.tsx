@@ -114,13 +114,13 @@ const ResetPassword = ({ translate }: any) => {
     setIsCPasswordDirty(true);
   };
   const { email, type, phone } = router.query;
-  console.log(email, 'data', phone, 'phone', type, 'type');
+  console.log(email, 'data', phone, 'phone from forgot', type, 'type');
 
   const handleForgotPassword = async () => {
     router.push(
       {
         pathname: '/otpVerification',
-        query: { email: email, newPassword: user.password },
+        query: { email: email || phone, newPassword: user.password },
       },
       '/otpVerification',
     );

@@ -49,8 +49,9 @@ const ForgotPassword = ({ translate }: any) => {
   const loginTP = router.query;
   console.log(loginTP.name, 'login Type');
 
+  const phoneWithDialCode = user.dialCode + phoneNumber.trim();
   const continueForm = async () => {
-    if (forgetPassType == 'email') {
+    if (loginTP.name == 'email') {
       if (!email) {
         return;
       }
@@ -71,28 +72,27 @@ const ForgotPassword = ({ translate }: any) => {
           window.alert(error.message);
         }
       }
-    } else {
-      if (loginTP.name == 'phone') {
-        const phoneWithDialCode = user.dialCode + phoneNumber.trim();
-        if (!phoneNumber) {
-          return;
+    }
+    if (loginTP.name == 'phone') {
+      if (!phoneNumber) {
+        return;
+      }
+      try {
+        const res = await auth.forgotPassword(phoneWithDialCode);
+        if (res) {
+          console.log(phoneNumber, 'phoneNumber ', phoneWithDialCode, 'phone section');
+          router.push(
+            {
+              pathname: '/resetPassword',
+              query: { phone: phoneWithDialCode, type: loginTP.name },
+            },
+            '/resetPassword',
+          );
+          console.log('abc');
         }
-        try {
-          const res = await auth.forgotPassword(phoneWithDialCode);
-          if (res) {
-            router.push(
-              {
-                pathname: '/resetPassword',
-                query: { phone: phoneWithDialCode, type: loginTP.name },
-              },
-              '/resetPassword',
-            );
-            console.log('abc');
-          }
-        } catch (error) {
-          if (error instanceof Error) {
-            window.alert(error.message);
-          }
+      } catch (error) {
+        if (error instanceof Error) {
+          window.alert(error.message);
         }
       }
     }

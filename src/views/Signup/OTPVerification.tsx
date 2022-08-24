@@ -12,8 +12,11 @@ const OTPVerification = (props: any) => {
   console.log(newPassword, 'abcd');
   const verificationType = phoneNumber ? phoneNumber : email;
   const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
-  console.log(identity, 'verificationtype');
+  console.log(identity, 'identity', verificationType, 'verificationtype');
   const auth: any = useAuth();
+
+  console.log(email, 'aws username ');
+
   const [otp, setOtp] = useState('');
   const [toast, setToast] = useState({
     message: '',
@@ -43,26 +46,51 @@ const OTPVerification = (props: any) => {
         }
       }
     } else {
-      try {
-        const res = await auth.confirmPassword(email, otp, newPassword);
-        if (res) {
-          setToast({
-            ...toast,
-            message: '6 digit OTP has been sent',
-            appearence: true,
-            type: 'success',
-          });
-          router.push('/congratulations');
-          return;
+      if (identity == 'EMAIL') {
+        try {
+          const res = await auth.confirmPassword(email, otp, newPassword);
+          if (res) {
+            setToast({
+              ...toast,
+              message: '6 digit OTP has been sent',
+              appearence: true,
+              type: 'success',
+            });
+            router.push('/congratulations');
+            return;
+          }
+        } catch (err) {
+          if (err instanceof Error) {
+            setToast({
+              ...toast,
+              message: err.message,
+              appearence: true,
+              type: 'error',
+            });
+          }
         }
-      } catch (err) {
-        if (err instanceof Error) {
-          setToast({
-            ...toast,
-            message: err.message,
-            appearence: true,
-            type: 'error',
-          });
+      } else {
+        try {
+          const res = await auth.confirmPassword(email, otp, newPassword);
+          if (res) {
+            setToast({
+              ...toast,
+              message: '6 digit OTP has been sent',
+              appearence: true,
+              type: 'success',
+            });
+            router.push('/congratulations');
+            return;
+          }
+        } catch (err) {
+          if (err instanceof Error) {
+            setToast({
+              ...toast,
+              message: err.message,
+              appearence: true,
+              type: 'error',
+            });
+          }
         }
       }
     }
@@ -84,7 +112,7 @@ const OTPVerification = (props: any) => {
           type: 'error',
         });
       }
-    } 
+    }
   };
 
   const handleCloseToast = () => {
