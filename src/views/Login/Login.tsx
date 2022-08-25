@@ -16,25 +16,30 @@ import Recaptcha from '../../components/Recaptcha';
 import { countries } from '../../components/Select/Countries';
 import { validateEmail } from '../../utils';
 import ToastAlert from '../../components/Toast/ToastAlert';
-import i18next,{t} from 'i18next';
+import i18next, { t } from 'i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-const loginSchema = Yup.object().shape({
-  email: Yup.string().ensure()
-  .when('phoneNumber',{
-    is:"",
-    then:Yup.string().email(t("INVALID_EMAIL")).required(t("REQUIRED_FIELD"))
-  }),
-  phoneNumber: Yup.string().ensure()
-  .when('email',{
-    is:"",
-    then:Yup.string().required(t("REQUIRED_FIELD")).min(9,t("MIN_PHONE_INPUT_LENGTH")).max(10,t("MAX_PHONE_INPUT_LENGTH"))
-  })
-  , 
-  password: Yup
-    .string()
-    .required(t("ENTER_PASSWORD_FIELD"))
-},[["email","phoneNumber"]]);
+const loginSchema = Yup.object().shape(
+  {
+    email: Yup.string()
+      .ensure()
+      .when('phoneNumber', {
+        is: '',
+        then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+      }),
+    phoneNumber: Yup.string()
+      .ensure()
+      .when('email', {
+        is: '',
+        then: Yup.string()
+          .required(t('REQUIRED_FIELD'))
+          .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+          .max(10, t('MAX_PHONE_INPUT_LENGTH')),
+      }),
+    password: Yup.string().required(t('ENTER_PASSWORD_FIELD')),
+  },
+  [['email', 'phoneNumber']],
+);
 
 const styles = {
   tab: {
@@ -49,23 +54,22 @@ const styles = {
 
 export default function Login({ translate }: any) {
   let captchaRef: any = useRef<ReCAPTCHA>();
-  const initialState={
+  const initialState = {
     email: '',
     password: '',
     phoneNumber: '',
     country: 'SA',
     dialCode: '+966',
-  }
-
+  };
 
   const formik = useFormik({
     initialValues: initialState,
-    validationSchema:loginSchema,
-    validateOnBlur:false,
-    onSubmit: values => {},
+    validationSchema: loginSchema,
+    validateOnBlur: false,
+    onSubmit: (values) => {},
   });
-  const {values,errors,handleChange,handleSubmit,touched,isValid,resetForm,validateForm,handleBlur} = formik 
-  console.log(touched)
+  const { values, errors, handleChange, handleSubmit, touched, isValid, resetForm, validateForm, handleBlur } = formik;
+  console.log(touched);
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
@@ -94,7 +98,7 @@ export default function Login({ translate }: any) {
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: string) => {
     captchaRef.props.grecaptcha.reset();
-    resetForm()
+    resetForm();
     setLoginType(newValue);
     setRecaptchaToken('');
   };
@@ -109,7 +113,7 @@ export default function Login({ translate }: any) {
   };
 
   const handleLogin = async () => {
-    validateForm()
+    validateForm();
     if (loginType == 'email') {
       if (!isValid) {
         setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
@@ -154,8 +158,6 @@ export default function Login({ translate }: any) {
 
   return (
     <AuthContainer>
-      
-      
       <Grid xs={12} item textAlign={'center'}>
         <Typography component="h1" variant="h5">
           {translate('LOGIN')}
@@ -175,13 +177,12 @@ export default function Login({ translate }: any) {
               <Tab sx={tab} label={translate('EMAIL')} value="email" />
             </Tabs>
           </Box>
-          
-          
+
           <TabPanel sx={{ padding: 0 }} value="email">
             <>
               <Grid sx={{ width: '100%' }} pt={3} item xs={12}>
                 <PrimaryInput
-                focused
+                  focused
                   label={translate('EMAIL')}
                   type={'text'}
                   name="email"
@@ -219,7 +220,7 @@ export default function Login({ translate }: any) {
                   }}
                 >
                   <FormControlLabel
-                    control={<Checkbox defaultChecked style={{ color: '#E2282C' }} />}
+                    control={<Checkbox style={{ color: '#E2282C' }} />}
                     label={
                       <Typography component={'p'} color="#D9D9D9" variant="caption" display="block">
                         {translate('REMEMBER_ME')}
@@ -258,16 +259,12 @@ export default function Login({ translate }: any) {
                 onBlur={handleBlur}
                 name="phoneNumber"
                 fullWidth
-                
-              
                 value={values.phoneNumber}
                 placeholder={translate('PHONE_NUMBER')}
                 startAdornment={<Typography>{values.dialCode}</Typography>}
                 onChange={handleChange}
                 error={Boolean(errors.phoneNumber) && touched.phoneNumber}
-                helperText={
-                  touched.phoneNumber && errors.phoneNumber
-                }
+                helperText={touched.phoneNumber && errors.phoneNumber}
               />
             </Grid>
             <Grid item pt={3} xs={12}>
@@ -332,7 +329,12 @@ export default function Login({ translate }: any) {
       </Grid>
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
-        <PrimaryButton disabled={!(isValid && Object.keys(touched).length > 0)} onClick={handleLogin} variant="contained" fullWidth>
+        <PrimaryButton
+          disabled={!(isValid && Object.keys(touched).length > 0)}
+          onClick={handleLogin}
+          variant="contained"
+          fullWidth
+        >
           {loginType === 'email' ? translate('CONTINUE') : translate('LOGIN')}
         </PrimaryButton>
       </Grid>
