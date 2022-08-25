@@ -41,6 +41,65 @@ const styling = {
     fontSize: '24px',
     lineHeight: '31px',
   },
+  bgColor: {
+    backgroundColor: '#d8e3e9',
+  },
+  mainSellerLayout: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    '& > :not(style)': {
+      m: 1,
+      width: '97%',
+      //   height: '100vh',
+    },
+  },
+  sellerBtnStyle: {
+    color: 'black',
+    background: 'inherit',
+    height: '40px',
+    width: '132px',
+    textTransform: 'capitalize',
+    borderColor: 'black',
+    borderRadius: '8px',
+    '&:hover': {
+      background: 'black',
+      color: '#FFFFFF',
+      borderColor: 'black',
+    },
+  },
+  sellerHeading: {
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: '24px',
+    lineHeight: '134.4%',
+    color: '#111010',
+  },
+  flexBetween: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  sellerNextBtn: {
+    padding: '10px',
+    marginLeft: '30px',
+    width: '150px',
+    textTransform: 'capitalize',
+    height: '56px',
+  },
+  sellerBackBtn: {
+    width: '150px',
+    padding: '10px',
+    borderRadius: '8px',
+    textAlign: 'center',
+    border: '1px solid black',
+    background: 'inherit',
+    color: '#000000',
+    cursor: 'pointer',
+    '&:hover': {
+      background: 'inherit',
+      border: '1px solid black',
+    },
+  },
 };
 
 export default styling;

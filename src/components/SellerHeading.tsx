@@ -1,24 +1,36 @@
-import { Grid } from "@mui/material";
-import React,{useState} from "react";
+import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import React, { useState } from 'react';
+import styling from '../stylesObjects/stylesObj';
 
-const SellerHeading=({headings,draftBtn,mydata}: any)=>{
-  
-    return(<>
-    <Grid container>
-    <Grid item lg={10.4}>
-    <Grid className="sellerHeading">{headings}</Grid>
-    </Grid>
-    <Grid item lg={1.5}  onClick={mydata} >
-      <Grid className="draftbtn">
-      {draftBtn}
-      </Grid>
-    </Grid>
-    </Grid>
-    <Grid>
-    <hr></hr>
-    </Grid></>)
-}
-export default SellerHeading
-
+const SellerHeading = ({ headings, draftBtn, mydata }: any) => {
+  const { sellerBtnStyle, sellerHeading } = styling;
+  return (
+    <>
+      {/* <Grid container> */}
+      <Box mb={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={sellerHeading}>{headings}</Typography>
+        <Button variant="outlined" sx={sellerBtnStyle}>
+          {draftBtn}
+        </Button>
+      </Box>
+      <Divider sx={{ width: '100%' }} />
+      {/* <Grid item md={11}>
+          <Grid className="sellerHeading">{headings}</Grid>
+          <Grid className="sellerHeading">{headings}</Grid>
+        </Grid>
+        <Grid item md={1} onClick={mydata}>
+          <Button className="draftbtn">{draftBtn}</Button>
+          <Button variant="outlined" sx={sellerBtnStyle}>
+            {draftBtn}
+          </Button>
+        </Grid> */}
+      {/* </Grid> */}
+      {/* <Grid>
+        <hr></hr>
+      </Grid> */}
+    </>
+  );
+};
+export default SellerHeading;
 
 
