@@ -69,7 +69,6 @@ export default function Login({ translate }: any) {
     onSubmit: (values) => {},
   });
   const { values, errors, handleChange, handleSubmit, touched, isValid, resetForm, validateForm, handleBlur } = formik;
-  console.log(touched);
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
@@ -77,13 +76,7 @@ export default function Login({ translate }: any) {
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const [showPassword, setShowPassword] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
-  const [user, setUser] = useState({
-    email: '',
-    password: '',
-    phoneNumber: '',
-    country: 'SA',
-    dialCode: '+966',
-  });
+  const [user, setUser] = useState(initialState);
   const [toast, setToast] = useState({
     message: '',
     appearence: false,
@@ -123,7 +116,7 @@ export default function Login({ translate }: any) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
-      const { email, password } = formik.values;
+      const { email, password } = values;
       try {
         const res = await auth.signInWithEmail(email, password);
       } catch (err: any) {
@@ -138,8 +131,9 @@ export default function Login({ translate }: any) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
-      const { password, dialCode, phoneNumber } = user;
-      const phoneWithDialCode = dialCode + phoneNumber.trim();
+      const {  dialCode } = user;
+      const{password,phoneNumber} = values
+      const phoneWithDialCode = dialCode + phoneNumber.toString().trim();
       try {
         const res = await auth.signInWithPhone(phoneWithDialCode, password);
       } catch (err: any) {
@@ -248,7 +242,7 @@ export default function Login({ translate }: any) {
               <CountryDropdown
                 translate={translate}
                 handleChange={handleCountrySelect}
-                selected={values.country}
+                selected={user  .country}
                 name="country"
               />
             </Grid>
@@ -261,7 +255,7 @@ export default function Login({ translate }: any) {
                 fullWidth
                 value={values.phoneNumber}
                 placeholder={translate('PHONE_NUMBER')}
-                startAdornment={<Typography>{values.dialCode}</Typography>}
+                startAdornment={<Typography>{user.dialCode}</Typography>}
                 onChange={handleChange}
                 error={Boolean(errors.phoneNumber) && touched.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}

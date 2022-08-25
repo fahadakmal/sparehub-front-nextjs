@@ -7,7 +7,7 @@ import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 
 const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep, formik }: any) => {
-  const {errors,touched,handleBlur} = formik
+  const {values,errors,touched,handleBlur} = formik
   const btnDisable = (Boolean(errors.email) || Boolean(errors.phoneNumber))
   return (
     <>
@@ -26,7 +26,7 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             name="phoneNumber"
             fullWidth
             onBlur={handleBlur}
-            value={user.phoneNumber}
+            value={values.phoneNumber}
             placeholder={translate('PHONE_NUMBER')}
             startAdornment={<Typography>{user.dialCode}</Typography>}
             onChange={formik.handleChange}
@@ -40,7 +40,7 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             type={'text'}
             name="email"
             fullWidth
-            value={user.email}
+            value={values.email}
             onBlur={handleBlur}
             placeholder={translate('EMAIL_ADDRESS')}
             startAdornment={<Email color="disabled" />}
