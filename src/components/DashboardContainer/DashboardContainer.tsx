@@ -8,6 +8,7 @@ import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SellerDetailPage from '../../../pages/seller/create';
+import SellerDetailPage from '../../../pages/seller/create';
 import {
   AppBar,
   Box,
@@ -24,7 +25,7 @@ import i18next from 'i18next';
 import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
-
+import { useRouter } from 'next/router';
 const useStyles = {
   toggleBtn: {
     borderRadius: 2,
@@ -130,6 +131,7 @@ export default function DashboardContainer(props: any) {
     setMobileOpen(!mobileOpen);
   };
 
+  const router = useRouter();
   const drawer = (
     <Box
       style={{
