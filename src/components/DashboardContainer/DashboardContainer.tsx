@@ -7,8 +7,6 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import SellerDetailPage from '../../../pages/seller/create';
-import SellerDetailPage from '../../../pages/seller/create';
 import {
   AppBar,
   Box,
@@ -122,7 +120,6 @@ export default function DashboardContainer(props: any) {
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const router = useRouter();
   const handleListItemClick = (event: any, index: any) => {
     setSelectedIndex(index);
   };
