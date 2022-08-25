@@ -20,9 +20,14 @@ const SelectField = ({ label, checkValidation, placeholder, mydata, helperText, 
         label={label}
         onChange={handleChange}
       >
-        <MenuItem value="4">
+       <MenuItem value="0">
           <em>{placeholder}</em>
-        </MenuItem>
+        </MenuItem> 
+        {
+          data.map((item)=><MenuItem value={item.id}>
+          <em>{item.name}</em>
+        </MenuItem>)
+        }
       </Select>
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
