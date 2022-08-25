@@ -1,9 +1,19 @@
+import React, { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, LinearProgress, Tab, Tabs, Typography, Link as MuiLink } from '@mui/material';
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  Tab,
+  Tabs,
+  Typography,
+  Link as MuiLink,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import i18next, { t } from 'i18next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
@@ -85,6 +95,8 @@ const initialState = {
 };
 
 export default function Signup({ translate }: any) {
+  const theme = useTheme();
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: signupSchema,
@@ -281,6 +293,7 @@ export default function Signup({ translate }: any) {
     setUser({ ...user, [event.target.name]: event.target.value });
     setIsCPasswordDirty(true);
   };
+
   React.useEffect(() => {
     if (isCPasswordDirty) {
       if (user.password === user.confirmPassword) {
@@ -313,9 +326,11 @@ export default function Signup({ translate }: any) {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={i18next.language !== 'ar' ? -90 : ''}
+            left={!isMobileScreen && i18next.language !== 'ar' ? -90 : ''}
             top={0}
-            right={i18next.language === 'ar' ? -90 : ''}
+            right={
+              !isMobileScreen && i18next.language === 'ar' ? -90 : isMobileScreen && i18next.language === 'ar' ? 0 : ''
+            }
           >
             <ArrowBackIcon />
           </Box>
@@ -443,7 +458,7 @@ export default function Signup({ translate }: any) {
           </b>
         </Typography>
 
-        {/* 
+        {/*
         <Typography
           style={{ cursor: 'pointer' }}
           onClick={() => {

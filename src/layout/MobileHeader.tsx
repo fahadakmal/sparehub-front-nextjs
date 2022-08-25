@@ -12,13 +12,13 @@ const styles = {
     color: '#000',
     '&.Mui-selected': {
       color: '#fff',
-      backgroundColor: '#F0F3FD',
+      backgroundColor: '#E2282C',
       borderRadius: '8px',
     },
   },
 };
 
-const Header = (props: any) => {
+const MobileHeader = (props: any) => {
   const { tab } = styles;
   const dispatch = useDispatch();
   const storedLang = localStorage.getItem('i18nextLng');
@@ -28,21 +28,21 @@ const Header = (props: any) => {
     i18next.changeLanguage(newVal);
     dispatch(handleChangeLanguage(newVal));
   };
+
   return (
-    <Grid container alignItems={'center'} justifyContent={'space-between'} padding={3}>
+    <Grid container alignItems={'center'} justifyContent={'space-between'}>
       <Grid item>
         <Image src={Logo} />
       </Grid>
       <Grid item>
         <Tabs
           sx={{
-            '& .MuiButtonBase-root.MuiTab-root': {
-              color: '#000',
+            backgroundColor: '#fff',
+            borderRadius: '8px',
+            '&.MuiTabs-root': {
+              height: '32px',
             },
             '& .MuiTabs-indicator': { display: 'none' },
-            border: 1,
-            borderColor: '#D9D9D9',
-            borderRadius: '8px',
           }}
           value={language}
           onChange={handleLanguage}
@@ -55,4 +55,4 @@ const Header = (props: any) => {
   );
 };
 
-export default Header;
+export default MobileHeader;
