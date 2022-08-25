@@ -23,6 +23,7 @@ import i18next from 'i18next';
 import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
+import { useRouter } from 'next/router';
 
 const useStyles = {
   toggleBtn: {
@@ -71,58 +72,66 @@ const listitems = [
     key: 'dashboard',
     label: 'DASHBOARD',
     icon: <DashboardIcon />,
+    path: '/',
   },
   {
     item: 1,
     key: 'orderProcessing',
     label: 'ORDER_PROCESSING',
     icon: <AddShoppingCartIcon />,
+    path: '/orderProcessing',
   },
   {
     item: 2,
     key: 'analyticsReports',
     label: 'ANALYTICS_AND_REPORTS',
     icon: <AnalyticsIcon />,
+    path: '/analyticsReports',
   },
   {
     item: 3,
     key: 'products',
     label: 'PRODUCTS',
     icon: <InventoryIcon />,
+    path: '/products',
   },
   {
     item: 4,
     key: 'reviewsRating',
     label: 'REVIEW_RATING',
     icon: <ReviewsOutlinedIcon />,
+    path: '/reviewsRating',
   },
   {
     item: 5,
     key: 'messaging',
     label: 'MESSAGING',
     icon: <ChatOutlinedIcon />,
+    path: '/messaging',
   },
   {
     item: 6,
     key: 'paymentManagement',
     label: 'PAYMENT_MANAGEMENT',
     icon: <PaymentOutlinedIcon />,
+    path: '/paymentManagement',
   },
   {
     item: 7,
     key: 'setting',
     label: 'SETTINGS',
     icon: <SettingsOutlinedIcon />,
+    path: '/setting',
   },
 ];
 
 export default function DashboardContainer(props: any) {
+  const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const handleListItemClick = (event: any, index: any) => {
-    setSelectedIndex(index);
+  const handleListItemClick = (item: any) => {
+    router.push(`${item.path}`);
   };
 
   const handleDrawerToggle = () => {
@@ -143,21 +152,21 @@ export default function DashboardContainer(props: any) {
         <Image src={WhiteLogo} />
       </div>
       <List>
-        {listitems.map((item, index) => (
+        {listitems.map((item) => (
           <ListItem
             button
-            onClick={(event) => handleListItemClick(event, index)}
+            onClick={() => handleListItemClick(item)}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding
           >
-            <ListItemButton selected={selectedIndex === item.item}>
-              <ListItemIcon style={{ minWidth: '40px', color: selectedIndex === item.item ? '#fff' : '#85869B' }}>
+            <ListItemButton selected={router.pathname === item.path}>
+              <ListItemIcon style={{ minWidth: '40px', color: router.pathname === item.path ? '#fff' : '#85869B' }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 sx={{ display: 'flex', alignItems: 'flex-start' }}
-                primaryTypographyProps={{ color: selectedIndex === item.item ? '#fff' : '#85869B' }}
+                primaryTypographyProps={{ color: router.pathname === item.path ? '#fff' : '#85869B' }}
                 primary={translate(item.label)}
               />
             </ListItemButton>
@@ -214,8 +223,8 @@ export default function DashboardContainer(props: any) {
       <Box
         component="main"
         sx={{
-          height: `calc(100vh - 64px)`,
-          p: 0,
+          // height: `calc(100vh - 64px)`,
+          p: '0 40px',
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           backgroundColor: '#F8FAFF',
         }}
