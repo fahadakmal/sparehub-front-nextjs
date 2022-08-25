@@ -1,9 +1,25 @@
-import { Grid } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import React from 'react';
+import styling from '../../stylesObjects/stylesObj';
 import LANG_STRINGS from '../../enums/langStrings';
+import { PrimaryButton } from '../../components/Button/PrimaryButton';
 const NextBtn = ({ mand_fields, handleNext, handleBack, translate }: any) => {
+  const { flexBetween, sellerNextBtn, sellerBackBtn } = styling;
   return (
-    <Grid container sx={{ marginTop: '1px' }} spacing={4}>
+    <>
+      <Box sx={flexBetween} mt={3}>
+        <Typography>{mand_fields}</Typography>
+        <Box sx={flexBetween}>
+          <PrimaryButton variant="outlined" onClick={() => handleBack()} sx={sellerBackBtn}>
+            {translate(LANG_STRINGS.BACK_BTN)}
+          </PrimaryButton>
+
+          <PrimaryButton sx={sellerNextBtn} onClick={() => handleNext()}>
+            {translate(LANG_STRINGS.NEXT_BTN)}
+          </PrimaryButton>
+        </Box>
+      </Box>
+      {/* <Grid container sx={{ marginTop: '1px' }} spacing={4}>
       <Grid item lg={9} sx={{ color: 'black' }}>
         {mand_fields}
       </Grid>
@@ -39,7 +55,8 @@ const NextBtn = ({ mand_fields, handleNext, handleBack, translate }: any) => {
           {translate(LANG_STRINGS.NEXT_BTN)}
         </Grid>
       </Grid>
-    </Grid>
+    </Grid> */}
+    </>
   );
 };
 export default NextBtn;

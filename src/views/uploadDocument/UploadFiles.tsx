@@ -138,8 +138,14 @@ const UploadFiles = ({ translate }: any) => {
                 >
                   <Grid
                     container
-                    className="uploadfile"
-                    sx={{ border: '1px solid ', borderColor: '#bbbbbb', cursor: 'pointer' }}
+                    // className="uploadfile"
+                    sx={{
+                      border: '1px solid rgba(121, 116, 126, 0.2)',
+                      background: 'rgba(0, 0, 0, 0.04)',
+                      cursor: 'pointer',
+                      height: '56px',
+                      borderRadius: '4px',
+                    }}
                   >
                     <Grid xs={10.8} sx={{ marginTop: '12px', marginLeft: '8px' }}>
                       {translate(LANG_STRINGS.UPLOAD_BUSINESS_DOCUMENT)}
