@@ -254,7 +254,7 @@ export function confirmPassword(username: string, verificationCode: string, newP
       reject(`could not find ${username}`);
       return;
     }
-    cognitoUser.confirmPassword( verificationCode, newPassword, {
+    cognitoUser.confirmPassword(verificationCode, newPassword, {
       onFailure(err) {
         reject(err);
       },
@@ -264,6 +264,3 @@ export function confirmPassword(username: string, verificationCode: string, newP
     });
   });
 }
-
-
-

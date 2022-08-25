@@ -1,7 +1,7 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, LinearProgress, Tab, Tabs, Typography,Link as MuiLink } from '@mui/material';
-import i18next,{t} from 'i18next';
+import { Box, Grid, LinearProgress, Tab, Tabs, Typography, Link as MuiLink } from '@mui/material';
+import i18next, { t } from 'i18next';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,30 +18,28 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 
-
-
-const signupSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required(t("REQUIRED_FIELD")),
-  lastName: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required(t("REQUIRED_FIELD")),
-    email: Yup.string().ensure()
-    .when('phoneNumber',{
-      is:"",
-      then:Yup.string().email(t("INVALID_EMAIL")).required(t("REQUIRED_FIELD"))
-    }),
-    phoneNumber: Yup.string().ensure()
-    .when('email',{
-      is:"",
-      then:Yup.string().required(t("REQUIRED_FIELD")).min(9,t("MIN_PHONE_INPUT_LENGTH")).max(10,t("MAX_PHONE_INPUT_LENGTH"))
-    })
-},[["email","phoneNumber"]]);
-
-
+const signupSchema = Yup.object().shape(
+  {
+    firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+    email: Yup.string()
+      .ensure()
+      .when('phoneNumber', {
+        is: '',
+        then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+      }),
+    phoneNumber: Yup.string()
+      .ensure()
+      .when('email', {
+        is: '',
+        then: Yup.string()
+          .required(t('REQUIRED_FIELD'))
+          .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+          .max(10, t('MAX_PHONE_INPUT_LENGTH')),
+      }),
+  },
+  [['email', 'phoneNumber']],
+);
 
 const styles = {
   tab: {
@@ -80,7 +78,7 @@ const initialState = {
   lastName: '',
   email: '',
   password: '',
-  confirmPassword: '',    
+  confirmPassword: '',
   country: 'SA',
   phoneNumber: '',
   dialCode: '+966',
@@ -89,12 +87,12 @@ const initialState = {
 export default function Signup({ translate }: any) {
   const formik = useFormik({
     initialValues: initialState,
-    validationSchema:signupSchema,
-    validateOnBlur:false,
-    onSubmit: values => {
-      handleSignUp()
+    validationSchema: signupSchema,
+    validateOnBlur: false,
+    onSubmit: (values) => {
+      handleSignUp();
     },
-  }); 
+  });
   const { tab } = styles;
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const dispatch = useDispatch();
@@ -114,16 +112,14 @@ export default function Signup({ translate }: any) {
     type: '',
   });
 
-
   const handleValidation = () => {
     let isValid = false;
-    const {  password, confirmPassword } = user;
+    const { password, confirmPassword } = user;
     if (password && confirmPassword && password === confirmPassword) {
       isValid = true;
     }
     return isValid;
   };
-
 
   const handleCountrySelect = (code: string) => {
     const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
@@ -149,7 +145,8 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const { firstName, password, email, dialCode, phoneNumber, confirmPassword } = formik.values;
+    const { firstName, email, dialCode, phoneNumber } = formik.values;
+    const { password, confirmPassword } = user;
     if (recaptchaToken.length < 1) {
       setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
       return;
@@ -277,28 +274,26 @@ export default function Signup({ translate }: any) {
   };
   // confirm password
 
-const [showErrorMessage, setShowErrorMessage] = React.useState(false);
-const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
-  
-const handleCPassword = (event: any) => {
-  setUser({...user,[event.target.name]: event.target.value})
-  setIsCPasswordDirty(true);
-}
-React.useEffect(()=> {
-  if (isCPasswordDirty) {
-    if(user.password === user.confirmPassword) {
-      setShowErrorMessage(false);
-    } else {
-      setShowErrorMessage(true);
+  const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+  const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
+
+  const handleCPassword = (event: any) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+    setIsCPasswordDirty(true);
+  };
+  React.useEffect(() => {
+    if (isCPasswordDirty) {
+      if (user.password === user.confirmPassword) {
+        setShowErrorMessage(false);
+      } else {
+        setShowErrorMessage(true);
+      }
     }
-  }
-}, [user.confirmPassword])
+  }, [user.confirmPassword]);
 
-
-const handleChange = (e: any) => {
-  setUser({ ...user, [e.target.name]: e.target.value });
-};
-
+  const handleChange = (e: any) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
 
   const handleBack = () => {
     setUser({ ...initialState });
@@ -351,8 +346,47 @@ const handleChange = (e: any) => {
             </Tabs>
           </Box>
           <form onSubmit={formik.handleSubmit}>
-          <TabPanel sx={{ padding: 0 }} value="email">
-            <>
+            <TabPanel sx={{ padding: 0 }} value="email">
+              <>
+                {step === 1 && (
+                  <Step1
+                    handleChange={formik.handleChange}
+                    user={formik.values}
+                    translate={translate}
+                    handleCountrySelect={handleCountrySelect}
+                    signupType={signupType}
+                    handleNextStep={handleNextStep}
+                    formik={formik}
+                  />
+                )}
+                {step === 2 && (
+                  <Step2
+                    handleChange={formik.handleChange}
+                    translate={translate}
+                    signupType={signupType}
+                    showPassword={showPassword}
+                    hideShowPassword={hideShowPassword}
+                    showConfirmPassword={showConfirmPassword}
+                    hideShowConfirmPassword={hideShowConfirmPassword}
+                    user={user}
+                    changeHandler={changeHandler}
+                    getRecaptchaToken={getRecaptchaToken}
+                    handleSignUp={handleSignUp}
+                    passwordLength={passwordLength}
+                    isNumber={isNumber}
+                    isUppercase={isUppercase}
+                    isSpecialChar={isSpecialChar}
+                    isLowercase={isLowercase}
+                    isValid={isValid}
+                    checkSpecialCharacterHandler={checkSpecialCharacterHandler}
+                    showErrorMessage={showErrorMessage}
+                    handleCPassword={handleCPassword}
+                    formik={formik}
+                  />
+                )}
+              </>
+            </TabPanel>
+            <TabPanel sx={{ padding: 0 }} value="phone">
               {step === 1 && (
                 <Step1
                   handleChange={formik.handleChange}
@@ -373,62 +407,23 @@ const handleChange = (e: any) => {
                   hideShowPassword={hideShowPassword}
                   showConfirmPassword={showConfirmPassword}
                   hideShowConfirmPassword={hideShowConfirmPassword}
-                  user={user}
-                  changeHandler={changeHandler}
-                  getRecaptchaToken={getRecaptchaToken}
                   handleSignUp={handleSignUp}
+                  getRecaptchaToken={getRecaptchaToken}
+                  formik={formik}
                   passwordLength={passwordLength}
                   isNumber={isNumber}
                   isUppercase={isUppercase}
                   isSpecialChar={isSpecialChar}
-                  isLowercase={isLowercase}
                   isValid={isValid}
+                  isLowercase={isLowercase}
+                  changeHandler={changeHandler}
                   checkSpecialCharacterHandler={checkSpecialCharacterHandler}
                   showErrorMessage={showErrorMessage}
                   handleCPassword={handleCPassword}
-                  formik={formik}
+                  user={user}
                 />
               )}
-            </>
-          </TabPanel>
-          <TabPanel sx={{ padding: 0 }} value="phone">
-            {step === 1 && (
-              <Step1
-                handleChange={formik.handleChange}
-                user={formik.values}
-                translate={translate}
-                handleCountrySelect={handleCountrySelect}
-                signupType={signupType}
-                handleNextStep={handleNextStep}
-                formik={formik}
-              />
-            )}
-            {step === 2 && (
-              <Step2
-                handleChange={formik.handleChange}
-                translate={translate}
-                signupType={signupType}
-                showPassword={showPassword}
-                hideShowPassword={hideShowPassword}
-                showConfirmPassword={showConfirmPassword}
-                hideShowConfirmPassword={hideShowConfirmPassword}
-                handleSignUp={handleSignUp}
-                getRecaptchaToken={getRecaptchaToken}
-                formik={formik}
-                passwordLength={passwordLength}
-                isNumber={isNumber}
-                isUppercase={isUppercase}
-                isSpecialChar={isSpecialChar}
-                isValid={isValid}
-                isLowercase={isLowercase}
-                changeHandler={changeHandler}
-                checkSpecialCharacterHandler={checkSpecialCharacterHandler}
-                showErrorMessage={showErrorMessage}
-                handleCPassword={handleCPassword}
-                user={user}
-              />
-            )}
-          </TabPanel>
+            </TabPanel>
           </form>
         </TabContext>
       </Box>
@@ -439,8 +434,7 @@ const handleChange = (e: any) => {
       )}
       <br />
       <Grid textAlign={'center'} item xs={12} pt={1}>
-
-      <Typography>
+        <Typography>
           <Link style={{ textDecoration: 'none !important' }} href="/" passHref>
             <span>{translate('ALREADY_ACCOUNT')} </span>
           </Link>
@@ -453,7 +447,7 @@ const handleChange = (e: any) => {
           </b>
         </Typography>
 
-{/* 
+        {/* 
         <Typography
           style={{ cursor: 'pointer' }}
           onClick={() => {
