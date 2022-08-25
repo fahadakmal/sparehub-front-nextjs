@@ -22,6 +22,7 @@ const useStyles = {
 const Congratulations = ({ translate }: any) => {
   const { root } = useStyles;
   const router = useRouter();
+  const { newPassword } = router.query;
   const [toast, setToast] = useState({
     message: '',
     appearence: false,
