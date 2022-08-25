@@ -12,11 +12,8 @@ const OTPVerification = (props: any) => {
   console.log(newPassword, 'abcd');
   const verificationType = phoneNumber ? phoneNumber : email;
   const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
-  console.log(identity, 'identity', verificationType, 'verificationtype');
+  console.log(identity, 'verificationtype');
   const auth: any = useAuth();
-
-  console.log(email, 'aws username ');
-
   const [otp, setOtp] = useState('');
   const [toast, setToast] = useState({
     message: '',
