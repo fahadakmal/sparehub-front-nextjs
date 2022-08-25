@@ -56,7 +56,7 @@ const OTPVerification = (props: any) => {
               appearence: true,
               type: 'success',
             });
-            router.push({ pathname: '/congratulations', query: { newPassword: newPassword } });
+            router.push({ pathname: '/congratulations', query: { newPassword: newPassword } }, '/congratulations');
             return;
           }
         } catch (err) {
@@ -79,7 +79,7 @@ const OTPVerification = (props: any) => {
               appearence: true,
               type: 'success',
             });
-            router.push({ pathname: '/congratulations', query: { newPassword: newPassword } });
+            router.push({ pathname: '/congratulations', query: { newPassword: newPassword } }, '/congratulations');
             return;
           }
         } catch (err) {

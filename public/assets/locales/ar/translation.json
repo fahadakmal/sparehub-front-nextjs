@@ -153,5 +153,7 @@
   "PASSWORD_COMPLEXITY_ERROR": "يجب أن يحتوي على 8 أحرف ، وحرف كبير واحد ، وحرف صغير واحد ، ورقم واحد ، وحرف خاص واحد",
   "PASSWORD_DOES_NOT_MATCH": "يجب ان تتطابق كلمات المرور",
   "MIN_PHONE_INPUT_LENGTH": "مسموح بـ 9 أرقام كحد أدنى",
-  "MAX_PHONE_INPUT_LENGTH": "مسموح بـ 10 أرقام كحد أقصى"
+  "MAX_PHONE_INPUT_LENGTH": "مسموح بـ 10 أرقام كحد أقصى",
+  "MY_PROFILE": "ملفي",
+  "LOGOUT": "Logout"
 }

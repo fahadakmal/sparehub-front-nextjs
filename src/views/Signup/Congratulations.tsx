@@ -45,10 +45,12 @@ const Congratulations = ({ translate }: any) => {
     <AuthContainer>
       <Grid item sx={root}>
         <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
-          {translate('REGISTERED_SUCCESSFULLY')}
+          {!newPassword ? translate(LANG_STRINGS.REGISTERED_SUCCESSFULLY) : translate(LANG_STRINGS.PASSWORD_UPDATED)}
         </Typography>
         <Typography sx={{ maxWidth: '419px' }} color={'#292D32'} fontSize={16} align="center" letterSpacing={0.32}>
-          {translate('REGISTERED_SUCCESSFULLY_MESSAGE')}
+          {!newPassword
+            ? translate(LANG_STRINGS.REGISTERED_SUCCESSFULLY_MESSAGE)
+            : translate(LANG_STRINGS.PASSWORD_UPDATED_MSG)}
         </Typography>
         <PrimaryButton onClick={handleNavigate} fullWidth>
           {translate('TAKE_ME_LOGIN')}
