@@ -1,6 +1,22 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
 
+// interface PrimaryInputProp{
+//   label:string
+//   placeholder:string
+//   type:string
+//   fullWidth:boolean
+//   startAdornment:any
+//   endAdornment:any
+//   name:string
+//   onClick:(e:any)=>void
+//   onChange:()=>void
+//   value:string
+//   required: boolean
+//   error: boolean
+//   otherProps:any
+// }
+
 export default function PrimaryInput({
   label,
   placeholder,
@@ -12,12 +28,16 @@ export default function PrimaryInput({
   onClick,
   onChange,
   value,
-  required = false,
   helperText,
-  error,
+  focused,
+  onBlur,
+  required = false,
+  error = false,
+  otherProps
 }: any) {
   return (
-    <TextField
+    <TextField  
+      focused={focused} 
       error={error}
       label={label}
       required={required}
@@ -27,6 +47,7 @@ export default function PrimaryInput({
       type={type}
       value={value}
       fullWidth={fullWidth}
+      onBlur={onBlur}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}
       helperText={helperText}
