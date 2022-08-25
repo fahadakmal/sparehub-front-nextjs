@@ -8,9 +8,9 @@ import NextBtn from './NextBtn';
 import SellerScreenLayout from '../../components/SellerLayout/SellerScreensLayout';
 import LANG_STRINGS from '../../enums/langStrings';
 import { SellerDetails } from './forms/sellerDetails';
-import { UploadFiles } from '../uploadDocument';
 import { BankDetail } from '../bankDetail';
 import { WarehouseAddress } from '../warehousePage';
+import UploadFiles from '../uploadDocument/UploadFiles';
 //STYLE
 
 //COMPONENT

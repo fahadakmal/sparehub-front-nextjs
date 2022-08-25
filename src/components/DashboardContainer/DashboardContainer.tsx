@@ -130,9 +130,10 @@ export default function DashboardContainer(props: any) {
   const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleListItemClick = (item: any) => {
-    router.push(`${item.path}`);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const router = useRouter();
+  const handleListItemClick = (event: any, index: any) => {
+    setSelectedIndex(index);
   };
 
   const handleDrawerToggle = () => {
@@ -158,8 +159,9 @@ export default function DashboardContainer(props: any) {
             button
             onClick={(event) => {
               setSelectedIndex(index);
-              if(item.key === 'setting'){
-              router.push("../../seller/create")
+              if (item.key === 'setting') {
+                router.push('/seller/create');
+              } else {
               }
             }}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
