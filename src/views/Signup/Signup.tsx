@@ -157,8 +157,8 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const { firstName, email, dialCode, phoneNumber } = formik.values;
-    const { password, confirmPassword } = user;
+    const { firstName, email, phoneNumber } = formik.values;
+    const { password, dialCode } = user;
     if (recaptchaToken.length < 1) {
       setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
       return;
@@ -304,10 +304,6 @@ export default function Signup({ translate }: any) {
     }
   }, [user.confirmPassword]);
 
-  const handleChange = (e: any) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
-  };
-
   const handleBack = () => {
     setUser({ ...initialState });
     setRecaptchaToken('');
@@ -366,7 +362,7 @@ export default function Signup({ translate }: any) {
                 {step === 1 && (
                   <Step1
                     handleChange={formik.handleChange}
-                    user={formik.values}
+                    user={user}
                     translate={translate}
                     handleCountrySelect={handleCountrySelect}
                     signupType={signupType}
@@ -405,7 +401,7 @@ export default function Signup({ translate }: any) {
               {step === 1 && (
                 <Step1
                   handleChange={formik.handleChange}
-                  user={formik.values}
+                  user={user}
                   translate={translate}
                   handleCountrySelect={handleCountrySelect}
                   signupType={signupType}
