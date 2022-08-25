@@ -4,12 +4,10 @@ import Otp from '../../components/Otp';
 import { useAuth } from '../../auth/Auth';
 import { useRouter } from 'next/router';
 import ToastAlert from '../../components/Toast/ToastAlert';
-import styling from '../../components/stylesObjects/stylesObj';
 
 const OTPVerification = (props: any) => {
   const router = useRouter();
   const { phoneNumber, email, newPassword }: any = router.query;
-  console.log(newPassword, 'abcd');
   const verificationType = phoneNumber ? phoneNumber : email;
   const identity = phoneNumber ? 'PHONE_NUMBER' : 'EMAIL';
   console.log(identity, 'verificationtype');
@@ -67,7 +65,6 @@ const OTPVerification = (props: any) => {
       }
     }
   };
-  const { backButton } = styling;
 
   const resendOtp = async () => {
     try {
@@ -84,7 +81,7 @@ const OTPVerification = (props: any) => {
           type: 'error',
         });
       }
-    } 
+    }
   };
 
   const handleCloseToast = () => {

@@ -1,9 +1,9 @@
+import React, { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { TabContext, TabPanel } from '@mui/lab';
-import { Box, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Grid, LinearProgress, Tab, Tabs, Typography, useMediaQuery, useTheme } from '@mui/material';
 import i18next from 'i18next';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../../auth/Auth';
 import AuthContainer from '../../components/AuthContainer/AuthContainer';
@@ -59,6 +59,8 @@ const initialState = {
 };
 
 export default function Signup({ translate }: any) {
+  const theme = useTheme();
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const { tab } = styles;
   const { isSuccess, errorMessage, isError, isPending } = useSelector((state: any) => state.authSlice);
   const dispatch = useDispatch();
@@ -78,14 +80,13 @@ export default function Signup({ translate }: any) {
     type: '',
   });
 
-
   const handleChange = (e: any) => {
     if (e.target.name === 'email') {
       setEmailValid(validateEmail(e.target.value));
     }
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  
+
   const handleCountrySelect = (code: string) => {
     const dialCode: any = countries.find((country) => country.code === code)?.dial_code;
     setUser({ ...user, country: code, dialCode });
@@ -256,23 +257,22 @@ export default function Signup({ translate }: any) {
   };
   // confirm password
 
-const [showErrorMessage, setShowErrorMessage] = React.useState(false);
-const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
-  
-const handleCPassword = (event: any) => {
-  setUser({...user,[event.target.name]: event.target.value})
-  setIsCPasswordDirty(true);
-}
-React.useEffect(()=> {
-  if (isCPasswordDirty) {
-    if(user.password === user.confirmPassword) {
-      setShowErrorMessage(false);
-    } else {
-      setShowErrorMessage(true);
-    }
-  }
-}, [user.confirmPassword])
+  const [showErrorMessage, setShowErrorMessage] = React.useState(false);
+  const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
 
+  const handleCPassword = (event: any) => {
+    setUser({ ...user, [event.target.name]: event.target.value });
+    setIsCPasswordDirty(true);
+  };
+  React.useEffect(() => {
+    if (isCPasswordDirty) {
+      if (user.password === user.confirmPassword) {
+        setShowErrorMessage(false);
+      } else {
+        setShowErrorMessage(true);
+      }
+    }
+  }, [user.confirmPassword]);
 
   const handleBack = () => {
     setUser({ ...initialState });
@@ -297,9 +297,11 @@ React.useEffect(()=> {
             border="1px solid rgba(0, 0, 0, 0.1)"
             position={'absolute'}
             onClick={handleBack}
-            left={i18next.language !== 'ar' ? -90 : ''}
+            left={!isMobileScreen && i18next.language !== 'ar' ? -90 : ''}
             top={0}
-            right={i18next.language === 'ar' ? -90 : ''}
+            right={
+              !isMobileScreen && i18next.language === 'ar' ? -90 : isMobileScreen && i18next.language === 'ar' ? 0 : ''
+            }
           >
             <ArrowBackIcon />
           </Box>
