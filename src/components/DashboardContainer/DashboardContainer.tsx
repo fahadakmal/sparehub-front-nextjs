@@ -122,7 +122,7 @@ export default function DashboardContainer(props: any) {
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const router = useRouter();
   const handleListItemClick = (event: any, index: any) => {
     setSelectedIndex(index);
   };
@@ -152,7 +152,7 @@ export default function DashboardContainer(props: any) {
             onClick={(event) => {
               setSelectedIndex(index);
               if (item.key === 'setting') {
-                router.push('/SellerDetail');
+                router.push('/seller/create');
               } else {
               }
               // handleListItemClick(event, index)
