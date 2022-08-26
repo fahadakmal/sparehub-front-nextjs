@@ -1,21 +1,11 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
 
-// interface PrimaryInputProp{
-//   label:string
-//   placeholder:string
-//   type:string
-//   fullWidth:boolean
-//   startAdornment:any
-//   endAdornment:any
-//   name:string
-//   onClick:(e:any)=>void
-//   onChange:()=>void
-//   value:string
-//   required: boolean
-//   error: boolean
-//   otherProps:any
-// }
+const root = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '8px',
+  },
+};
 
 export default function PrimaryInput({
   label,
@@ -33,7 +23,8 @@ export default function PrimaryInput({
   onBlur,
   required = false,
   error = false,
-  otherProps
+  otherProps,
+  sx,
 }: any) {
   return (
     <TextField  
@@ -41,7 +32,7 @@ export default function PrimaryInput({
       error={error}
       label={label}
       required={required}
-      sx={{ borderRadius: 2 }}
+      sx={[sx, root]}
       onChange={onChange}
       name={name}
       type={type}
