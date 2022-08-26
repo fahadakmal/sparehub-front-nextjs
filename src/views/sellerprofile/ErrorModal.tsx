@@ -15,7 +15,7 @@ const ErrorModal = ({ deleteIt, model, setmodel, image, wrong, dialog, action, c
 
   const handleClose = () => {
     setOpen(false);
-    props.setmodel(false)
+    setmodel(false)
   };
 
   return (

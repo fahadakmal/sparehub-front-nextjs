@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 
-const SelectField = ({ label, value, placeholder, data, helperText, setSelectedValue }: any) => {
+const SelectField = ({ label, value, placeholder, data=[], helperText, setSelectedValue }: any) => {
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value);
   };

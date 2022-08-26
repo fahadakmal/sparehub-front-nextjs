@@ -121,7 +121,7 @@ const listitems = [
     key: 'setting',
     label: 'SETTINGS',
     icon: <SettingsOutlinedIcon />,
-    path: '/setting',
+    path: '/seller/create',
   },
 ];
 
@@ -130,8 +130,8 @@ export default function DashboardContainer(props: any) {
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const handleListItemClick = (event: any, index: any) => {
-    setSelectedIndex(index);
+  const handleListItemClick = ( item: any) => {
+    router.push(`${item.path}`)
   };
 
   const handleDrawerToggle = () => {
@@ -152,16 +152,10 @@ export default function DashboardContainer(props: any) {
         <Image src={WhiteLogo} />
       </div>
       <List>
-        {listitems.map((item) => (
+        {listitems.map((item,index) => (
           <ListItem
             button
-            onClick={(event) => {
-              setSelectedIndex(index);
-              if (item.key === 'setting') {
-                router.push('/seller/create');
-              } else {
-              }
-            }}
+            onClick={() => handleListItemClick(item)}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding

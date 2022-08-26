@@ -70,6 +70,7 @@ export default function Login({ translate }: any) {
     onSubmit: (values) => {},
   });
   const { values, errors, handleChange, handleSubmit, touched, isValid, resetForm, validateForm, handleBlur } = formik;
+  console.log(isValid)
   const { tab } = styles;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
@@ -325,7 +326,7 @@ export default function Login({ translate }: any) {
 
       <Grid item xs={12} sx={{ paddingTop: 2 }}>
         <PrimaryButton
-          disabled={(isValid && Object.keys(touched).length > 0)}
+          disabled={!(isValid && Object.keys(touched).length > 0)}
           onClick={handleLogin}
           variant="contained"
           fullWidth

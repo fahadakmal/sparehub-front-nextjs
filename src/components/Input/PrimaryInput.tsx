@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
+const root = {  '& .MuiOutlinedInput-root': {    borderRadius: '8px',  }}
+
 export default function PrimaryInput({
   label,
   placeholder,

@@ -45,41 +45,6 @@ const SellerDetail = ({ translate }: any) => {
 
   return (
     <SellerScreenLayout>
-      {/* <Grid className="marginlftRight">
-        <Grid className="shadow">
-          <SellerHeading
-            mydata={() => handleSubmit()}
-            headings={translate(LANG_STRINGS.SELLER_HEADINGS)}
-            draftBtn={translate(LANG_STRINGS.SAVE_AS_DRAFT)}
-          />
-          <Grid style={{ marginTop: '20px', marginBottom: '7px', marginLeft: '20px', marginRight: '20px' }}>
-            <Grid sx={{ marginTop: '30px' }}>
-              <Steper
-                steps={[
-                  translate(LANG_STRINGS.SELLER_ACCOUNT),
-                  translate(LANG_STRINGS.BUSINESS_INFORMATION),
-                  translate(LANG_STRINGS.BANK_ACCOUNT),
-                  translate(LANG_STRINGS.WAREHOUSE_ADDRESS),
-                ]}
-                currentStep={currentStep}
-              />
-            </Grid>
-            {currentStep == 0 && <SellerDetails translate={translate} />}
-            {currentStep == 1 && <UploadFiles translate={translate} />}
-            {currentStep == 2 && <BankDetail translate={translate} />}
-            {currentStep == 3 && <WarehouseAddress translate={translate} />}
-            <Grid>
-              <NextBtn
-                translate={translate}
-                handleNext={() => setCurrentStep(currentStep + 1)}
-                handleBack={() => setCurrentStep(currentStep - 1)}
-                mand_fields={translate(LANG_STRINGS.MANDATORY_FIELDS)}
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid> */}
-
       <SellerHeading
         mydata={() => handleSubmit()}
         headings={translate(LANG_STRINGS.SELLER_HEADINGS)}

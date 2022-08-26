@@ -11,7 +11,7 @@ type response = {
 
 function* getAllCountries(action) {
   try {
-    const response: response = yield apiPost('/address/countries',action.payload);
+    const response: response = yield apiPost('/address/countries',action.payload,{});
     if (response.error) {
       yield put(saveDraftError(response.error));
     } else {
