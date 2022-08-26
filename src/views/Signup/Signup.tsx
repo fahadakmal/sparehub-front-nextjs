@@ -17,6 +17,7 @@ import Step2 from './Step2';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const signupSchema = Yup.object().shape(
   {
@@ -341,8 +342,8 @@ export default function Signup({ translate }: any) {
               variant="fullWidth"
               onChange={handleChangeTab}
             >
-              <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
-              <Tab sx={tab} label={translate('EMAIL')} value="email" />
+              <Tab sx={tab} label={translate(LANG_STRINGS.PHONE_NUMBER)} value="phone" />
+              <Tab sx={tab} label={translate(LANG_STRINGS.EMAIL_TAB)} value="email" />
             </Tabs>
           </Box>
           <form onSubmit={formik.handleSubmit}>

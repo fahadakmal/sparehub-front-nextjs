@@ -11,12 +11,27 @@ import { SellerDetails } from './forms/sellerDetails';
 import { BankDetail } from '../bankDetail';
 import { WarehouseAddress } from '../warehousePage';
 import UploadFiles from '../uploadDocument/UploadFiles';
+import { useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 //STYLE
 
 //COMPONENT
+
+
+const sellerOnboardingSchema = Yup.object().shape({
+
+})
 const SellerDetail = ({ translate }: any) => {
   const [currentStep, setCurrentStep] = useState(0);
-
+  const {seller,loading,error} = useSelector((state: any) => state.seller)
+  const formik = useFormik({
+    initialValues: seller,
+    validationSchema: sellerOnboardingSchema,
+    validateOnBlur: false,
+    onSubmit: (values) => {},
+  });
+  const isDraftable = !(Object.values(formik.values).filter(Boolean).length >=4)
   let list;
   if (typeof window !== 'undefined') {
     list = localStorage.getItem(
@@ -69,20 +84,22 @@ const SellerDetail = ({ translate }: any) => {
         mydata={() => handleSubmit()}
         headings={translate(LANG_STRINGS.SELLER_HEADINGS)}
         draftBtn={translate(LANG_STRINGS.SAVE_AS_DRAFT)}
+        disabled={isDraftable}
+        data = {formik.values}
       />
       <Grid style={{ marginTop: '20px', marginBottom: '7px', marginLeft: '20px', marginRight: '20px' }}>
         <Grid sx={{ marginTop: '30px' }}>
           <Steper
-            steps={[
-              translate(LANG_STRINGS.SELLER_ACCOUNT),
-              translate(LANG_STRINGS.BUSINESS_INFORMATION),
-              translate(LANG_STRINGS.BANK_ACCOUNT),
-              translate(LANG_STRINGS.WAREHOUSE_ADDRESS),
-            ]}
+          steps={[
+            translate(LANG_STRINGS.SELLER_ACCOUNT),
+            translate(LANG_STRINGS.BUSINESS_INFO),
+            translate(LANG_STRINGS.BANK_ACC),
+            translate(LANG_STRINGS.WAREHOUSE_ADDRESS),
+          ]}
             currentStep={currentStep}
           />
         </Grid>
-        {currentStep == 0 && <SellerDetails translate={translate} />}
+        {currentStep == 0 && <SellerDetails translate={translate} formik={formik} />}
         {currentStep == 1 && <UploadFiles translate={translate} />}
         {currentStep == 2 && <BankDetail translate={translate} />}
         {currentStep == 3 && <WarehouseAddress translate={translate} />}
