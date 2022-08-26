@@ -74,7 +74,7 @@ const WarehouseAddress = ({ translate }: any) => {
         <ErrorModal
           model={successModal}
           wrong={translate(LANG_STRINGS.PROFILE_COMPLETED)}
-          delete={translate(LANG_STRINGS.COMPLETED_PROFILE_TEXT)}
+          delete={translate(LANG_STRINGS.REQUIRED_INFORMATION)}
           action={translate(LANG_STRINGS.GO_TO_DASHBOARD)}
           close={translate(LANG_STRINGS.CLOSE)}
           setmodel={setsuccessModal}
@@ -86,7 +86,7 @@ const WarehouseAddress = ({ translate }: any) => {
       )}
       <Grid>
         <Typography sx={{ fontWeight: 'bold' }} marginTop={3} variant="subtitle1">
-          {translate(LANG_STRINGS.LOCATION_INCH_DETAIL)}
+          {translate(LANG_STRINGS.LOCATION_INCHARGE_DETAIL)}
         </Typography>
       </Grid>
       <Grid container style={{ marginTop: '1px' }} spacing={4}>
@@ -110,7 +110,7 @@ const WarehouseAddress = ({ translate }: any) => {
                       type={'text'}
                       name="firstName"
                       fullWidth
-                      placeholder={translate(LANG_STRINGS.FIRST_NAME_PLACEHOLDER)}
+                      placeholder={translate(LANG_STRINGS.ENTER_FIRST_NAME)}
                       onChange={handleChange}
                       required={true}
                       helperText={errors.firstName}
@@ -123,7 +123,7 @@ const WarehouseAddress = ({ translate }: any) => {
                       type={'text'}
                       name="lastName"
                       fullWidth
-                      placeholder={translate(LANG_STRINGS.LAST_NAME_PLACEHOLDER)}
+                      placeholder={translate(LANG_STRINGS.ENTER_LAST_NAME)}
                       onChange={handleChange}
                       required={true}
                       helperText={errors.lastName}
@@ -158,13 +158,13 @@ const WarehouseAddress = ({ translate }: any) => {
 
           <Grid>
             <Typography sx={{ fontWeight: 'bold' }} marginTop={2} variant="subtitle1">
-              {translate(LANG_STRINGS.LOCATION_DETAIL)}
+              {translate(LANG_STRINGS.LOCATION_DETAILS)}
             </Typography>
           </Grid>
           <Grid container spacing={4} style={{ marginTop: '1px' }}>
             <Grid item xs={6}>
               <PrimaryInput
-                label={translate(LANG_STRINGS.LOCATION_NAME)}
+                label={translate(LANG_STRINGS.LOCATION_NAME_ENGLISH)}
                 type={'text'}
                 name="locNamEng"
                 fullWidth
@@ -175,7 +175,7 @@ const WarehouseAddress = ({ translate }: any) => {
             </Grid>
             <Grid item xs={6}>
               <PrimaryInput
-                label={translate(LANG_STRINGS.LOCATION_NAME_AR)}
+                label={translate(LANG_STRINGS.ENTER_LOCATION_ARABIC)}
                 type={'text'}
                 name="locNamArb"
                 fullWidth
