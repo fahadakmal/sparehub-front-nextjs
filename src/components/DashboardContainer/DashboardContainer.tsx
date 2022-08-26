@@ -126,7 +126,6 @@ const listitems = [
 ];
 
 export default function DashboardContainer(props: any) {
-  const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
