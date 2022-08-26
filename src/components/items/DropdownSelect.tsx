@@ -30,7 +30,7 @@ const DropdownSelect=({setValue,label,required}: any)=>{
           inputProps={{ 'aria-label': 'Without label' }}>
           <MenuItem value="">
           <Image style={{marginTop:"3px"}} src="/icons/flag.svg" width="20px" height="15px" alt='flags' />
-          <span> +996</span>
+          <span> +966</span>
           </MenuItem>
           <MenuItem value="0301">
           <Image style={{marginTop:"4px"}} src="/icons/dropdownIcon.svg" width="20px" height="18px" alt='flags' />
