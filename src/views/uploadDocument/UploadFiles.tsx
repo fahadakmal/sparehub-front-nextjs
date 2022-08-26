@@ -87,7 +87,7 @@ const UploadFiles = ({ translate }: any) => {
                 >
                   {translate(LANG_STRINGS.UPLOAD_LOGO)}
                 </label>
-                <Grid sx={{ marginLeft: '12px', fontSize: '12px' }}>{translate(LANG_STRINGS.IMAGE_TEXT)}</Grid>
+                <Grid sx={{ marginLeft: '12px', fontSize: '12px' }}>{translate(LANG_STRINGS.FILE_FORMAT)}</Grid>
               </Grid>
             </Grid>
             <Grid item xs={6}>
@@ -126,8 +126,8 @@ const UploadFiles = ({ translate }: any) => {
                   setAge={setCountry}
                   value={country}
                   label={translate(LANG_STRINGS.DOCUMENT_TYPE)}
-                  placeholder={translate(LANG_STRINGS.SELECT_DOCUMENT_TYPE)}
-                  helperText={translate(LANG_STRINGS.DOCUMENT_TYPE_TEXT)}
+                  placeholder={translate(LANG_STRINGS.SELECT_TYPE)}
+                  helperText={translate(LANG_STRINGS.DOCUMENT_TYPE_MESSAGE)}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -158,7 +158,7 @@ const UploadFiles = ({ translate }: any) => {
                   </Grid>
                 </ReactFileReader>
                 <Grid sx={{ fontSize: '12px', marginTop: '4px', marginRight: '0px' }}>
-                  {translate(LANG_STRINGS.UPLOAD_DOCUMENT_TEXT)}
+                  {translate(LANG_STRINGS.UPLOAD_DOCUMENT_MESSAGE)}
                 </Grid>
               </Grid>
             </Grid>
