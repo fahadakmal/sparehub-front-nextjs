@@ -6,9 +6,9 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
 
-const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep, emailValid }: any) => {
-  const btnDisable =
-    signupType === 'email' && !emailValid ? true : signupType === 'phone' && user.phoneNumber.length < 7 ? true : false;
+const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep, formik }: any) => {
+  const {values,errors,touched,handleBlur} = formik
+  const btnDisable = (Boolean(errors.email) || Boolean(errors.phoneNumber))
   return (
     <>
       <Grid item xs={12} pt={3}>
@@ -25,10 +25,13 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             label={translate('PHONE_NUMBER')}
             name="phoneNumber"
             fullWidth
-            value={user.phoneNumber}
+            onBlur={handleBlur}
+            value={values.phoneNumber}
             placeholder={translate('PHONE_NUMBER')}
             startAdornment={<Typography>{user.dialCode}</Typography>}
-            onChange={handleChange}
+            onChange={formik.handleChange}
+            error={errors.phoneNumber && Boolean(touched.phoneNumber)}
+            helperText={touched.phoneNumber && errors.phoneNumber}
             required={true}
           />
         ) : (
@@ -37,12 +40,14 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             type={'text'}
             name="email"
             fullWidth
-            value={user.email}
+            value={values.email}
+            onBlur={handleBlur}
             placeholder={translate('EMAIL_ADDRESS')}
             startAdornment={<Email color="disabled" />}
-            onChange={handleChange}
+            onChange={formik.handleChange}
             required={true}
-            error={!emailValid}
+            error={errors.email && Boolean(touched.email)}
+            helperText={touched.email && errors.email}
           />
         )}
       </Grid>

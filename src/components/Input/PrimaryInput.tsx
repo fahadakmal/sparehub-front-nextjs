@@ -18,13 +18,17 @@ export default function PrimaryInput({
   onClick,
   onChange,
   value,
-  required = false,
   helperText,
-  error,
+  focused,
+  onBlur,
+  required = false,
+  error = false,
+  otherProps,
   sx,
 }: any) {
   return (
-    <TextField
+    <TextField  
+      focused={focused} 
       error={error}
       label={label}
       required={required}
@@ -34,6 +38,7 @@ export default function PrimaryInput({
       type={type}
       value={value}
       fullWidth={fullWidth}
+      onBlur={onBlur}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}
       helperText={helperText}

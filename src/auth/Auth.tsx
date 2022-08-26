@@ -186,7 +186,7 @@ export const AuthProvider = ({ children }: Props) => {
     }
   }
 
-  async function logout () {
+  async function logout() {
     try {
       return await cognito.logout();
     } catch (error) {
@@ -195,11 +195,11 @@ export const AuthProvider = ({ children }: Props) => {
       }
     }
   }
-  
+
   async function signOut() {
     cognito.logout();
   }
-  
+
   const state: IAuth = {
     authStatus,
     sessionInfo,

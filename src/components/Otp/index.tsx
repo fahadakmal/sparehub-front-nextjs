@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import OtpInput from 'react-otp-input';
 import { PrimaryButton } from '../Button/PrimaryButton';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BackArrow } from '../../../public/icons';
 import i18next from 'i18next';
-// import '../../App.css';
 
 const useStyles = {
   otpContainer: {},
@@ -26,12 +25,14 @@ const useStyles = {
 };
 
 const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp }: any) => {
+  const router = useRouter();
+  const theme = useTheme();
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [receivedCode, setReceivedCode] = React.useState(true);
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
   const [counter, setCounter] = useState(30);
   const { otpContainer, otpInput } = useStyles;
-  const router = useRouter();
 
   const handleChangeInput = (val: any) => {
     setOtp(val);
@@ -75,9 +76,11 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           border="1px solid rgba(0, 0, 0, 0.1)"
           position={'absolute'}
           onClick={handleBack}
-          left={i18next.language !== 'ar' ? -90 : ''}
+          left={!isMobileScreen && i18next.language !== 'ar' ? -90 : ''}
           top={0}
-          right={i18next.language === 'ar' ? -90 : ''}
+          right={
+            !isMobileScreen && i18next.language === 'ar' ? -90 : isMobileScreen && i18next.language === 'ar' ? 0 : ''
+          }
         >
           <Image src={BackArrow} />
         </Box>
@@ -117,7 +120,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
               <Typography component={'span'}>
                 {translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}
               </Typography>
-              <b style={{ fontSize: '12px' }}>{translate('OR')}</b>
+              <b style={{ fontSize: '12px' }}> &nbsp; {translate('OR')}</b> &nbsp;
               <b onClick={handleResend} style={{ color: '#E2282C', fontSize: '14px', cursor: 'pointer' }}>
                 {translate('RESEND_CODE')}
               </b>
