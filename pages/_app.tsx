@@ -51,7 +51,7 @@ function App({ Component, pageProps }: AppProps) {
   };
   const theme = createTheme({
     typography: {
-      fontFamily: typeof window !== 'undefined' && localStorage.getItem('i18nextLng') !== 'ar' ? 'Mulish' : 'Dubai',
+      fontFamily: typeof window !== 'undefined' && localStorage.getItem('i18nextLng') !== 'ar' ? 'Mulish' : 'Tajawal',
     },
   });
   return (
