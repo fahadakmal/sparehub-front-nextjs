@@ -138,6 +138,7 @@ export default function DashboardContainer(props: any) {
     setMobileOpen(!mobileOpen);
   };
 
+  const router = useRouter();
   const drawer = (
     <Box
       style={{
