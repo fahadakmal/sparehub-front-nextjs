@@ -30,7 +30,6 @@ export default function ProductsGrid({translate}:any) {
         checkboxSelection
         components={{Footer:GridPagination}}
       />
-      {/* <GridPagination /> */}
     </Box>
   );
 }
