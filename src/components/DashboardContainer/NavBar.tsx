@@ -49,7 +49,6 @@ const styles = {
   tab: {
     color: '#000',
     borderRadius: '8px',
-    fontFamily: 'Mulish',
     fontWeight: 'bold',
     fontSize: '12px',
     '&.Mui-selected': {

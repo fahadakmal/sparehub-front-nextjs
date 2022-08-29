@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Rating, Typography } from '@mui/material';
 import { Engin, Tyre, Shock, Earbox, ClutchPlate } from '../../../public/images';
 import Image from 'next/image';
-import { MoreVert } from '@mui/icons-material';
+import ProductMenu from './ProductMenu';
 export const rows = [
   {
     id: '125AJK5698OPI1',
@@ -71,11 +71,12 @@ export const rows = [
   { id: '125AJK5698OPI9', category: 'Tyre', productName: 'Car Tyre', price: 65, stock: 65, rating: 5, product: Tyre },
 ];
 
-export const columns: any = [
-  { field: 'id', headerName: 'Product Code', flex: 0.5 },
+export const renderColumns=(translate:any):any=>{
+  return [
+  { field: 'id', headerName: translate('PRODUCT_CODE'), flex: 0.5 },
   {
     field: 'productName',
-    headerName: 'Product Name',
+    headerName:translate('PRODUCT_NAME') ,
     flex: 1,
     renderCell: (params: any) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} width="100%">
@@ -84,24 +85,24 @@ export const columns: any = [
       </Box>
     ),
   },
-  { field: 'category', headerName: 'Category', flex: 0.5 },
+  { field: 'category', headerName: translate('CATEGORY'), flex: 0.5 },
   {
     field: 'price',
-    headerName: 'Price',
+    headerName: translate('PRICE'),
     flex: 0.5,
     align: 'center',
     headerAlign: 'center',
   },
   {
     field: 'stock',
-    headerName: 'Stock',
+    headerName: translate('STOCK'),
     flex: 0.5,
     align: 'center',
     headerAlign: 'center',
   },
   {
     field: 'rating',
-    headerName: 'Rating',
+    headerName: translate('RATING'),
     flex: 0.5,
     align: 'center',
     headerAlign: 'center',
@@ -113,9 +114,10 @@ export const columns: any = [
     ),
   },
   {
-    renderCell: (params: any) => <MoreVert />,
+   renderCell: (params: any) => <ProductMenu params={params} translate={translate}/>,
     align: 'center',
     type: 'actions',
     field: 'actions',
   },
 ];
+}

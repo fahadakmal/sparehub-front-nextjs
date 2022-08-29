@@ -8,7 +8,7 @@ import PrimaryInput from '../../components/Input/PrimaryInput';
 import StatusBtn from './StatusBtn';
 import ProductsGrid from './ProductsGrid';
 
-const Products = () => {
+const Products = ({translate}:any) => {
   const [selectedBtn, setSelectedBtn] = useState('active');
   const handleChangeBtn = (btn: any) => {
     setSelectedBtn(btn);
@@ -17,7 +17,7 @@ const Products = () => {
     <Grid container rowGap={3}>
       <Grid container alignItems={'center'} justifyContent={'space-between'}>
         <Grid md={10.4} item>
-          <Typography variant="h5">Products</Typography>
+          <Typography variant="h5">{translate('PRODUCTS')}</Typography>
         </Grid>
         <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} md={1.5} item>
           <Button
@@ -26,7 +26,7 @@ const Products = () => {
             variant="outlined"
             startIcon={<AddIcon />}
           >
-            Add
+            {translate("ADD")}
           </Button>
         </Grid>
       </Grid>
@@ -35,8 +35,8 @@ const Products = () => {
           <PrimaryInput
             sx={{ '& .MuiOutlinedInput-input': { padding: '8px 0px' } }}
             fullWidth={true}
-            label="Search"
-            placeholder="Search Products"
+            label={translate('SEARCH')}
+            placeholder={translate('SEARCH_PRODUCTS')}
             startAdornment={<SearchIcon />}
           />
         </Grid>
@@ -57,22 +57,22 @@ const Products = () => {
             startIcon={<TuneIcon />}
             endIcon={<ExpandMoreIcon />}
           >
-            Filters
+            {translate('FILTERS')}
           </Button>
         </Grid>
       </Grid>
       <Grid container columnGap={2}>
         <Grid item>
-          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title="active" />
+          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('ACTIVE')} />
         </Grid>
         <Grid item>
-          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title="inactive" />
+          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate("INACTIVE")}/>
         </Grid>
         <Grid item>
-          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title="draft" />
+          <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate("DRAFT")} />
         </Grid>
       </Grid>
-      <ProductsGrid />
+      <ProductsGrid translate={translate}/>
     </Grid>
   );
 };
