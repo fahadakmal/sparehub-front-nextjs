@@ -1,10 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, Pagination } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import { columns, rows } from './ProductData';
+import GridPagination from './GridPagination';
+import { renderColumns, rows } from './ProductData';
 
-export default function ProductsGrid() {
+export default function ProductsGrid({translate}:any) {
   return (
-    <Box sx={{ height: 900, width: '100%' }}>
+    <Box sx={{ height: 850, width: '100%' }}>
       <DataGrid
         sx={{
           '.MuiDataGrid-columnSeparator': {
@@ -23,10 +24,11 @@ export default function ProductsGrid() {
           },
         }}
         rows={rows}
-        columns={columns}
+        columns={renderColumns(translate)}
         hideFooterPagination={true}
         rowHeight={80}
         checkboxSelection
+        components={{Footer:GridPagination}}
       />
     </Box>
   );

@@ -155,5 +155,22 @@
   "MIN_PHONE_INPUT_LENGTH": "مسموح بـ 9 أرقام كحد أدنى",
   "MAX_PHONE_INPUT_LENGTH": "مسموح بـ 10 أرقام كحد أقصى",
   "MY_PROFILE": "ملفي",
-  "LOGOUT": "تسجيل خروج"
+  "LOGOUT": "تسجيل خروج",
+  "PRODUCT_CODE":"كود المنتجات",
+  "PRODUCT_NAME":"اسم المنتج",
+  "CATEGORY":"فئة",
+  "PRICE":"سعر",
+  "STOCK":"مخزون",
+  "RATING":"تقييم",
+  "SEARCH":"يبحث",
+  "SEARCH_PRODUCTS":"البحث عن المنتجات",
+  "ADD":"يضيف",
+  "ACTIVE":"نشيط",
+  "INACTIVE":"غير نشط",
+  "DRAFT":"مسودة",
+  "FILTERS":"المرشحات",
+  "VIEW_DETAIL":"عرض التفاصيل",
+  "EDIT_PRODUCT":"تحرير المنتج",
+  "CHANGE_STATUS_INACTIVE":"تغيير الحالة إلى غير نشط",
+  "DELETE":"حذف"
 }
