@@ -3,7 +3,7 @@ import Image from 'next/image';
 import ProductMenu from './ProductMenu';
 
 const styles = {
-  cardImgContainer: { display: 'flex', flexDirection: 'column', alignItems: 'center' },
+  cardImgContainer: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start' },
   productMenuContainer: { display: 'flex', justifyContent: 'flex-end' },
 };
 
