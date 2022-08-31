@@ -9,11 +9,9 @@ const WithAuthentication = (props: any) => {
     <AuthProvider>
       {requiredAuth ? (
         <AuthIsSignedIn>
-          (
           <DashboardContainer translate={props.t} {...props}>
             <Component translate={props.t} {...props} />
           </DashboardContainer>
-          )
         </AuthIsSignedIn>
       ) : (
         <AuthIsNotSignedIn>

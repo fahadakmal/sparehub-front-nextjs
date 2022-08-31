@@ -21,6 +21,7 @@ const StatusBtn = (props: any) => {
       ]}
       color="inherit"
       variant="outlined"
+      fullWidth
       onClick={() => {
         handleChangeBtn(title);
       }}
