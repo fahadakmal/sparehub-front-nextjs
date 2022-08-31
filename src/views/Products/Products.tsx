@@ -61,8 +61,8 @@ const Products = ({ translate }: any) => {
           </Button>
         </Grid>
       </Grid>
-      <Grid container alignItems={'center'} columnSpacing={2}>
-        <Grid bgcolor={'#fff'} xs={10} sm={9} lg={10.4} item>
+      <Grid container alignItems={'center'} justifyContent="space-between">
+        <Grid bgcolor={'#fff'} xs={10} sm={7} md={10.4} lg={10.4} item>
           <PrimaryInput
             sx={{ '& .MuiOutlinedInput-input': { padding: '8px 0px' } }}
             fullWidth={true}
@@ -71,7 +71,7 @@ const Products = ({ translate }: any) => {
             startAdornment={<SearchIcon />}
           />
         </Grid>
-        <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} xs={2} sm={3} lg={1.5} item>
+        <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }} xs={2} sm={4.5} md={1.5} lg={1.5} item>
           <Button
             sx={filterBtn}
             color="inherit"
