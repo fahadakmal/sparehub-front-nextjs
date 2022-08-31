@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import i18next from 'i18next';
 export default function ProductMenu(props: any) {
-  const { params ,translate} = props;
+  const { params, translate } = props;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -28,6 +28,7 @@ export default function ProductMenu(props: any) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{ minWidth: 'auto' }}
       >
         <MoreVert sx={{ color: 'black' }} />
       </Button>
@@ -47,15 +48,15 @@ export default function ProductMenu(props: any) {
       >
         <MenuItem sx={{ gap: 1 }} onClick={handleClose}>
           <VisibilityOutlinedIcon />
-          <Typography>{translate("VIEW_DETAIL")}</Typography>
+          <Typography>{translate('VIEW_DETAIL')}</Typography>
         </MenuItem>
         <MenuItem sx={{ gap: 1 }} onClick={handleClose}>
           <EditOutlinedIcon />
-          <Typography>{translate("EDIT_PRODUCT")}</Typography>
+          <Typography>{translate('EDIT_PRODUCT')}</Typography>
         </MenuItem>
         <MenuItem sx={{ gap: 1 }} onClick={handleClose}>
           <PowerSettingsNewIcon />
-          <Typography>{translate("CHANGE_STATUS_INACTIVE")}</Typography>
+          <Typography>{translate('CHANGE_STATUS_INACTIVE')}</Typography>
         </MenuItem>
         <MenuItem sx={{ gap: 1 }} onClick={handleClose}>
           <DeleteOutlinedIcon sx={{ color: 'red' }} />

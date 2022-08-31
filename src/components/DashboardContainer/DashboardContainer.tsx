@@ -66,7 +66,7 @@ const useStyles = {
 
 const drawerWidth = 250;
 
-const listitems = [
+export const listitems = [
   {
     item: 0,
     key: 'dashboard',
@@ -223,8 +223,7 @@ export default function DashboardContainer(props: any) {
       <Box
         component="main"
         sx={{
-          // height: `calc(100vh - 64px)`,
-          p: '0 40px',
+          p: { xs: '20px', sm: '10px 40px' },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           backgroundColor: '#F8FAFF',
         }}
