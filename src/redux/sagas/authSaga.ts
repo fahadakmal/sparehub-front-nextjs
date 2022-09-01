@@ -11,6 +11,7 @@ import {
 import { apiPost } from '../../services/index';
 
 type response = {
+  data:any
   error: string;
   message: string;
   statusCode: number;
@@ -18,6 +19,7 @@ type response = {
 
 function* registerUser(action: any) {
   try {
+    console.log(action.payload)
     const response: response = yield apiPost('/auth/onSignUp', action.payload, '');
     if (response.error) {
       yield put(registrationFailure(response.message));
@@ -30,11 +32,17 @@ function* registerUser(action: any) {
 }
 
 function* loginUser(action: any) {
+  const payloadData = {...action.payload}
+  const router = payloadData.router
+  delete payloadData.router
   try {
-    const response: response = yield apiPost('/auth/onLogin', action.payload, '');
+    const response: response = yield apiPost('/auth/onLogin', payloadData, '');
     if (response.error) {
       yield put(loginFailure(response.message));
     } else {
+      if(!response.data.isOnboardingCompleted){
+        router.push("/seller/create")
+      }
       yield put(loginSuccess());
     }
   } catch (error: any) {

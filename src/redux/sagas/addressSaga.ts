@@ -1,6 +1,6 @@
 import { spawn, all, takeEvery, put } from 'redux-saga/effects';
 import { apiGet } from '../../services/index';
-import { getCountriesListError, getCountriesListRequest, getCountriesListSuccess, getCountryStatesListError, getCountryStatesListRequest, getCountryStatesListSuccess, getStateCitiesListError, getStateCitiesListRequest, getStateCitiesListSuccess } from '../slices/addressSlice';
+import { getCountriesListError, getCountriesListRequest, getCountriesListSuccess, getCountryBanksError, getCountryBanksRequest, getCountryBanksSuccess, getCountryStatesListError, getCountryStatesListRequest, getCountryStatesListSuccess, getStateCitiesListError, getStateCitiesListRequest, getStateCitiesListSuccess } from '../slices/addressSlice';
 
 type response = {
   data:any,
@@ -11,13 +11,13 @@ type response = {
 
 function* getAllCountries(action) {
   try {
-    const response: response = yield apiGet('/address/countries',action.payload);
+    const response: response = yield apiGet('/address/countries', action.payload);
     if (response.error) {
       yield put(getCountriesListError());
     } else {
       yield put(getCountriesListSuccess(response?.data.map((item)=>{
         return {
-            id:item.id,
+            id:item.countryCode,
             name:item.countryName
         }
       })
@@ -50,7 +50,7 @@ function* getCountryByState(action: any) {
 
 function* getCitiesByState(action: any) {
     try {
-      const response: response = yield apiGet(`/address/${action.payload.id}/cities`, action.payload.token);
+      const response: response = yield apiGet(`/address/${action.payload.id}/cities`,  action.payload.token);
       if (response.error) {
         yield put(getStateCitiesListError());
       } else {
@@ -67,6 +67,25 @@ function* getCitiesByState(action: any) {
   }
 
 
+  function* GetBankByCountries(action: any) {
+    try {
+      const response: response = yield apiGet(`/bank/${action.payload.id}`, action.payload.token);
+      if (response.error) {
+        yield put(getCountryBanksError());
+      } else {
+        yield put(getCountryBanksSuccess(response.data.map((item)=>{
+          return {
+              id:item.id,
+              name:item.name
+          }
+        })))
+      }
+    } catch (error: any) {
+      yield put(getCountryBanksError());
+    }
+  }
+
+
 
 function* getCountriesList() {
   yield takeEvery(getCountriesListRequest.type, getAllCountries);
@@ -79,10 +98,14 @@ function* getCountryStates() {
 
 function* getStateCities() {
     yield takeEvery(getStateCitiesListRequest.type, getCitiesByState);
-  }
+}
+
+function* getCountryBanks() {
+  yield takeEvery(getCountryBanksRequest.type, GetBankByCountries);
+}
 
 
 
 export default function* rootSaga() {
-  yield all([spawn(getCountriesList),spawn(getCountryStates),spawn(getStateCities)]);
+  yield all([spawn(getCountriesList),spawn(getCountryStates),spawn(getStateCities),spawn(getCountryBanks)]);
 }

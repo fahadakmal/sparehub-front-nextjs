@@ -6,14 +6,49 @@ export interface SellerState{
 
 
 interface SellerOnBoardingInterface{
-    businessName: string,
-    businessNameArabic:string,
-    shopName: string,
-    shopNameArabic: string,
-    regNumber: string,
+    companyName: string,
+    companyNameAr:string,
+    displayName: string,
+    displayNameAr: string,
+    registrationNo: string,
     email: string,
-    url: string,
-    country: string,
+    website: string,
+    country: number,
+    state:number,
+    city:number,
     dialCode: string,
-    bussinessAddress:string
+    address1:string
+    location:SellerLocationsInterface,
+    bank:BankDetailsInterface,
+    stores:any
+    documents:any
+}
+
+
+interface SellerLocationsInterface{
+    incharge:LocationInchargeInterface
+    name:string,
+    nameArabic:string,
+    country:string,
+    state:string,
+    city:string,
+    address:string
+}
+
+
+
+interface LocationInchargeInterface{
+    firstName:string,
+    lastName:string,
+    email:string,
+    phoneNumber:string
+}
+
+
+interface BankDetailsInterface{
+    bankName:string,
+    accountTitle:string,
+    branchCode:string,
+    accountNo:string,
+    iban:string
 }
