@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 import { Grid, Typography } from '@mui/material';
 
-const ErrorModal = ({ deleteIt, model, setmodel, image, wrong, dialog, action, close }: any) => {
+const ErrorModal = ({ deleteIt,deleteAction, model, setmodel, image, wrong, dialog, action, close }: any) => {
   const [open, setOpen] = React.useState(model);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,7 +64,7 @@ const ErrorModal = ({ deleteIt, model, setmodel, image, wrong, dialog, action, c
                 style={{ backgroundColor: '#F9B507', color: 'black', textTransform: 'none', width: '137.5px' }}
                 variant="contained"
               >
-                {action}
+                {deleteAction}
               </Button>
             </Grid>
           </Grid>

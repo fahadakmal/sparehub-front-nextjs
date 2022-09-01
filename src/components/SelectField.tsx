@@ -23,7 +23,7 @@ const SelectField = ({ label, value, placeholder, data=[], helperText, setSelect
           <em>{placeholder}</em>
         </MenuItem> 
         {
-          data.map((item)=><MenuItem value={item.id}>
+          data.map((item)=><MenuItem key={item.id} value={item.id}>
           <em>{item.name}</em>
         </MenuItem>)
         }

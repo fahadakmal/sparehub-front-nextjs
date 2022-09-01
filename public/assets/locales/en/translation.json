@@ -104,7 +104,7 @@
   "LOGIN": "Login",
   "LOGIN_BACK": "welcome back to login into your account",
   "LOGOUT": "Logout",
-  "MANDATORY_FIELDS": "Mandatory Fields are mark with ”*”",
+  "MANDATORY_FIELDS": "Mandatory Fields are mark with ",
   "MAX_PHONE_INPUT_LENGTH": "Maximum 10 digits are allowed",
   "MESSAGING": "Messaging",
   "MIN_PHONE_INPUT_LENGTH": "Minimum 9 digits are allowed",
@@ -186,5 +186,8 @@
   "VERIFY_EMAIL": "Verify email",
   "VERIFY_MOBILE_NUMBER": "Verify your provided {{identity}}",
   "WAREHOUSE_ADDRESS": "Locations",
-  "WELCOME_USER": "Welcome User"
+  "WELCOME_USER": "Welcome User",
+  "SELLER_BUSINESS_URL":"Enter Bussiness Website",
+  "DELETE":"Delete",
+  "SUBMIT_BTN":"Submit"
 }

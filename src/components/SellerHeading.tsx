@@ -1,6 +1,7 @@
 import { Box, Button, Divider, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { API_TOKEN } from '../constant';
 import { saveDraftRequest } from '../redux/slices/sellerSlice';
 import styling from '../stylesObjects/stylesObj';
 
@@ -9,13 +10,13 @@ const SellerHeading = ({ headings, draftBtn, data,disabled }: any) => {
   const { sellerBtnStyle, sellerHeading } = styling;
 
   const handleClick = ()=>{
-    dispatch(saveDraftRequest({token:"",data}))
+    dispatch(saveDraftRequest({token:API_TOKEN,data}))
   } 
   return (
     <>
       {/* <Grid container> */}
       <Box mb={3} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography sx={sellerHeading}>{headings}</Typography>
+        <Typography sx={sellerHeading} variant={"h5"}>{headings}</Typography>
         <Button variant="outlined" onClick={handleClick} disabled={disabled} sx={sellerBtnStyle}>
           {draftBtn}
         </Button>

@@ -13,96 +13,109 @@ import {
   getStateCitiesListRequest,
 } from "../../../redux/slices/addressSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { getDocumentTypesRequest } from "../../../redux/slices/sellerSlice";
+import { API_TOKEN } from "../../../constant";
 
 export const SellerDetails = ({ translate, formik }) => {
-  const { values: seller, handleChange, errors, touched, handleBlur } = formik;
-  const [country, setCountry] = useState<string>("0");
-  const [state, setState] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const { values: seller, handleChange, errors, touched, handleBlur,setFieldValue } = formik;
   const [mobilNumber, setMobileNumber] = useState<string>("");
   const address = useSelector((state: any) => state.address);
   const dispatch = useDispatch();
-
-  let list =
-    "eyJraWQiOiJtNEdaZDgyeHJSVFdiT0VwN1U1cjZUNmZrMzFiT1Erd09jRDNtTkRIVDg4PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJjNTI3MmM2ZC04ZjJlLTRhMzgtYmIyNC01N2EyYjNkOTM2YjgiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAubWUtc291dGgtMS5hbWF6b25hd3MuY29tXC9tZS1zb3V0aC0xX0JRQzN5RFdNeiIsImNsaWVudF9pZCI6IjF1NjFycmVvMW4za2RycDEwZXV0aGtrdmNyIiwib3JpZ2luX2p0aSI6IjY1OGM3YTU0LWYxOWYtNDZhMi1iZWNmLWY2MzgxZDNhNmNiMyIsImV2ZW50X2lkIjoiNzdkODYyYzgtY2VlMC00ZmEyLWI5MzEtMDAwYWE4Yzc0MWRjIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTY2MTQzMTc0MSwiZXhwIjoxNjYxNDM1MzQxLCJpYXQiOjE2NjE0MzE3NDEsImp0aSI6ImVjMjMzMzc2LWYyNTctNGVjNy05NmNkLWVkNjE4M2RjOWFiNCIsInVzZXJuYW1lIjoiYzUyNzJjNmQtOGYyZS00YTM4LWJiMjQtNTdhMmIzZDkzNmI4In0.f9bQcGhVsMloB9EyvMXuMw0KySR_apib1KXDmFZWT32iv84QdhNFaOEsNJB8lTDPNu1O1-pRtSr9mXApLk8oaqPVTVlmbwAUddKPMWw8oKHOjjoGttC0v5236AOmah9rYQoAIY4V1aEt2J5_-DZLzSwJV3PwxdyMi29LjgmIjq8r4BUmTvekSgNz4VZnPYqnlYGoFITJ9Nm23Yjbfq78q50DiAsjnwKF4MYoZbZmXsgrM7cDAyh-B2-GJ2S4uERxBfA1wd7BXE3p1Tq_Pn6_iKjxaA0yAOkdQYICmNhkM3CedQeLbdYR5QXpq0s27nygdojA_4ZdM_2QSHyCrR1VIA";
-
   useEffect(() => {
-    dispatch(getCountriesListRequest(list));
-  }, [window]);
+    dispatch(getCountriesListRequest(API_TOKEN));
+    dispatch(getDocumentTypesRequest(API_TOKEN));
+  }, []);
 
   const handleCountryChange = (id) => {
-    setCountry(id);
-    dispatch(getCountryStatesListRequest({ id, token: list }));
+    setFieldValue("country",id)
+    dispatch(getCountryStatesListRequest({ id, token: API_TOKEN }));
   };
   const handleStateChange = (id) => {
-    setState(id);
-    dispatch(getStateCitiesListRequest({ id, token: list }));
+    setFieldValue("state",id)
+    dispatch(getStateCitiesListRequest({ id, token: API_TOKEN }));
   };
   return (
     <Grid container sx={{ marginTop: "31px" }}>
       <Grid container spacing={4}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.businessName}
+            value={seller.companyName}
             label={translate(LANG_STRINGS.BUSINESS_NAME)}
             type={"text"}
-            name="businessName"
+            name="companyName"
             fullWidth
             placeholder={translate(LANG_STRINGS.BUSINESS_NAME_PLACEHOLDER)}
+            onBlur={handleBlur}
             onChange={handleChange}
+            error={Boolean(errors.companyName) && touched.companyName}
+            helperText={touched.companyName && errors.companyName}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.businessNameArabic}
+            value={seller.companyNameAr}
             label={translate(LANG_STRINGS.BUSINESS_NAME_AR)}
             type={"text"}
-            name="businessNameArabic"
+            name="companyNameAr"
             fullWidth
             placeholder={translate(LANG_STRINGS.BUSINESS_NAME_AR_PLACEHOLDER)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.companyNameAr) && touched.companyNameAr}
+            helperText={touched.companyNameAr && errors.companyNameAr}
           />
         </Grid>
       </Grid>
 
       <Grid container spacing={4} sx={{ marginTop: "1px" }}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.shopName}
+            value={seller.displayName}
             label={translate(LANG_STRINGS.SHOP_NAME)}
             type={"text"}
-            name="shopName"
+            name="displayName"
             fullWidth
             placeholder={translate(LANG_STRINGS.SHOP_NAME_PLACEHOLDER)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.displayName) && touched.displayName}
+            helperText={touched.displayName && errors.displayName}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.shopNameArabic}
+            value={seller.displayNameAr}
             label={translate(LANG_STRINGS.SHOP_NAME_AR)}
             type={"text"}
-            name="shopNameArabic"
+            name="displayNameAr"
             fullWidth
             placeholder={translate(LANG_STRINGS.SHOP_NAME_AR_PLACEHOLDER)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.displayNameAr) && touched.displayNameAr}
+            helperText={touched.displayNameAr && errors.displayNameAr}
+
           />
         </Grid>
       </Grid>
 
       <Grid container sx={{ marginTop: "1px" }} spacing={4}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.regNumber}
+            value={seller.registrationNo}
             label={translate(LANG_STRINGS.REG_NUMBER)}
             type={"text"}
-            name="regNumber"
+            name="registrationNo"
             fullWidth
             placeholder={translate(LANG_STRINGS.ENTER_REG_NUMBER)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.registrationNo) && touched.registrationNo}
+            helperText={touched.registrationNo && errors.registrationNo}
+
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <DropdownSelect
             setValue={setMobileNumber}
             value={mobilNumber}
@@ -112,7 +125,7 @@ export const SellerDetails = ({ translate, formik }) => {
         </Grid>
       </Grid>
       <Grid container sx={{ marginTop: "1px" }} spacing={4}>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
             value={seller.email}
             label={translate(LANG_STRINGS.BUSINESS_EMAIL)}
@@ -122,62 +135,72 @@ export const SellerDetails = ({ translate, formik }) => {
             placeholder={translate(LANG_STRINGS.BUSINESS_EMAIL_PLACEHOLDER)}
             startAdornment={<Email color="disabled" />}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.email) && touched.email}
+            helperText={touched.email && errors.email}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6} >
           <PrimaryInput
-            value={seller.bussinessAddress}
+            value={seller.website}
             label={translate(LANG_STRINGS.BUSINESS_URL)}
             type={"text"}
-            name="url"
+            name="website"
             fullWidth
             placeholder={translate(LANG_STRINGS.SELLER_BUSINESS_URL)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.website) && touched.website}
+            helperText={touched.website && errors.website}
           />
         </Grid>
       </Grid>
       <Grid container sx={{ marginTop: "1px" }} spacing={3}>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <SelectField
+            name="country"
             data={address.countries}
-            value={country}
+            value={seller.country}
             setSelectedValue={handleCountryChange}
-            checkValidation={country}
             placeholder={translate(LANG_STRINGS.SELLER_COUNTRY)}
             label={translate(LANG_STRINGS.COUNTRY)}
+            
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <SelectField
+            name="state"
             data={address.states}
-            value={state}
+            value={seller.state}
             placeholder={translate(LANG_STRINGS.SELLER_STATE)}
             label={translate(LANG_STRINGS.STATE)}
             setSelectedValue={handleStateChange}
-            checkValidation={state}
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
           <SelectField
+            name="city"
             data={address.cities}
-            value={city}
+            value={seller.city}
             placeholder={translate(LANG_STRINGS.SELLER_CITY)}
             label={translate(LANG_STRINGS.CITY)}
-            setSelectedValue={setCity}
-            checkValidation={city}
+            setSelectedValue={(id)=>setFieldValue("city",id)}
           />
         </Grid>
       </Grid>
       <Grid container sx={{ marginTop: "25px" }}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           <PrimaryInput
-            value={seller.url}
+            value={seller.address1}
             label={translate(LANG_STRINGS.SELLER_ADDRESS)}
             type={"text"}
-            name="url"
+            name="address1"
             fullWidth
             placeholder={translate(LANG_STRINGS.ENTER_BUSINESS_ADDRESS)}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={Boolean(errors.address1) && touched.address1}
+            helperText={touched.address1 && errors.address1}
           />
         </Grid>
       </Grid>

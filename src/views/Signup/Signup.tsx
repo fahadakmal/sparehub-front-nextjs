@@ -158,7 +158,7 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const { firstName, email, phoneNumber } = formik.values;
+    const { firstName, email, phoneNumber,country } = formik.values;
     const { password, dialCode } = user;
     if (recaptchaToken.length < 1) {
       setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
@@ -191,10 +191,12 @@ export default function Signup({ translate }: any) {
 
     setSignUpRequest(true);
     if (signupType == 'email') {
+      console.log("signing up with email")
       try {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
-          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub,country:country  };
+          console.log(data,"from request")
           dispatch(registrationRequest(data));
           router.push({
             pathname: '/otpVerification',
@@ -214,7 +216,7 @@ export default function Signup({ translate }: any) {
     } else {
       try {
         const res = await auth.signUpWithPhone(firstName, email, phoneWithDialCode, password);
-        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub,country };
         dispatch(registrationRequest(data));
         if (res) {
           router.push({
