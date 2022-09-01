@@ -24,6 +24,7 @@ import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const useStyles = {
   toggleBtn: {
@@ -148,9 +149,11 @@ export default function DashboardContainer(props: any) {
       component="div"
       dir={i18n.dir()}
     >
+      <Link href="/" passHref>
       <div style={{ margin: '12px 0px 0px 15px', paddingTop: '10px' }}>
         <Image src={WhiteLogo} />
       </div>
+      </Link>
       <List>
         {listitems.map((item,index) => (
           <ListItem
