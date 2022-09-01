@@ -79,7 +79,7 @@ export const listitems = [
     key: 'orderProcessing',
     label: 'ORDER_PROCESSING',
     icon: <AddShoppingCartIcon />,
-    path: '/orderProcessing',
+    path: '/orders',
   },
   {
     item: 2,
