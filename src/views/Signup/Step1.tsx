@@ -52,7 +52,7 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
         )}
       </Grid>
       <Grid item xs={12} pt={3}>
-        <PrimaryButton disabled={btnDisable} onClick={handleNextStep} variant="contained" fullWidth>
+        <PrimaryButton disabled={!btnDisable} onClick={handleNextStep} variant="contained" fullWidth>
           {translate('NEXT')}
         </PrimaryButton>
       </Grid>

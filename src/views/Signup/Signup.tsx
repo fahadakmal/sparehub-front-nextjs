@@ -32,23 +32,26 @@ const signupSchema = Yup.object().shape(
   {
     firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
     lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
-    email: Yup.string()
-      .ensure()
-      .when('phoneNumber', {
-        is: '',
-        then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
-      }),
+    email: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+      // .ensure()
+      // .when('phoneNumber', {
+      //   is: '',
+      //   then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+      // }),
     phoneNumber: Yup.string()
-      .ensure()
-      .when('email', {
-        is: '',
-        then: Yup.string()
-          .required(t('REQUIRED_FIELD'))
-          .min(9, t('MIN_PHONE_INPUT_LENGTH'))
-          .max(10, t('MAX_PHONE_INPUT_LENGTH')),
-      }),
+    .required(t('REQUIRED_FIELD'))
+    .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+    .max(10, t('MAX_PHONE_INPUT_LENGTH'))
+      // .ensure()
+      // .when('email', {
+      //   is: '',
+      //   then: Yup.string()
+      //     .required(t('REQUIRED_FIELD'))
+      //     .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+      //     .max(10, t('MAX_PHONE_INPUT_LENGTH')),
+      // }),
   },
-  [['email', 'phoneNumber']],
+  // [['email', 'phoneNumber']],
 );
 
 const styles = {
@@ -321,6 +324,7 @@ export default function Signup({ translate }: any) {
       <Grid position={'relative'} xs={12} item textAlign={'center'}>
         {step === 2 && (
           <Box
+            sx={{cursor: 'pointer'}}
             padding={2}
             borderRadius={2}
             border="1px solid rgba(0, 0, 0, 0.1)"
