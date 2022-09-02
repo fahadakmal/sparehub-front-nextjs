@@ -176,5 +176,12 @@
   "EDIT_PRODUCT": "Edit Product",
   "CHANGE_STATUS_INACTIVE": "Change Status to inactive",
   "DELETE": "Delete",
-  "LOAD_MORE": "Load more"
+  "LOAD_MORE": "Load more",
+  "In_Progress_Orders": "In Progress Orders",
+  "Cancelled_Orders": "Cancelled Orders",
+  "Delivered_Orders": "Delivered Orders",
+  "Completed_Orders": "Completed Orders",
+  "last_7_days": "last 7 days",
+  "last_month": "last month",
+  "Orders": "Orders"
 }
