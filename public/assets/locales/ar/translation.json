@@ -174,11 +174,16 @@
   "CHANGE_STATUS_INACTIVE": "تغيير الحالة إلى غير نشط",
   "DELETE": "حذف",
   "LOAD_MORE": "تحميل المزيد",
-  "In_Progress_Orders": "أوامر قيد التقدم",
-  "Cancelled_Orders": "الطلبات الملغاة",
-  "Delivered_Orders": "الطلبات المسلمة",
-  "Completed_Orders": "الطلبات المكتملة",
-  "last_7_days": "اخر 7 ايام",
-  "last_month": "الشهر الماضي",
-  "Orders": "الطلب"
+  "IN_PROGRESS_ORDERS": "أوامر قيد التقدم",
+  "CANCELLED_ORDERS": "الطلبات الملغاة",
+  "DELIVERED_ORDERS": "الطلبات المسلمة",
+  "COMPLETED_ORDERS": "الطلبات المكتملة",
+  "LAST_7_DAYS": "اخر 7 ايام",
+  "LAST_MONTH": "الشهر الماضي",
+  "ORDERS": "الطلب",
+  "ALL": "الجميع",
+  "IN_PROGRESS": "في تَقَدم",
+  "PARTIALLY_SKIPPED": "تم التخطي جزئيًا",
+  "CANCELLED": "ألغيت",
+  "SEARCH_ORDERS": "تقسيمات البحث"
 }

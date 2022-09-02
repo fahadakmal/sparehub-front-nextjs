@@ -174,11 +174,16 @@
   "CHANGE_STATUS_INACTIVE": "Change Status to inactive",
   "DELETE": "Delete",
   "LOAD_MORE": "Load more",
-  "In_Progress_Orders": "In Progress Orders",
-  "Cancelled_Orders": "Cancelled Orders",
-  "Delivered_Orders": "Delivered Orders",
-  "Completed_Orders": "Completed Orders",
-  "last_7_days": "last 7 days",
-  "last_month": "last month",
-  "Orders": "Orders"
+  "IN_PROGRESS_ORDERS": "In Progress Orders",
+  "CANCELLED_ORDERS": "Cancelled Orders",
+  "DELIVERED_ORDERS": "Delivered Orders",
+  "COMPLETED_ORDERS": "Completed Orders",
+  "LAST_7_DAYS": "last 7 days",
+  "LAST_MONTH": "last month",
+  "ORDERS": "Orders",
+  "ALL": "All",
+  "IN_PROGRESS": "In Progress",
+  "PARTIALLY_SKIPPED": "Partially Skipped",
+  "CANCELLED": "Cancelled",
+  "SEARCH_ORDERS": "SEARCH_ORDERS"
 }
