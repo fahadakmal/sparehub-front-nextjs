@@ -40,7 +40,7 @@ const SearchAndFilters = ({ translate, selectedBtn, handleChangeBtn }: any) => {
             sx={{ '& .MuiOutlinedInput-input': { padding: '8px 0px' } }}
             fullWidth={true}
             label={translate('SEARCH')}
-            placeholder={translate('SEARCH_PRODUCTS')}
+            placeholder={translate('SEARCH_ORDERS')}
             startAdornment={<SearchIcon />}
           />
         </Grid>
@@ -66,13 +66,13 @@ const SearchAndFilters = ({ translate, selectedBtn, handleChangeBtn }: any) => {
               <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('All')} />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('In Progress')} />
+              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('In_Progress')} />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>
               <StatusBtn
                 selectedBtn={selectedBtn}
                 handleChangeBtn={handleChangeBtn}
-                title={translate('Partially Skipped')}
+                title={translate('Partially_Skipped')}
               />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>

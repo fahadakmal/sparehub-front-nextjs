@@ -180,5 +180,10 @@
   "Completed_Orders": "الطلبات المكتملة",
   "last_7_days": "اخر 7 ايام",
   "last_month": "الشهر الماضي",
-  "Orders": "الطلب"
+  "Orders": "الطلب",
+  "All": "الجميع",
+  "In_Progress": "في تَقَدم",
+  "Partially_Skipped": "تم التخطي جزئيًا",
+  "Cancelled": "ألغيت",
+  "SEARCH_ORDERS": "تقسيمات البحث"
 }
