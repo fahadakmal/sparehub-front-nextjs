@@ -63,20 +63,20 @@ const SearchAndFilters = ({ translate, selectedBtn, handleChangeBtn }: any) => {
         <Grid item xs={12}>
           <Grid container columnGap={0} spacing={1}>
             <Grid xs={12} sm={6} md={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('All')} />
+              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('ALL')} />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('In_Progress')} />
+              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('IN_PROGRESS')} />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>
               <StatusBtn
                 selectedBtn={selectedBtn}
                 handleChangeBtn={handleChangeBtn}
-                title={translate('Partially_Skipped')}
+                title={translate('PARTIALLY_SKIPPED')}
               />
             </Grid>
             <Grid xs={12} sm={6} md={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('Cancelled')} />
+              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('CANCELLED')} />
             </Grid>
           </Grid>
         </Grid>

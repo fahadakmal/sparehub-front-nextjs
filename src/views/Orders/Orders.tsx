@@ -20,7 +20,7 @@ const Orders = ({ translate }: any) => {
     <Grid container rowGap={3}>
       <Grid alignItems={'center'} xs={12} sx={{ display: { xs: 'none', sm: 'block' } }} sm={12}>
         <Typography fontWeight={'bold'} variant="h5">
-          {translate('Orders')}
+          {translate('ORDERS')}
         </Typography>
       </Grid>
       <SummaryTiles translate={translate} />
