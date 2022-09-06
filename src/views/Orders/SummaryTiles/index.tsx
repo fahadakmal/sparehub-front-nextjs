@@ -4,25 +4,25 @@ import SummaryTile from './SummaryTile';
 
 const SummaryTiles = ({ translate }: any) => {
   const [selectedRange, setSelectedRange] = useState({
-    In_Progress_Orders: 0,
-    Cancelled_Orders: 1,
-    Delivered_Orders: 0,
-    Completed_Orders: 1,
+    IN_PROGRESS_ORDERS: 0,
+    CANCELLED_ORDERS: 1,
+    DELIVERED_ORDERS: 0,
+    COMPLETED_ORDERS: 1,
   });
 
   const ordersCount: any = {
-    In_Progress_Orders: { 0: 118, 1: 500 },
-    Cancelled_Orders: { 0: 74, 1: 600 },
-    Delivered_Orders: { 0: 223, 1: 1000 },
-    Completed_Orders: { 0: 15, 1: 50 },
+    IN_PROGRESS_ORDERS: { 0: 118, 1: 500 },
+    CANCELLED_ORDERS: { 0: 74, 1: 600 },
+    DELIVERED_ORDERS: { 0: 223, 1: 1000 },
+    COMPLETED_ORDERS: { 0: 15, 1: 50 },
   };
 
   const handleChange = (e: any) => {
     setSelectedRange({ ...selectedRange, [e.target.name]: e.target.value });
   };
   const menuItems = [
-    { value: 0, label: 'last_7_days' },
-    { value: 1, label: 'last_month' },
+    { value: 0, label: 'LAST_7_DAYS' },
+    { value: 1, label: 'LAST_MONTH' },
   ];
 
   return (
@@ -31,11 +31,11 @@ const SummaryTiles = ({ translate }: any) => {
         <SummaryTile
           translate={translate}
           countColor={'#F6A051'}
-          countValue={ordersCount.In_Progress_Orders[selectedRange.In_Progress_Orders]}
+          countValue={ordersCount.IN_PROGRESS_ORDERS[selectedRange.IN_PROGRESS_ORDERS]}
           handleChange={handleChange}
           menuItems={menuItems}
-          name="In_Progress_Orders"
-          selectedRange={selectedRange.In_Progress_Orders}
+          name="IN_PROGRESS_ORDERS"
+          selectedRange={selectedRange.IN_PROGRESS_ORDERS}
         />
       </Grid>
 
@@ -43,11 +43,11 @@ const SummaryTiles = ({ translate }: any) => {
         <SummaryTile
           translate={translate}
           countColor="#46BB59"
-          countValue={ordersCount.Delivered_Orders[selectedRange.Delivered_Orders]}
+          countValue={ordersCount.DELIVERED_ORDERS[selectedRange.DELIVERED_ORDERS]}
           handleChange={handleChange}
           menuItems={menuItems}
-          name="Delivered_Orders"
-          selectedRange={selectedRange.Delivered_Orders}
+          name="DELIVERED_ORDERS"
+          selectedRange={selectedRange.DELIVERED_ORDERS}
         />
       </Grid>
 
@@ -55,11 +55,11 @@ const SummaryTiles = ({ translate }: any) => {
         <SummaryTile
           translate={translate}
           countColor="#3065CC"
-          countValue={ordersCount.Completed_Orders[selectedRange.Completed_Orders]}
+          countValue={ordersCount.COMPLETED_ORDERS[selectedRange.COMPLETED_ORDERS]}
           handleChange={handleChange}
           menuItems={menuItems}
-          name="Completed_Orders"
-          selectedRange={selectedRange.Completed_Orders}
+          name="COMPLETED_ORDERS"
+          selectedRange={selectedRange.COMPLETED_ORDERS}
         />
       </Grid>
 
@@ -67,11 +67,11 @@ const SummaryTiles = ({ translate }: any) => {
         <SummaryTile
           translate={translate}
           countColor="#E2282C"
-          countValue={ordersCount.Cancelled_Orders[selectedRange.Cancelled_Orders]}
+          countValue={ordersCount.CANCELLED_ORDERS[selectedRange.CANCELLED_ORDERS]}
           handleChange={handleChange}
           menuItems={menuItems}
-          name="Cancelled_Orders"
-          selectedRange={selectedRange.Cancelled_Orders}
+          name="CANCELLED_ORDERS"
+          selectedRange={selectedRange.CANCELLED_ORDERS}
         />
       </Grid>
     </Grid>
