@@ -5,9 +5,6 @@ const root = {
   '& .MuiOutlinedInput-root': {
     borderRadius: '8px',
   },
-  labelAsterisk: {
-    color: "red"
-  },
 };
 
 export default function PrimaryInput({
@@ -28,10 +25,13 @@ export default function PrimaryInput({
   error = false,
   otherProps,
   sx,
+  autoFocus,
+  maxLength,
 }: any) {
   return (
-    <TextField  
-      focused={focused} 
+    <TextField
+      autoFocus={autoFocus}
+      focused={focused}
       error={error}
       label={label}
       required={required}
@@ -43,12 +43,7 @@ export default function PrimaryInput({
       fullWidth={fullWidth}
       onBlur={onBlur}
       placeholder={placeholder}
-      InputLabelProps={{ 
-        shrink: true,
-        FormLabelClasses: {
-          asterisk: root.labelAsterisk
-        }
-        }}
+      InputLabelProps={{ shrink: true }}
       helperText={helperText}
       InputProps={{
         startAdornment: <InputAdornment position="start">{startAdornment}</InputAdornment>,
@@ -60,7 +55,6 @@ export default function PrimaryInput({
           </InputAdornment>
         ),
       }}
-      
     />
   );
 }

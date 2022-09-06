@@ -19,6 +19,7 @@ import ToastAlert from '../../components/Toast/ToastAlert';
 import i18next, { t } from 'i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import LANG_STRINGS from '../../enums/langStrings';
 const loginSchema = Yup.object().shape(
   {
     email: Yup.string()
@@ -44,6 +45,7 @@ const loginSchema = Yup.object().shape(
 const styles = {
   tab: {
     color: '#000',
+    textTransform: 'capitalize',
     '&.Mui-selected': {
       color: '#fff',
       backgroundColor: '#E2282C',
@@ -109,7 +111,12 @@ export default function Login({ translate }: any) {
     validateForm();
     if (loginType == 'email') {
       if (!isValid) {
-        setToast({ ...toast, message: 'Please fill required fields', appearence: true, type: 'warning' });
+        setToast({
+          ...toast,
+          message: translate(LANG_STRINGS.FILL_REQUIRED_FIELDS),
+          appearence: true,
+          type: 'warning',
+        });
         return;
       }
       if (recaptchaToken.length < 1) {
@@ -131,8 +138,8 @@ export default function Login({ translate }: any) {
         setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
         return;
       }
-      const {  dialCode } = user;
-      const{password,phoneNumber} = values
+      const { dialCode } = user;
+      const { password, phoneNumber } = values;
       const phoneWithDialCode = dialCode + phoneNumber.toString().trim();
       try {
         const res = await auth.signInWithPhone(phoneWithDialCode, password);
@@ -149,6 +156,7 @@ export default function Login({ translate }: any) {
   const handleCloseToast = () => {
     setToast({ ...toast, appearence: false });
   };
+  const passLength = values.password.trim().length;
 
   return (
     <AuthContainer>
@@ -168,7 +176,7 @@ export default function Login({ translate }: any) {
               onChange={handleChangeTab}
             >
               <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
-              <Tab sx={tab} label={translate('EMAIL')} value="email" />
+              <Tab sx={tab} label={translate('EMAIL_TAB')} value="email" />
             </Tabs>
           </Box>
 
@@ -176,8 +184,8 @@ export default function Login({ translate }: any) {
             <>
               <Grid sx={{ width: '100%' }} pt={3} item xs={12}>
                 <PrimaryInput
-                  focused
-                  label={translate('EMAIL')}
+                  autoFocus={true}
+                  label={translate('EMAIL_TAB')}
                   type={'text'}
                   name="email"
                   fullWidth
@@ -198,7 +206,7 @@ export default function Login({ translate }: any) {
                   fullWidth
                   placeholder={translate('ENTER_PASSWORD')}
                   startAdornment={<Lock color="disabled" />}
-                  endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                  endAdornment={showPassword ? <VisibilityOff color="disabled" /> : <Visibility color="disabled" />}
                   onClick={hideShowPassword}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -242,7 +250,7 @@ export default function Login({ translate }: any) {
               <CountryDropdown
                 translate={translate}
                 handleChange={handleCountrySelect}
-                selected={user  .country}
+                selected={user.country}
                 name="country"
               />
             </Grid>
@@ -259,6 +267,7 @@ export default function Login({ translate }: any) {
                 onChange={handleChange}
                 error={Boolean(errors.phoneNumber) && touched.phoneNumber}
                 helperText={touched.phoneNumber && errors.phoneNumber}
+                maxLength={10}
               />
             </Grid>
             <Grid item pt={3} xs={12}>
@@ -269,7 +278,7 @@ export default function Login({ translate }: any) {
                 fullWidth
                 placeholder={translate('ENTER_PASSWORD')}
                 startAdornment={<Lock color="disabled" />}
-                endAdornment={showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
+                endAdornment={!showPassword ? <Visibility color="disabled" /> : <VisibilityOff color="disabled" />}
                 onClick={hideShowPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -286,7 +295,7 @@ export default function Login({ translate }: any) {
               }}
             >
               <FormControlLabel
-                control={<Checkbox defaultChecked style={{ color: '#E2282C' }} />}
+                control={<Checkbox style={{ color: '#E2282C' }} />}
                 label={
                   <Typography component={'p'} color="#D9D9D9" variant="caption" display="block">
                     {translate('REMEMBER_ME')}
@@ -322,9 +331,9 @@ export default function Login({ translate }: any) {
         </div>
       </Grid>
 
-      <Grid item xs={12} sx={{ paddingTop: 2 }}>
+      <Grid item xs={12} sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <PrimaryButton
-          disabled={!(isValid && Object.keys(touched).length > 0)}
+          disabled={!(isValid && Object.keys(touched).length > 0 && passLength > 7)}
           onClick={handleLogin}
           variant="contained"
           fullWidth
@@ -334,9 +343,7 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          <Link style={{ textDecoration: 'none !important' }} href="/sellerDetail" passHref>
-            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
-          </Link>
+          <span>{translate('DONT_HAVE_ACCOUNT')} </span>
           <b>
             <Link href="/signup" passHref replace>
               <MuiLink underline="hover" color="#E2282C">

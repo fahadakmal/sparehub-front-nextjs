@@ -25,7 +25,7 @@ const styling = {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      marginLeft: '-6.5rem',
+      marginLeft: '-6rem',
       marginRight: '-6rem',
       '&:hover': {
         background: '#F0F3FD',

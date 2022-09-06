@@ -47,7 +47,14 @@ const Congratulations = ({ translate }: any) => {
         <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
           {!newPassword ? translate(LANG_STRINGS.REGISTERED_SUCCESSFULLY) : translate(LANG_STRINGS.PASSWORD_UPDATED)}
         </Typography>
-        <Typography sx={{ maxWidth: '419px' }} color={'#292D32'} fontSize={16} align="center" letterSpacing={0.32}>
+        <Typography
+          sx={{ maxWidth: '480px' }}
+          mb={8}
+          color={'#292D32'}
+          fontSize={16}
+          align="center"
+          letterSpacing={0.32}
+        >
           {!newPassword
             ? translate(LANG_STRINGS.REGISTERED_SUCCESSFULLY_MESSAGE)
             : translate(LANG_STRINGS.PASSWORD_UPDATED_MSG)}
