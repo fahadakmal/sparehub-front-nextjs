@@ -9,21 +9,21 @@ const root = {
   border: '1px solid rgba(0, 0, 0, 0.12);',
 };
 const StatusBtn = (props: any) => {
-  const { title, selectedBtn, handleChangeBtn } = props;
+  const { title, selectedBtn, handleChangeBtn, activeBtn } = props;
   return (
     <Button
       sx={[
         root,
         {
-          backgroundColor: selectedBtn === title ? '#000 !important' : 'none',
-          color: selectedBtn === title ? '#fff' : '#000',
+          backgroundColor: selectedBtn === activeBtn ? '#000 !important' : 'none',
+          color: selectedBtn === activeBtn ? '#fff' : '#000',
         },
       ]}
       color="inherit"
       variant="outlined"
       fullWidth
       onClick={() => {
-        handleChangeBtn(title);
+        handleChangeBtn(activeBtn);
       }}
     >
       {title}
