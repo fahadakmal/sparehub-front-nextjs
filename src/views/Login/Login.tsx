@@ -20,6 +20,7 @@ import i18next, { t } from 'i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import LANG_STRINGS from '../../enums/langStrings';
+import styling from '../../stylesObjects/stylesObj';
 const loginSchema = Yup.object().shape(
   {
     email: Yup.string()
@@ -42,18 +43,6 @@ const loginSchema = Yup.object().shape(
   [['email', 'phoneNumber']],
 );
 
-const styles = {
-  tab: {
-    color: '#000',
-    textTransform: 'capitalize',
-    '&.Mui-selected': {
-      color: '#fff',
-      backgroundColor: '#E2282C',
-      borderRadius: '5px 5px 5px 5px',
-    },
-  },
-};
-
 export default function Login({ translate }: any) {
   let captchaRef: any = useRef<ReCAPTCHA>();
   const initialState = {
@@ -71,7 +60,7 @@ export default function Login({ translate }: any) {
     onSubmit: (values) => {},
   });
   const { values, errors, handleChange, handleSubmit, touched, isValid, resetForm, validateForm, handleBlur } = formik;
-  const { tab } = styles;
+  const { tab, rememberMeColor, handOnLink } = styling;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
   const [recaptchaToken, setRecaptchaToken] = useState('');
@@ -120,7 +109,7 @@ export default function Login({ translate }: any) {
         return;
       }
       if (recaptchaToken.length < 1) {
-        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
+        setToast({ ...toast, message: 'Please check the box to proceed', appearence: true, type: 'warning' });
         return;
       }
       const { email, password } = values;
@@ -135,7 +124,7 @@ export default function Login({ translate }: any) {
       }
     } else {
       if (recaptchaToken.length < 1) {
-        setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
+        setToast({ ...toast, message: 'Please check the box to proceed', appearence: true, type: 'warning' });
         return;
       }
       const { dialCode } = user;
@@ -222,7 +211,7 @@ export default function Login({ translate }: any) {
                   }}
                 >
                   <FormControlLabel
-                    control={<Checkbox style={{ color: '#E2282C' }} />}
+                    control={<Checkbox sx={rememberMeColor} />}
                     label={
                       <Typography component={'p'} color="#D9D9D9" variant="caption" display="block">
                         {translate('REMEMBER_ME')}
@@ -234,7 +223,7 @@ export default function Login({ translate }: any) {
                       onClick={() => {
                         router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                       }}
-                      sx={{ cursor: 'pointer' }}
+                      sx={handOnLink}
                     >
                       <MuiLink underline="hover" color="black">
                         {translate('FORGOT_PASSWORD')}
@@ -295,7 +284,7 @@ export default function Login({ translate }: any) {
               }}
             >
               <FormControlLabel
-                control={<Checkbox style={{ color: '#E2282C' }} />}
+                control={<Checkbox sx={rememberMeColor} />}
                 label={
                   <Typography component={'p'} color="#D9D9D9" variant="caption" display="block">
                     {translate('REMEMBER_ME')}
@@ -307,7 +296,7 @@ export default function Login({ translate }: any) {
                   onClick={() => {
                     router.replace({ pathname: 'forgetPassword', query: { name: loginType } });
                   }}
-                  sx={{ cursor: 'pointer' }}
+                  sx={handOnLink}
                 >
                   <MuiLink underline="hover" color="black">
                     {translate('FORGOT_PASSWORD')}
