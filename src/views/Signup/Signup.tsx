@@ -28,31 +28,16 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 
-const signupSchema = Yup.object().shape(
-  {
-    firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
-    email: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
-    // .ensure()
-    // .when('phoneNumber', {
-    //   is: '',
-    //   then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
-    // }),
-    phoneNumber: Yup.string()
-      .required(t('REQUIRED_FIELD'))
-      .min(9, t('MIN_PHONE_INPUT_LENGTH'))
-      .max(10, t('MAX_PHONE_INPUT_LENGTH')),
-    // .ensure()
-    // .when('email', {
-    //   is: '',
-    //   then: Yup.string()
-    //     .required(t('REQUIRED_FIELD'))
-    //     .min(9, t('MIN_PHONE_INPUT_LENGTH'))
-    //     .max(10, t('MAX_PHONE_INPUT_LENGTH')),
-    // }),
-  },
-  // [['email', 'phoneNumber']],
-);
+const signupSchema = Yup.object().shape({
+  firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+  lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+  email: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+
+  phoneNumber: Yup.string()
+    .required(t('REQUIRED_FIELD'))
+    .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+    .max(10, t('MAX_PHONE_INPUT_LENGTH')),
+});
 
 const styles = {
   tab: {
@@ -116,7 +101,6 @@ export default function Signup({ translate }: any) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState(initialState);
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [signupType, setSignupType] = useState('email');
@@ -255,7 +239,6 @@ export default function Signup({ translate }: any) {
 
   const changeHandler = (e: any) => {
     e.preventDefault();
-    //  setUser({ ...user, [prop]: event.target.value });
     setUser({ ...user, [e.target.name]: e.target.value });
     checkSpecialCharacterHandler(e);
   };
@@ -453,9 +436,7 @@ export default function Signup({ translate }: any) {
       )}
       <Grid textAlign={'center'} item xs={12} pt={1} sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <Typography>
-          {/* <Link style={{ textDecoration: 'none !important' }} href="/" passHref> */}
           <span>{translate('ALREADY_ACCOUNT')} </span>
-          {/* </Link> */}
           <b>
             <Link href="/" passHref replace>
               <MuiLink underline="hover" color="#E2282C">
@@ -465,15 +446,6 @@ export default function Signup({ translate }: any) {
           </b>
         </Typography>
 
-        {/*
-        <Typography
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            router.push('/');
-          }}
-        >
-          {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
-        </Typography> */}
         <ToastAlert
           appearence={toast.appearence}
           type={toast.type}

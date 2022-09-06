@@ -151,6 +151,7 @@ const ForgotPassword = ({ translate }: any) => {
                     startAdornment={<Typography>{user.dialCode}</Typography>}
                     onChange={(event: any) => phoneChangeHandler(event)}
                     required={true}
+                    maxLength={10}
                   />
                 </Grid>
               </>

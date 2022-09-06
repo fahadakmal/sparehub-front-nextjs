@@ -63,7 +63,6 @@ const Step2 = ({
           value={values?.firstName}
           error={touched.firstName && Boolean(errors.firstName)}
           helperText={touched.firstName && errors.firstName}
-          // focused={true}
         />
       </Grid>
       <Grid item sm={6} xs={12} pt={3}>
@@ -126,8 +125,6 @@ const Step2 = ({
           onClick={hideShowPassword}
           onChange={changeHandler}
           value={user?.password}
-          // error={touched.password ?? Boolean(errors.password)}
-          //   helperText={touched.password ?? errors.password}
         />
       </Grid>
       <Grid item xs={12} pt={3}>

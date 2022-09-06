@@ -88,7 +88,6 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
         </Box>
         <Grid pt={3}>
           <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
-            {/* {translate('OTP_VERIFICATION')} */}
             {identity == 'EMAIL'
               ? translate(LANG_STRINGS.EMAIL_VERIFICATION)
               : translate(LANG_STRINGS.PHONE_VERIFICATION)}
