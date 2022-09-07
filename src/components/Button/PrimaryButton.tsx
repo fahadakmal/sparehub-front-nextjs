@@ -11,7 +11,6 @@ const root = {
   letterSpacing: 0.28,
   fontWeight: '700',
   fontSize: 16,
-  lineHeight: 21,
   '&:disabled': {
     color: '#ffffff',
     backgroundColor: '#C8C8C8',

@@ -25,6 +25,7 @@ import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
 import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 const useStyles = {
   toggleBtn: {
     borderRadius: 2,
@@ -66,71 +67,79 @@ const useStyles = {
 
 const drawerWidth = 250;
 
-const listitems = [
+export const listitems = [
   {
     item: 0,
     key: 'dashboard',
     label: 'DASHBOARD',
     icon: <DashboardIcon />,
+    path: '/',
   },
   {
     item: 1,
     key: 'orderProcessing',
     label: 'ORDER_PROCESSING',
     icon: <AddShoppingCartIcon />,
+    path: '/orders',
   },
   {
     item: 2,
     key: 'analyticsReports',
     label: 'ANALYTICS_AND_REPORTS',
     icon: <AnalyticsIcon />,
+    path: '/analyticsReports',
   },
   {
     item: 3,
     key: 'products',
     label: 'PRODUCTS',
     icon: <InventoryIcon />,
+    path: '/products',
   },
   {
     item: 4,
     key: 'reviewsRating',
     label: 'REVIEW_RATING',
     icon: <ReviewsOutlinedIcon />,
+    path: '/reviewsRating',
   },
   {
     item: 5,
     key: 'messaging',
     label: 'MESSAGING',
     icon: <ChatOutlinedIcon />,
+    path: '/messaging',
   },
   {
     item: 6,
     key: 'paymentManagement',
     label: 'PAYMENT_MANAGEMENT',
     icon: <PaymentOutlinedIcon />,
+    path: '/paymentManagement',
   },
   {
     item: 7,
     key: 'setting',
     label: 'SETTINGS',
     icon: <SettingsOutlinedIcon />,
+    path: '/setting',
   },
 ];
 
 export default function DashboardContainer(props: any) {
+  const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const handleListItemClick = (event: any, index: any) => {
-    setSelectedIndex(index);
+  const handleListItemClick = (item: any) => {
+    router.push(`${item.path}`);
   };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const router=useRouter();
   const drawer = (
     <Box
       style={{
@@ -145,7 +154,7 @@ export default function DashboardContainer(props: any) {
         <Image src={WhiteLogo} />
       </div>
       <List>
-        {listitems.map((item, index) => (
+        {listitems.map((item,index) => (
           <ListItem
             button
             onClick={(event) => {
@@ -158,13 +167,13 @@ export default function DashboardContainer(props: any) {
             key={item.key}
             disablePadding
           >
-            <ListItemButton selected={selectedIndex === item.item}>
-              <ListItemIcon style={{ minWidth: '40px', color: selectedIndex === item.item ? '#fff' : '#85869B' }}>
+            <ListItemButton selected={router.pathname === item.path}>
+              <ListItemIcon style={{ minWidth: '40px', color: router.pathname === item.path ? '#fff' : '#85869B' }}>
                 {item.icon}
               </ListItemIcon>
               <ListItemText
                 sx={{ display: 'flex', alignItems: 'flex-start' }}
-                primaryTypographyProps={{ color: selectedIndex === item.item ? '#fff' : '#85869B' }}
+                primaryTypographyProps={{ color: router.pathname === item.path ? '#fff' : '#85869B' }}
                 primary={translate(item.label)}
               />
             </ListItemButton>
@@ -184,8 +193,7 @@ export default function DashboardContainer(props: any) {
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: i18n.language !== 'ar' ? `${drawerWidth}px` : '0x' },
-          mr: { sm: i18n.language === 'ar' ? `${drawerWidth}px` : '0x' },
+          ml: { sm: `${drawerWidth}px` },
           backgroundColor: '#fff !important',
         }}
         elevation={0}
@@ -194,8 +202,6 @@ export default function DashboardContainer(props: any) {
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
-          dir={i18n.dir()}
-          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -212,7 +218,6 @@ export default function DashboardContainer(props: any) {
         </Drawer>
         <Drawer
           variant="permanent"
-          anchor={i18n.language === 'ar' ? 'right' : 'left'}
           sx={{
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#10113A' },
@@ -225,8 +230,7 @@ export default function DashboardContainer(props: any) {
       <Box
         component="main"
         sx={{
-          height: `calc(100vh - 64px)`,
-          p: 0,
+          p: { xs: '20px', sm: '10px 40px' },
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           backgroundColor: '#F8FAFF',
         }}

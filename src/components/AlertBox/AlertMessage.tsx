@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Alert, AlertTitle, Collapse, Stack } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 
-export default function AlertMessage({ type, title, message, open, handleClose }) {
+export default function AlertMessage({ type, title, message, open, handleClose }:any) {
   return (
     <>
       <Stack sx={{ width: '100%' }} spacing={2}>

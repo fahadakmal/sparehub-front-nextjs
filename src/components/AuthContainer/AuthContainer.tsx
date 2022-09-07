@@ -1,51 +1,47 @@
 import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import { Box } from '@mui/system';
 import { useTranslation } from 'react-i18next';
-import { Hidden } from '@mui/material';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery, useTheme, Grid, Box } from '@mui/material';
 import Header from '../../layout/Header';
 import Footer from '../../layout/Footer';
 import { Welcome } from '../../../public/images';
 import Image from 'next/image';
-const useStyles = {
-  leftContainer: {
-    display: 'flex',
-  },
-
-  footer: {
-    height: '10vh',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-};
+import MobileHeader from '../../layout/MobileHeader';
 
 export default function AuthContainer({ children }: any) {
-  const { leftContainer, footer } = useStyles;
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Grid container sx={{ minHeight: '100vh' }}>
-      <Hidden mdDown>
-        <Grid item sx={leftContainer} xs={12} sm={6}>
-          <Image src={Welcome} />
-        </Grid>
-      </Hidden>
-      <Grid item xs={12} sm={12} md={6}>
-        <Box>
+    <Grid container sx={{ height: '100vh' }}>
+      <Box position="absolute" sx={{ zIndex: 1, width: '100%', padding: '20px', display: { md: 'none' } }}>
+        <MobileHeader />
+      </Box>
+
+      <Grid item xs={12} md={6} sx={{ height: { xs: '30%', md: '100%' }, position: 'relative' }}>
+        <Image src={Welcome} layout="fill" objectFit="cover" />
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          height: { md: '100%' },
+          overflow: 'auto',
+          paddingTop: { xs: '20px', md: '0px' },
+        }}
+      >
+        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
           <Header />
         </Box>
-        <Box component={'div'} dir={i18n.dir()} sx={{ minHeight: '80vh' }}>
-          <Grid px={isMobileScreen ? 5 : 15} container rowGap={2}>
+        <Box dir={i18n.dir()} sx={{ minHeight: { xs: '60vh', md: '80vh' } }}>
+          <Grid px={isMobileScreen ? 5 : 15} rowGap={2}>
             {children}
           </Grid>
         </Box>
-        <Box sx={footer}>
+        <Grid pt={3}>
           <Footer translate={t} />
-        </Box>
+        </Grid>
       </Grid>
     </Grid>
   );

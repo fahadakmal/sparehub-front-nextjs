@@ -1,5 +1,11 @@
 import * as React from 'react';
 import { Box, InputAdornment, TextField } from '@mui/material';
+const root = {
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '8px',
+  },
+};
+
 export default function PrimaryInput({
   label,
   placeholder,
@@ -11,21 +17,30 @@ export default function PrimaryInput({
   onClick,
   onChange,
   value,
+  focused,
+  onBlur,
   required = false,
   error = false,
+  otherProps,
+  sx,
+  autoFocus,
+  maxLength,
   helperText
 }: any) {
   return (
     <TextField
+      autoFocus={autoFocus}
+      focused={focused}
       error={error}
       label={label}
       required={required}
-      sx={{ borderRadius: 2 }}
+      sx={[sx, root]}
       onChange={onChange}
       name={name}
       type={type}
       value={value}
       fullWidth={fullWidth}
+      onBlur={onBlur}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}
       helperText={helperText}

@@ -1,12 +1,36 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Avatar, Box, Grid, IconButton, Tab, Tabs, Toolbar, Typography } from '@mui/material';
+import {
+  alpha,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  MenuProps,
+  styled,
+  Tab,
+  Tabs,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import i18next from 'i18next';
 import LANGUAGES from '../../enums';
 import SeachInput from '../SearchInput/SearchInput';
+import { useDispatch } from 'react-redux';
+import { handleChangeLanguage } from '../../redux/slices/languageSlice';
 import { useAuth } from '../../auth/Auth';
+
+import LANG_STRINGS from '../../enums/langStrings';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import MobileHeader from '../../layout/MobileHeader';
+import { listitems } from './DashboardContainer';
+import { Search } from '@mui/icons-material';
 
 const styles = {
   navbarContainer: {
@@ -20,6 +44,7 @@ const styles = {
     '&.MuiTabs-root': {
       minHeight: '40px',
       height: '40px',
+      display: { xs: 'none', sm: 'block' },
     },
     '& .MuiTabs-indicator': { display: 'none' },
     border: 1,
@@ -29,7 +54,6 @@ const styles = {
   tab: {
     color: '#000',
     borderRadius: '8px',
-    fontFamily: 'Mulish',
     fontWeight: 'bold',
     fontSize: '12px',
     '&.Mui-selected': {
@@ -43,26 +67,64 @@ const styles = {
   },
   userProfileBox: {
     display: 'flex',
-    border: '1px solid',
-    borderRadius: '70px',
-    borderColor: '#e5e5e5',
+    border: { xs: 'none', md: '1px solid #e5e5e5' },
+    borderRadius: { xs: 'none', md: '70px' },
     height: '48px',
-    width: '138px',
+    width: { xs: 'none', md: '138px' },
     padding: '3px',
     alignItems: 'center',
   },
 };
 
+const StyledMenu = styled((props: MenuProps) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right',
+    }}
+    transformOrigin={{
+      vertical: 'top',
+      horizontal: 'right',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginTop: theme.spacing(1),
+    minWidth: 180,
+    color: theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+    boxShadow:
+      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+    '& .MuiMenu-list': {
+      padding: '4px 0',
+    },
+    '& .MuiMenuItem-root': {
+      '& .MuiSvgIcon-root': {
+        fontSize: 18,
+        color: theme.palette.text.secondary,
+        marginRight: theme.spacing(1.5),
+      },
+      '&:active': {
+        backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+      },
+    },
+  },
+}));
+
 export default function NavBar(props: any) {
   const auth: any = useAuth();
-  const router = useRouter();
+  const dispatch = useDispatch();
+  const { pathname } = useRouter();
   const { handleDrawerToggle, translate } = props;
   const { navbarContainer, tabs, tab, userProfileBox } = styles;
   const storedLang = localStorage.getItem('i18nextLng');
   const [language, setLanguage] = useState(storedLang || 'en');
-  const handleChangeLanguage = (e: any, newVal: string) => {
+  const handleLanguage = (e: any, newVal: string) => {
     setLanguage(newVal);
     i18next.changeLanguage(newVal);
+    dispatch(handleChangeLanguage(newVal));
   };
 
   onchange = () => {
@@ -73,48 +135,99 @@ export default function NavBar(props: any) {
     auth.signOut();
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const link = listitems.find((item) => item.path === pathname);
   return (
-    <Toolbar>
-      <Grid sx={navbarContainer}>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ display: { sm: 'none' }, color: 'red' }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Grid container sx={{ justifyContent: { xs: 'end', md: 'space-between' } }} alignItems="center">
-          <Grid item sm={4} sx={{ display: { xs: 'none', md: 'block' } }}>
-            <SeachInput
-              label={translate('SEARCH')}
-              buttonText={translate('SEARCH')}
-              onchange={onchange}
-              placeholder={translate('SEARCH_PLACEHOLDER')}
-              language={language}
-            />
-          </Grid>
-          <Grid item>
-            <Grid container alignItems="center" gap={1}>
-              <NotificationsOutlinedIcon sx={{ color: 'black' }} />
-              <Tabs sx={tabs} value={language} onChange={handleChangeLanguage}>
-                <Tab sx={tab} value="en" label={LANGUAGES.eng} />
-                <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
-              </Tabs>
-              <Box onClick={handleLogout} sx={userProfileBox}>
-                <Avatar alt="Ted talk" src="https://picsum.photos/200/300" />
-                <Grid container alignItems="center" direction="column">
-                  <Typography sx={{ fontFamily: 'Mulish', fontWeight: 'bold', fontSize: '14px', color: 'black' }}>
-                    Admin
-                  </Typography>
-                  {/* <Typography sx={{ fontFamily: 'Mulish', fontSize: '12px', color: 'black' }}>Admin</Typography> */}
-                </Grid>
-              </Box>
+    <>
+      <Box sx={{ display: { sm: 'none' } }} p={2} bgcolor={'#F8FAFF'}>
+        <MobileHeader />
+      </Box>
+      <Toolbar>
+        <Grid sx={navbarContainer}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ display: { sm: 'none' }, color: 'black', gap: 1 }}
+          >
+            <MenuIcon />
+            <Typography fontWeight={'bold'}>{translate(`${link?.label}`)}</Typography>
+          </IconButton>
+          <Grid container sx={{ justifyContent: { xs: 'end', md: 'space-between' } }} alignItems="center">
+            <Grid item sm={4} sx={{ display: { xs: 'none', md: 'block' } }}>
+              <SeachInput
+                label={translate('SEARCH')}
+                buttonText={translate('SEARCH')}
+                onchange={onchange}
+                placeholder={translate('SEARCH_PLACEHOLDER')}
+                language={language}
+              />
+            </Grid>
+            <Grid item>
+              <Grid container alignItems="center" gap={1}>
+                <NotificationsOutlinedIcon sx={{ color: 'black' }} />
+                <Search sx={{ display: { sm: 'none' }, color: 'black' }} />
+                <Tabs sx={tabs} value={language} onChange={handleLanguage}>
+                  <Tab sx={tab} value="en" label={LANGUAGES.eng} />
+                  <Tab sx={tab} value="ar" label={LANGUAGES.ar} />
+                </Tabs>
+                <Button
+                  sx={userProfileBox}
+                  id="navDropdown"
+                  aria-controls={open ? 'nav-control-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  disableElevation
+                  onClick={handleClick}
+                >
+                  <Avatar alt="Ted talk" src="https://picsum.photos/200/300" />
+                  <Grid container alignItems="center" direction="column">
+                    <Typography
+                      sx={{
+                        display: { xs: 'none', md: 'block' },
+                        fontFamily: 'Mulish',
+                        fontWeight: 'bold',
+                        fontSize: '14px',
+                        color: 'black',
+                      }}
+                    >
+                      Admin
+                    </Typography>
+                  </Grid>
+                </Button>
+
+                <StyledMenu
+                  id="nav-control-menu"
+                  MenuListProps={{
+                    'aria-labelledby': 'navDropdown',
+                  }}
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose} disableRipple>
+                    <ManageAccountsOutlinedIcon />
+                    {translate(LANG_STRINGS.MY_PROFILE)}
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout} disableRipple>
+                    <LogoutOutlinedIcon />
+                    {translate(LANG_STRINGS.LOGOUT)}
+                  </MenuItem>
+                </StyledMenu>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Toolbar>
+      </Toolbar>
+    </>
   );
 }

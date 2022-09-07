@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box } from '@mui/material';
+import { Grid, Typography, Box, useMediaQuery, useTheme } from '@mui/material';
 import OtpInput from 'react-otp-input';
 import { PrimaryButton } from '../Button/PrimaryButton';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BackArrow } from '../../../public/icons';
-// import '../../App.css';
+import i18next from 'i18next';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const useStyles = {
   otpContainer: {},
@@ -25,12 +26,14 @@ const useStyles = {
 };
 
 const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, resendOtp }: any) => {
+  const router = useRouter();
+  const theme = useTheme();
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [receivedCode, setReceivedCode] = React.useState(true);
   const [otpFilled, setOtpFilled] = React.useState(false);
   const [otp, setOtp] = React.useState('');
   const [counter, setCounter] = useState(30);
   const { otpContainer, otpInput } = useStyles;
-  const router = useRouter();
 
   const handleChangeInput = (val: any) => {
     setOtp(val);
@@ -74,20 +77,30 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           border="1px solid rgba(0, 0, 0, 0.1)"
           position={'absolute'}
           onClick={handleBack}
-          left={-90}
+          left={!isMobileScreen && i18next.language !== 'ar' ? -90 : ''}
           top={0}
+          right={
+            !isMobileScreen && i18next.language === 'ar' ? -90 : isMobileScreen && i18next.language === 'ar' ? 0 : ''
+          }
+          sx={{ cursor: 'pointer' }}
         >
           <Image src={BackArrow} />
         </Box>
         <Grid pt={3}>
           <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
-            {translate('OTP_VERIFICATION')}
+            {identity == 'EMAIL'
+              ? translate(LANG_STRINGS.EMAIL_VERIFICATION)
+              : translate(LANG_STRINGS.PHONE_VERIFICATION)}
           </Typography>
         </Grid>
         <Grid pt={1}>
-          <Typography color={'#292D3260'} fontSize={16} align="center" letterSpacing={0.32}>
-            {translate('OTP_VERIFICATION_MESSAGE', { phoneNumber: phoneNumber })}
-          </Typography>
+          <Typography
+            color={'#292D3260'}
+            fontSize={16}
+            align="center"
+            letterSpacing={0.32}
+            dangerouslySetInnerHTML={{ __html: translate('OTP_VERIFICATION_MESSAGE', { phoneNumber: phoneNumber }) }}
+          ></Typography>
         </Grid>
       </Grid>
       <Grid style={otpContainer} item xs={12} pt={6}>
@@ -115,7 +128,7 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
               <Typography component={'span'}>
                 {translate('VERIFY_MOBILE_NUMBER', { identity: translate(identity) })}
               </Typography>
-              <b style={{ fontSize: '12px' }}>{translate('OR')}</b>
+              <b style={{ fontSize: '12px' }}> &nbsp; {translate('OR')}</b> &nbsp;
               <b onClick={handleResend} style={{ color: '#E2282C', fontSize: '14px', cursor: 'pointer' }}>
                 {translate('RESEND_CODE')}
               </b>

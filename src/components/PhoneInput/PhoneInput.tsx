@@ -10,6 +10,10 @@ export default function PhoneInput({
   onChange,
   required = false,
   value,
+  error,
+  onBlur,
+  helperText,
+  maxLength,
 }: any) {
   return (
     <TextField
@@ -27,8 +31,11 @@ export default function PhoneInput({
       }}
       onChange={onChange}
       name={name}
-      type="number"
+      type="text"
       fullWidth={fullWidth}
+      error={error}
+      helperText={helperText}
+      onBlur={onBlur}
       placeholder={placeholder}
       InputLabelProps={{ shrink: true }}
       InputProps={{
@@ -43,6 +50,7 @@ export default function PhoneInput({
             />
           </InputAdornment>
         ),
+        inputProps: { maxLength: maxLength },
       }}
     />
   );
