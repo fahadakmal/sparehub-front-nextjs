@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { BackArrow } from '../../../public/icons';
 import i18next from 'i18next';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const useStyles = {
   otpContainer: {},
@@ -81,18 +82,25 @@ const Otp = ({ handleChange, handleSubmit, translate, phoneNumber, identity, res
           right={
             !isMobileScreen && i18next.language === 'ar' ? -90 : isMobileScreen && i18next.language === 'ar' ? 0 : ''
           }
+          sx={{ cursor: 'pointer' }}
         >
           <Image src={BackArrow} />
         </Box>
         <Grid pt={3}>
           <Typography fontSize={24} fontWeight={700} lineHeight={'31px'} color="#2E303D">
-            {translate('OTP_VERIFICATION')}
+            {identity == 'EMAIL'
+              ? translate(LANG_STRINGS.EMAIL_VERIFICATION)
+              : translate(LANG_STRINGS.PHONE_VERIFICATION)}
           </Typography>
         </Grid>
         <Grid pt={1}>
-          <Typography color={'#292D3260'} fontSize={16} align="center" letterSpacing={0.32}>
-            {translate('OTP_VERIFICATION_MESSAGE', { phoneNumber: phoneNumber })}
-          </Typography>
+          <Typography
+            color={'#292D3260'}
+            fontSize={16}
+            align="center"
+            letterSpacing={0.32}
+            dangerouslySetInnerHTML={{ __html: translate('OTP_VERIFICATION_MESSAGE', { phoneNumber: phoneNumber }) }}
+          ></Typography>
         </Grid>
       </Grid>
       <Grid style={otpContainer} item xs={12} pt={6}>

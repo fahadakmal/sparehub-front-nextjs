@@ -4,7 +4,7 @@
   "ACC_NUMBER_LABEL": "رقم الحساب",
   "ADD_LOCATION": "إضافة مكان",
   "ADRESS": "العنوان",
-  "ALREADY_ACCOUNT": "لا تملك حساباً؟ انضم لنا الآن",
+  "ALREADY_ACCOUNT": " ليس لديك حساب قبل الآن",
   "ANALYTICS_AND_REPORTS": "التقارير",
   "BACK_BTN": "السابق",
   "BANK_ACC_DETAIL_MSG": "المعلومات البنكية",
@@ -45,6 +45,7 @@
   "EMAIL_ADDRESS": "بريدك الإلكتروني",
   "EMAIL_ERROR_MSG": "يجب أن يحوي المحرف الخاص @",
   "EMAIL": "البريد الإلكتروني",
+  "EMAIL_TAB": "البريد الإلكتروني",
   "EMTER_YOUR_EMAIL": "أدخل البريد الإلكتروني",
   "ENTER_ADDRESS": "أدخل العنوان",
   "ENTER_BUSINESS_ADDRESS": "أدخل العنوان",
@@ -89,9 +90,12 @@
   "OKAY": "موافق",
   "OR": "أو",
   "ORDER_PROCESSING": "معالجة الطلبات",
-  "OTP_VERIFICATION_MESSAGE": "تم إرسال كود التحقق إلى بريدك {{phoneNumber}}، يرجى إدخاله في الصندوق أدناه للمتابعة",
+  "OTP_VERIFICATION_MESSAGE": "تم إرسال كود التحقق إلى بريدك <b style='color:#420601'>{{phoneNumber}}</b>.<br> يرجى إدخاله في الصندوق أدناه للمتابعة",
   "OTP_VERIFICATION": "كود التحقق",
+  "EMAIL_VERIFICATION": "تأكيد بواسطة البريد الالكتروني",
+  "PHONE_VERIFICATION": "التحقق من الهاتف",
   "PASSWORD_ERROR_MSG": "تأكيد كلمة المرور و الكلمة غير متطابقين",
+  "PASS_ERR": "كلمة المرور غير متطابقة",
   "PASSWORD_UPDATED_MSG": "تم تحديث كلمة المرور بنجاح",
   "PASSWORD_UPDATED": "تم تحديث كلمة المرور بنجاح",
   "PASSWORD": "كلمة المرور",
@@ -186,5 +190,10 @@
   "IN_PROGRESS": "في تَقَدم",
   "PARTIALLY_SKIPPED": "تم التخطي جزئيًا",
   "CANCELLED": "ألغيت",
-  "SEARCH_ORDERS": "تقسيمات البحث"
+  "SEARCH_ORDERS": "تقسيمات البحث",
+
+  "MISMATCHED_PASS": "كلمة المرور غير متطابقة",
+  "UsernameExistsException": "AR - An account with the given phone number/email already exists.",
+  "FILL_REQUIRED_FIELDS": "الرجاء تعبئة الحقول المطلوبة",
+  "FILL_RECAPTCHA": "يرجى ملء ريكابتشا "
 }

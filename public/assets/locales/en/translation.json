@@ -4,7 +4,7 @@
   "ACC_NUMBER_LABEL": "Account Number",
   "ADD_LOCATION": "Add Location",
   "ADRESS": "Address",
-  "ALREADY_ACCOUNT": "Don't have an account yet? Register Now",
+  "ALREADY_ACCOUNT": "Have an account already? ",
   "ANALYTICS_AND_REPORTS": "Analytics & Reports",
   "BACK_BTN": "Back",
   "BANK_ACC_DETAIL_MSG": "Please provide your bank account detail",
@@ -45,6 +45,7 @@
   "EMAIL_ADDRESS": "Enter your email",
   "EMAIL_ERROR_MSG": "Must include '@' and '.'",
   "EMAIL": "Enter your email",
+  "EMAIL_TAB": "Email",
   "EMTER_YOUR_EMAIL": "Enter your email address",
   "ENTER_ADDRESS": "Enter address",
   "ENTER_BUSINESS_ADDRESS": "Enter address",
@@ -89,9 +90,12 @@
   "OKAY": "Okay",
   "OR": "or",
   "ORDER_PROCESSING": "Order Processing",
-  "OTP_VERIFICATION_MESSAGE": "We just sent a 6 digit verification code to {{phoneNumber}} Enter the code in the box below to continue.",
+  "OTP_VERIFICATION_MESSAGE": "We just sent a 6 digit verification code to <b style='color:#420601'>{{phoneNumber}}</b>.<br> Enter the code in the box below to continue.",
   "OTP_VERIFICATION": "OTP Verification",
+  "EMAIL_VERIFICATION": "Email Verification",
+  "PHONE_VERIFICATION": "Phone Verification",
   "PASSWORD_ERROR_MSG": "Passwords did not match",
+  "PASS_ERR": "Password Mismatched",
   "PASSWORD_UPDATED_MSG": "your password has been successfully updated & secured. Login into your account",
   "PASSWORD_UPDATED": "Password Updated Successfully",
   "PASSWORD": "Password",
@@ -186,5 +190,10 @@
   "IN_PROGRESS": "In Progress",
   "PARTIALLY_SKIPPED": "Partially Skipped",
   "CANCELLED": "Cancelled",
-  "SEARCH_ORDERS": "SEARCH_ORDERS"
+  "SEARCH_ORDERS": "SEARCH_ORDERS",
+
+  "MISMATCHED_PASS": "Password Mismatched",
+  "UsernameExistsException": "An account with the given phone number/email already exists.",
+  "FILL_REQUIRED_FIELDS": "Please fill required fields",
+  "FILL_RECAPTCHA": "Please fill Recaptcha"
 }

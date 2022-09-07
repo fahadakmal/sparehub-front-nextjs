@@ -118,7 +118,7 @@ const ForgotPassword = ({ translate }: any) => {
           <Grid item pt={3} pb={5} xs={12}>
             {loginTP.name == 'email' && (
               <PrimaryInput
-                label={translate(LANG_STRINGS.EMAIL)}
+                label={translate(LANG_STRINGS.EMAIL_TAB)}
                 type={'text'}
                 name="email"
                 fullWidth
@@ -151,6 +151,7 @@ const ForgotPassword = ({ translate }: any) => {
                     startAdornment={<Typography>{user.dialCode}</Typography>}
                     onChange={(event: any) => phoneChangeHandler(event)}
                     required={true}
+                    maxLength={10}
                   />
                 </Grid>
               </>

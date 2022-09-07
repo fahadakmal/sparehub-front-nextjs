@@ -28,32 +28,21 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
 
-const signupSchema = Yup.object().shape(
-  {
-    firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
-    lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
-    email: Yup.string()
-      .ensure()
-      .when('phoneNumber', {
-        is: '',
-        then: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
-      }),
-    phoneNumber: Yup.string()
-      .ensure()
-      .when('email', {
-        is: '',
-        then: Yup.string()
-          .required(t('REQUIRED_FIELD'))
-          .min(9, t('MIN_PHONE_INPUT_LENGTH'))
-          .max(10, t('MAX_PHONE_INPUT_LENGTH')),
-      }),
-  },
-  [['email', 'phoneNumber']],
-);
+const signupSchema = Yup.object().shape({
+  firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+  lastName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
+  email: Yup.string().email(t('INVALID_EMAIL')).required(t('REQUIRED_FIELD')),
+
+  phoneNumber: Yup.string()
+    .required(t('REQUIRED_FIELD'))
+    .min(9, t('MIN_PHONE_INPUT_LENGTH'))
+    .max(10, t('MAX_PHONE_INPUT_LENGTH')),
+});
 
 const styles = {
   tab: {
     color: '#000',
+    textTransform: 'capitalize',
     '&.Mui-selected': {
       color: '#fff',
       backgroundColor: '#E2282C',
@@ -112,7 +101,6 @@ export default function Signup({ translate }: any) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const [emailValid, setEmailValid] = useState(false);
   const [user, setUser] = useState(initialState);
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [signupType, setSignupType] = useState('email');
@@ -204,7 +192,7 @@ export default function Signup({ translate }: any) {
         if (err instanceof Error) {
           setToast({
             ...toast,
-            message: err.message,
+            message: translate(err.name),
             appearence: true,
             type: 'error',
           });
@@ -225,7 +213,7 @@ export default function Signup({ translate }: any) {
         if (err instanceof Error) {
           setToast({
             ...toast,
-            message: err.message,
+            message: translate(err.name),
             appearence: true,
             type: 'error',
           });
@@ -251,7 +239,6 @@ export default function Signup({ translate }: any) {
 
   const changeHandler = (e: any) => {
     e.preventDefault();
-    //  setUser({ ...user, [prop]: event.target.value });
     setUser({ ...user, [e.target.name]: e.target.value });
     checkSpecialCharacterHandler(e);
   };
@@ -321,6 +308,7 @@ export default function Signup({ translate }: any) {
       <Grid position={'relative'} xs={12} item textAlign={'center'}>
         {step === 2 && (
           <Box
+            sx={{ cursor: 'pointer' }}
             padding={2}
             borderRadius={2}
             border="1px solid rgba(0, 0, 0, 0.1)"
@@ -343,19 +331,22 @@ export default function Signup({ translate }: any) {
 
       <Box pt={3} sx={{ width: '100%' }}>
         <TabContext value={signupType}>
-          <Box sx={{ border: 1, borderColor: '#D9D9D9', borderRadius: '7px' }}>
-            <Tabs
-              value={signupType}
-              sx={{
-                '& .MuiTabs-indicator': { display: 'none' },
-              }}
-              variant="fullWidth"
-              onChange={handleChangeTab}
-            >
-              <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
-              <Tab sx={tab} label={translate('EMAIL')} value="email" />
-            </Tabs>
-          </Box>
+          {step === 1 && (
+            <Box sx={{ border: 1, borderColor: '#D9D9D9', borderRadius: '7px' }}>
+              <Tabs
+                value={signupType}
+                sx={{
+                  '& .MuiTabs-indicator': { display: 'none' },
+                }}
+                variant="fullWidth"
+                onChange={handleChangeTab}
+              >
+                <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
+                <Tab sx={tab} label={translate('EMAIL_TAB')} value="email" />
+              </Tabs>
+            </Box>
+          )}
+
           <form onSubmit={formik.handleSubmit}>
             <TabPanel sx={{ padding: 0 }} value="email">
               <>
@@ -443,12 +434,9 @@ export default function Signup({ translate }: any) {
           <LinearProgress />
         </Grid>
       )}
-      <br />
-      <Grid textAlign={'center'} item xs={12} pt={1}>
+      <Grid textAlign={'center'} item xs={12} pt={1} sx={{ paddingTop: 2, paddingBottom: 2 }}>
         <Typography>
-          <Link style={{ textDecoration: 'none !important' }} href="/" passHref>
-            <span>{translate('ALREADY_ACCOUNT')} </span>
-          </Link>
+          <span>{translate('ALREADY_ACCOUNT')} </span>
           <b>
             <Link href="/" passHref replace>
               <MuiLink underline="hover" color="#E2282C">
@@ -458,15 +446,6 @@ export default function Signup({ translate }: any) {
           </b>
         </Typography>
 
-        {/*
-        <Typography
-          style={{ cursor: 'pointer' }}
-          onClick={() => {
-            router.push('/');
-          }}
-        >
-          {translate('ALREADY_ACCOUNT')} <b style={{ color: '#E2282C' }}>{translate('LOGIN')}</b>
-        </Typography> */}
         <ToastAlert
           appearence={toast.appearence}
           type={toast.type}
