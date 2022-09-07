@@ -93,9 +93,14 @@ const OTPVerification = (props: any) => {
 
   const resendOtp = async () => {
     try {
-      const res = await auth.resendOtp(phoneNumber);
+      const res = await auth.resendOtp(verificationType);
       if (res) {
-        router.push('/congratulations');
+        setToast({
+          ...toast,
+          message: '6 digit OTP has been sent',
+          appearence: true,
+          type: 'success',
+        });
       }
     } catch (err) {
       if (err instanceof Error) {

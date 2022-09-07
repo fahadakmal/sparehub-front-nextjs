@@ -41,7 +41,6 @@ const Products = ({ translate }: any) => {
     setSelectedBtn(btn);
   };
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    console.log('🚀 ~ file: Products.tsx ~ line 44 ~ handleChangePage ~ value', value);
     setPage(value);
   };
 
@@ -90,22 +89,37 @@ const Products = ({ translate }: any) => {
         <Grid item xs={12} sm={6}>
           <Grid container columnGap={0} spacing={1}>
             <Grid xs={4} sm={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('ACTIVE')} />
+              <StatusBtn
+                selectedBtn={selectedBtn}
+                activeBtn={'active'}
+                handleChangeBtn={handleChangeBtn}
+                title={translate('ACTIVE')}
+              />
             </Grid>
             <Grid xs={4} sm={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('INACTIVE')} />
+              <StatusBtn
+                selectedBtn={selectedBtn}
+                activeBtn={'inactive'}
+                handleChangeBtn={handleChangeBtn}
+                title={translate('INACTIVE')}
+              />
             </Grid>
             <Grid xs={4} sm={'auto'} item>
-              <StatusBtn selectedBtn={selectedBtn} handleChangeBtn={handleChangeBtn} title={translate('DRAFT')} />
+              <StatusBtn
+                activeBtn={'draft'}
+                selectedBtn={selectedBtn}
+                handleChangeBtn={handleChangeBtn}
+                title={translate('DRAFT')}
+              />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid xs={12} sm={6} sx={{ display: { xs: 'none', sm: 'block' } }} item>
+        <Grid xs={12} sm={6} sx={{ display: { xs: 'none', sm: 'flex' } }} item>
           {selectedCount > 0 && (
-            <Grid columnSpacing={1} container alignItems="center">
+            <Grid columnSpacing={1} container alignItems="center" justifyContent={'flex-end'}>
               <Grid item>
-                <Typography fontWeight={'bold'}>{`${selectedCount} Items Selected`}</Typography>
+                <Typography fontWeight={'bold'}>{`${selectedCount} ${translate('ITEM_SELECTED')}`}</Typography>
               </Grid>
               <Grid item>
                 <Button sx={productActionBtn} color="inherit" variant="outlined">
