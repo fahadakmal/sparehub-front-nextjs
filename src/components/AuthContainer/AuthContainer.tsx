@@ -35,7 +35,7 @@ export default function AuthContainer({ children }: any) {
           <Header />
         </Box>
         <Box dir={i18n.dir()} sx={{ minHeight: { xs: '60vh', md: '80vh' } }}>
-          <Grid container px={isMobileScreen ? 5 : 15} rowGap={2}>
+          <Grid px={isMobileScreen ? 5 : 15} rowGap={2}>
             {children}
           </Grid>
         </Box>

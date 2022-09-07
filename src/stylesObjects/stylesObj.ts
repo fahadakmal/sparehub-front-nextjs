@@ -41,6 +41,21 @@ const styling = {
     fontSize: '24px',
     lineHeight: '31px',
   },
+  tab: {
+    color: '#000',
+    textTransform: 'capitalize',
+    '&.Mui-selected': {
+      color: '#fff',
+      backgroundColor: '#E2282C',
+      borderRadius: '5px 5px 5px 5px',
+    },
+  },
+  rememberMeColor: {
+    color: '#E2282C',
+  },
+  handOnLink: {
+    cursor: 'pointer',
+  },
 };
 
 export default styling;

@@ -25,10 +25,13 @@ export default function PrimaryInput({
   error = false,
   otherProps,
   sx,
+  autoFocus,
+  maxLength,
 }: any) {
   return (
-    <TextField  
-      focused={focused} 
+    <TextField
+      autoFocus={autoFocus}
+      focused={focused}
       error={error}
       label={label}
       required={required}
