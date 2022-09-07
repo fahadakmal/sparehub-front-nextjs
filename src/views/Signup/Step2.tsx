@@ -186,10 +186,15 @@ const Step2 = ({
       </Grid>
       <Grid item xs={12} pt={3}>
         <PrimaryButton
+        
           disabled={!(isValid && formikValid && Object.keys(touched).length > 0)}
+         
           onClick={handleSignUp}
+         
           variant="contained"
+         
           fullWidth
+        
         >
           {translate('SIGN_UP')}
         </PrimaryButton>

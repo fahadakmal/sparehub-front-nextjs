@@ -6,6 +6,7 @@ import { Grid, Tab, Tabs } from '@mui/material';
 import { Logo } from '../../public/icons';
 import LANGUAGES from '../enums';
 import { handleChangeLanguage } from '../redux/slices/languageSlice';
+import Link from 'next/link';
 
 const styles = {
   tab: {
@@ -31,7 +32,9 @@ const Header = (props: any) => {
   return (
     <Grid container alignItems={'center'} justifyContent={'space-between'} padding={3}>
       <Grid item>
-        <Image src={Logo} />
+        <Link href="/" passHref>
+          <Image src={Logo} />
+        </Link>
       </Grid>
       <Grid item>
         <Tabs

@@ -24,6 +24,7 @@ import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const useStyles = {
   toggleBtn: {
@@ -121,23 +122,23 @@ export const listitems = [
     key: 'setting',
     label: 'SETTINGS',
     icon: <SettingsOutlinedIcon />,
-    path: '/setting',
+    path: '/seller/create',
   },
 ];
 
 export default function DashboardContainer(props: any) {
-  const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleListItemClick = (item: any) => {
-    router.push(`${item.path}`);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const handleListItemClick = ( item: any) => {
+    router.push(`${item.path}`)
   };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const router = useRouter();
   const drawer = (
     <Box
       style={{
@@ -148,11 +149,13 @@ export default function DashboardContainer(props: any) {
       component="div"
       dir={i18n.dir()}
     >
+      <Link href="/" passHref>
       <div style={{ margin: '12px 0px 0px 15px', paddingTop: '10px' }}>
         <Image src={WhiteLogo} />
       </div>
+      </Link>
       <List>
-        {listitems.map((item) => (
+        {listitems.map((item,index) => (
           <ListItem
             button
             onClick={() => handleListItemClick(item)}

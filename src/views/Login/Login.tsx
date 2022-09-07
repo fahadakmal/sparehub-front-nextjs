@@ -19,8 +19,8 @@ import ToastAlert from '../../components/Toast/ToastAlert';
 import i18next, { t } from 'i18next';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import LANG_STRINGS from '../../enums/langStrings';
 import styling from '../../stylesObjects/stylesObj';
+import LANG_STRINGS from '../../enums/langStrings';
 const loginSchema = Yup.object().shape(
   {
     email: Yup.string()
@@ -60,6 +60,7 @@ export default function Login({ translate }: any) {
     onSubmit: (values) => {},
   });
   const { values, errors, handleChange, handleSubmit, touched, isValid, resetForm, validateForm, handleBlur } = formik;
+  console.log(isValid)
   const { tab, rememberMeColor, handOnLink } = styling;
   const router = useRouter();
   const [loginType, setLoginType] = useState('email');
@@ -102,7 +103,7 @@ export default function Login({ translate }: any) {
       if (!isValid) {
         setToast({
           ...toast,
-          message: translate(LANG_STRINGS.FILL_REQUIRED_FIELDS),
+          message: translate('FILL_REQUIRED_FIELDS'),
           appearence: true,
           type: 'warning',
         });
@@ -164,8 +165,8 @@ export default function Login({ translate }: any) {
               sx={{ '& .MuiTabs-indicator': { display: 'none' } }}
               onChange={handleChangeTab}
             >
-              <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
-              <Tab sx={tab} label={translate('EMAIL_TAB')} value="email" />
+              <Tab sx={tab} label={translate(LANG_STRINGS.PHONE_NUMBER)} value="phone" />
+              <Tab sx={tab} label={translate(LANG_STRINGS.EMAIL_TAB)} value="email" />
             </Tabs>
           </Box>
 
@@ -174,7 +175,7 @@ export default function Login({ translate }: any) {
               <Grid sx={{ width: '100%' }} pt={3} item xs={12}>
                 <PrimaryInput
                   autoFocus={true}
-                  label={translate('EMAIL_TAB')}
+                  label={translate(LANG_STRINGS.EMAIL_TAB)}
                   type={'text'}
                   name="email"
                   fullWidth
@@ -320,7 +321,7 @@ export default function Login({ translate }: any) {
         </div>
       </Grid>
 
-      <Grid item xs={12} sx={{ paddingTop: 2, paddingBottom: 2 }}>
+      <Grid item xs={12} sx={{ paddingTop: 2 }}>
         <PrimaryButton
           disabled={!(isValid && Object.keys(touched).length > 0 && passLength > 7)}
           onClick={handleLogin}
@@ -332,7 +333,9 @@ export default function Login({ translate }: any) {
       </Grid>
       <Grid textAlign={'center'} item xs={12}>
         <Typography>
-          <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          <Link style={{ textDecoration: 'none !important' }} href="/seller/create" passHref>
+            <span>{translate('DONT_HAVE_ACCOUNT')} </span>
+          </Link>
           <b>
             <Link href="/signup" passHref replace>
               <MuiLink underline="hover" color="#E2282C">

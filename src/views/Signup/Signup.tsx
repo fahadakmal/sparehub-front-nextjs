@@ -27,6 +27,7 @@ import Step2 from './Step2';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Link from 'next/link';
+import LANG_STRINGS from '../../enums/langStrings';
 
 const signupSchema = Yup.object().shape({
   firstName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required(t('REQUIRED_FIELD')),
@@ -145,7 +146,7 @@ export default function Signup({ translate }: any) {
   };
 
   const handleSignUp = async () => {
-    const { firstName, email, phoneNumber } = formik.values;
+    const { firstName, email, phoneNumber,country } = formik.values;
     const { password, dialCode } = user;
     if (recaptchaToken.length < 1) {
       setToast({ ...toast, message: 'Please fill Recaptcha', appearence: true, type: 'warning' });
@@ -178,10 +179,12 @@ export default function Signup({ translate }: any) {
 
     setSignUpRequest(true);
     if (signupType == 'email') {
+      console.log("signing up with email")
       try {
         const res = await auth.signUpWithEmail(email, email, password);
         if (res) {
-          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+          const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub,country:country  };
+          console.log(data,"from request")
           dispatch(registrationRequest(data));
           router.push({
             pathname: '/otpVerification',
@@ -201,7 +204,7 @@ export default function Signup({ translate }: any) {
     } else {
       try {
         const res = await auth.signUpWithPhone(firstName, email, phoneWithDialCode, password);
-        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub };
+        const data = { email: email, phoneNo: phoneWithDialCode, password, awsUserName: res.userSub,country };
         dispatch(registrationRequest(data));
         if (res) {
           router.push({
@@ -341,8 +344,8 @@ export default function Signup({ translate }: any) {
                 variant="fullWidth"
                 onChange={handleChangeTab}
               >
-                <Tab sx={tab} label={translate('PHONE_NUMBER')} value="phone" />
-                <Tab sx={tab} label={translate('EMAIL_TAB')} value="email" />
+                <Tab sx={tab} label={translate(LANG_STRINGS.PHONE_NUMBER)} value="phone" />
+                <Tab sx={tab} label={translate(LANG_STRINGS.EMAIL_TAB_TAB)} value="email" />
               </Tabs>
             </Box>
           )}

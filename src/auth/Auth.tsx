@@ -65,6 +65,7 @@ export const AuthIsNotSignedIn = ({ children }: Props) => {
 };
 
 export const AuthProvider = ({ children }: Props) => {
+  const router = useRouter();
   const [authStatus, setAuthStatus] = useState(AuthStatus.Loading);
   const [sessionInfo, setSessionInfo] = useState({});
   const dispatch = useDispatch();
@@ -132,10 +133,12 @@ export const AuthProvider = ({ children }: Props) => {
   async function signInWithEmail(username: string, password: string) {
     try {
       await cognito.signInWithEmail(username, password);
+      dispatch(loginRequest({ attribute: username, loginType: 'EMAIL', loginSuccess: true, router }));
       setAuthStatus(AuthStatus.SignedIn);
     } catch (err) {
       if (err instanceof Error) {
         setAuthStatus(AuthStatus.SignedOut);
+        dispatch(loginRequest({ attribute: username, loginType: 'EMAIL', loginSuccess: false }));
         throw err;
       }
     }

@@ -1,60 +1,35 @@
-import { Grid } from "@mui/material"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import React,{useState} from "react";
+import React, { useState } from 'react';
 
-const SelectField=(props: any)=>{
-  const [age, setAge] = useState('');
-  console.log(age)
+const SelectField = ({ label, value, placeholder, data=[], helperText, setSelectedValue }: any) => {
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value);
-    props.setAge(event.target.value)
+    setSelectedValue(event.target.value);
   };
-    return(<FormControl sx={{ m: 1, minWidth: "100%" }}>
-      <InputLabel id="demo-simple-select-helper-label">{props.mylabel}</InputLabel>
-      {/* {props.value==="error" ?
-      <>
+  return (
+    <FormControl sx={{ minWidth: '100%' }}>
+      <InputLabel id="demo-simple-select-helper-label">{label}</InputLabel>
       <Select
-      error
         labelId="demo-simple-select-helper-label"
         id="demo-simple-select-helper"
-        value={age}
-        label={props.mylabel}
+        value={value}
+        label={label}
         onChange={handleChange}
       >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+       <MenuItem value="0">
+          <em>{placeholder}</em>
+        </MenuItem> 
+        {
+          data.map((item)=><MenuItem key={item.id} value={item.id}>
+          <em>{item.name}</em>
+        </MenuItem>)
+        }
       </Select>
-      <FormHelperText sx={{color:"red"}}>incorrect entry</FormHelperText>
-      </>
-      : */}
-      <Select
-      error={props.value == "true"? props.value: false}
-        labelId="demo-simple-select-helper-label"
-        id="demo-simple-select-helper"
-        value={age}
-        label={props.mylabel}
-        onChange={handleChange}
-      >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>pakistan</MenuItem>
-        <MenuItem value={20}>Saudi Arabia</MenuItem>
-        <MenuItem value={10}>Dubai</MenuItem>
-        {/* {props.mydata?.map((item: any)=>(
-          <MenuItem value={10}>{item}</MenuItem>
-        ))
-} */}
-      </Select>
-{/* } */}
-    </FormControl>)
-}
-export default SelectField
+      <FormHelperText>{helperText}</FormHelperText>
+    </FormControl>
+  );
+};
+export default SelectField;
