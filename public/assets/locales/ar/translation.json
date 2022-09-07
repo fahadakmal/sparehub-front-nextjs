@@ -62,7 +62,7 @@
   "LOCATIONS": "أماكن الإعداة",
   "LOGIN_BACK": "مرحباً بك مجدداً",
   "LOGIN": "تسجيل الدخول",
-  "MANDATORY_FIELDS": "الحقول الإجبارية بجانبها علامة *",
+  "MANDATORY_FIELDS": "الحقول الإجبارية بجانبها علامة ",
   "MESSAGING": "الرسائل",
   "MOBILE_NUMBER": "رقم الجوال",
   "NEW_PASSWORD": "أدخل كلمة المرور",

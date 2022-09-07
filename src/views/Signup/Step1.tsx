@@ -5,6 +5,7 @@ import { PrimaryButton } from '../../components/Button/PrimaryButton';
 import PrimaryInput from '../../components/Input/PrimaryInput';
 import PhoneInput from '../../components/PhoneInput/PhoneInput';
 import CountryDropdown from '../../components/Select/CountryDropdown';
+import LANG_STRINGS from '../../enums/langStrings';
 import { createTheme, MuiThemeProvider } from '@material-ui/core';
 
 const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange, handleNextStep, formik }: any) => {
@@ -44,7 +45,7 @@ const Step1 = ({ translate, handleCountrySelect, user, signupType, handleChange,
             />
           ) : (
             <PrimaryInput
-              label={translate('EMAIL_TAB')}
+              label={translate(LANG_STRINGS.EMAIL_TAB_TAB)}
               type={'text'}
               name="email"
               fullWidth

@@ -7,7 +7,6 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import SellerDetailPage from '../../../pages/seller/create';
 import {
   AppBar,
   Box,
@@ -25,7 +24,8 @@ import Image from 'next/image';
 import { WhiteLogo } from '../../../public/icons';
 import Navbar from './NavBar';
 import { useRouter } from 'next/router';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 const useStyles = {
   toggleBtn: {
     borderRadius: 2,
@@ -122,24 +122,23 @@ export const listitems = [
     key: 'setting',
     label: 'SETTINGS',
     icon: <SettingsOutlinedIcon />,
-    path: '/setting',
+    path: '/seller/create',
   },
 ];
 
 export default function DashboardContainer(props: any) {
-  const router = useRouter();
   const { window, children, translate, i18n } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
-  const handleListItemClick = (item: any) => {
-    router.push(`${item.path}`);
+  const handleListItemClick = ( item: any) => {
+    router.push(`${item.path}`)
   };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const router = useRouter();
   const drawer = (
     <Box
       style={{
@@ -150,19 +149,16 @@ export default function DashboardContainer(props: any) {
       component="div"
       dir={i18n.dir()}
     >
+      <Link href="/" passHref>
       <div style={{ margin: '12px 0px 0px 15px', paddingTop: '10px' }}>
         <Image src={WhiteLogo} />
       </div>
+      </Link>
       <List>
         {listitems.map((item,index) => (
           <ListItem
             button
-            onClick={(event) => {
-              setSelectedIndex(index);
-              if(item.key === 'setting'){
-              router.push("../../seller/create")
-              }
-            }}
+            onClick={() => handleListItemClick(item)}
             sx={{ paddingTop: item.key === 'setting' ? '200px' : '20px' }}
             key={item.key}
             disablePadding

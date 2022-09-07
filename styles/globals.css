@@ -63,7 +63,6 @@ a {
 }
 .webgColor {
   width: 100%;
-  /* height: 700px; */
   background-color: #d8e3e9;
 }
 .Mui-focused .MuiOutlinedInput-notchedOutline {
@@ -78,31 +77,31 @@ a {
   text-decoration: underline;
   color: #e2282c;
 }
-.uploadfile{
+.uploadfile {
   border: '1px solid #bbbbbb';
   border-color: #bbbbbb;
-  background-color: #FBFBFA;
-  margin-Top: 2px;
+  background-color: #fbfbfa;
+  margin-top: 2px;
   padding-bottom: 9px;
   border-radius: 5px;
 }
-.marginlftRight{
+.marginlftRight {
   padding-left: 30px;
   padding-right: 30px;
 }
-.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed{
+.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
   color: green !important ;
 }
-.css-qivjh0-MuiStepLabel-label.Mui-completed{
+.css-qivjh0-MuiStepLabel-label.Mui-completed {
   color: green !important ;
 }
-.css-qivjh0-MuiStepLabel-label.Mui-active{
+.css-qivjh0-MuiStepLabel-label.Mui-active {
   color: blueviolet !important ;
 }
-.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root{
-  color: #FBFBFA !important;
-border: 1px solid grey;
-border-radius: 50%;
+.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root {
+  color: #fbfbfa !important;
+  border: 1px solid grey;
+  border-radius: 50%;
 }
 
 .box {
@@ -113,11 +112,11 @@ border-radius: 50%;
 .img-preview {
   overflow: hidden;
 }
-.input{
-  border-color: white ;
+.input {
+  border-color: white;
   background-color: white;
 }
-.closebtn{
+.closebtn {
   width: 50px;
   padding: 10px;
   border-radius: 8px;
@@ -125,16 +124,16 @@ border-radius: 50%;
   border: 1px solid black;
   cursor: pointer;
 }
-.actionbtn{
+.actionbtn {
   width: 30px;
   padding: 10px;
   border-radius: 8px;
   text-align: center;
   cursor: pointer;
   color: white;
-  background-color: #F9B507;
+  background-color: #f9b507;
 }
-.sellerHeading{
+.sellerHeading {
   font-weight: 700;
   color: black;
   font-size: 24px;
@@ -142,7 +141,7 @@ border-radius: 50%;
   margin-left: 20px;
   margin-right: 20px;
 }
-.draftbtn{
+.draftbtn {
   font-weight: 700;
   color: black;
   font-size: 16px;
@@ -155,8 +154,6 @@ border-radius: 50%;
   width: 180px;
   cursor: pointer;
 }
-
-
 
 /* image style */
 
@@ -247,11 +244,11 @@ button {
   transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 }
 
-.controls:hover input[type="range"]::-webkit-slider-thumb {
+.controls:hover input[type='range']::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px 8px rgba(63, 81, 181, 0.16);
   border-radius: 50%;
 }
 
-.controls:hover input[type="range"]::-moz-range-thumb {
+.controls:hover input[type='range']::-moz-range-thumb {
   box-shadow: 0px 0px 0px 8px rgba(63, 81, 181, 0.16);
 }

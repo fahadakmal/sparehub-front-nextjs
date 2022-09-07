@@ -5,8 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
 
-const SelectField = ({ label, checkValidation, placeholder, mydata, helperText,setSelectedValue }:any) => {
-  const [value, setValue] = useState<any>(4);
+const SelectField = ({ label, value, placeholder, data=[], helperText, setSelectedValue }: any) => {
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value);
   };
@@ -20,9 +19,14 @@ const SelectField = ({ label, checkValidation, placeholder, mydata, helperText,s
         label={label}
         onChange={handleChange}
       >
-        <MenuItem value="4">
+       <MenuItem value="0">
           <em>{placeholder}</em>
-        </MenuItem>
+        </MenuItem> 
+        {
+          data.map((item)=><MenuItem key={item.id} value={item.id}>
+          <em>{item.name}</em>
+        </MenuItem>)
+        }
       </Select>
       <FormHelperText>{helperText}</FormHelperText>
     </FormControl>

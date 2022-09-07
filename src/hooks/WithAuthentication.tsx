@@ -9,9 +9,13 @@ const WithAuthentication = (props: any) => {
     <AuthProvider>
       {requiredAuth ? (
         <AuthIsSignedIn>
-          <DashboardContainer translate={props.t} {...props}>
+          {router.pathname == '/seller/create' ? (
             <Component translate={props.t} {...props} />
-          </DashboardContainer>
+          ) : (
+            <DashboardContainer translate={props.t} {...props}>
+              <Component translate={props.t} {...props} />
+            </DashboardContainer>
+          )}
         </AuthIsSignedIn>
       ) : (
         <AuthIsNotSignedIn>
@@ -21,5 +25,4 @@ const WithAuthentication = (props: any) => {
     </AuthProvider>
   );
 };
-
 export default withTranslation()(WithAuthentication);

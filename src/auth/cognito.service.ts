@@ -60,7 +60,7 @@ export async function getAttributes() {
 
 export async function setAttribute(attribute: any) {
   return new Promise(function (resolve, reject) {
-    const attributeList = [];
+    const attributeList:any = [];
     const res = new CognitoUserAttribute(attribute);
     attributeList.push(res);
 
